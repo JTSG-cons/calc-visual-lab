@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculus Visual Lab · Chapters 1–4</title>
+<meta name="description" content="Learn Calculus chapters 1–4 visually: research-backed study strategies, interactive graphs and a 6-day exam plan.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2360a5fa'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%230f1424' font-family='serif' font-weight='bold'%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+<header class="topbar">
+  <a class="brand" href="#top"><span class="brand-mark">∫</span> Calculus Visual Lab</a>
+  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav id="nav" aria-label="Sections">
+    <a href="#strategies">Strategies</a>
+    <a href="#lab">Lab</a>
+    <a href="#plan">6-day plan</a>
+    <a href="#resources">Resources</a>
+    <a href="#design">Design notes</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="hero3d" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="eyebrow">Advanced Math I · Stewart chapters 1–4</p>
+    <h1>See calculus<br><span class="grad">before you solve it.</span></h1>
+    <p class="lead">Twelve interactive graphs, seven study methods that research actually supports, and a day-by-day plan for the exam.</p>
+    <div class="hero-row">
+      <a class="btn" href="#lab">Start the lab</a>
+      <div class="countdown"><b id="days-left">–</b><span id="days-label">days to the exam · Nov 11</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">scroll</div>
+</section>
+
+<!-- STRATEGIES -->
+<section id="strategies" class="section">
+  <div class="wrap">
+    <p class="eyebrow">How to learn math visually</p>
+    <h2>Seven methods, ranked by evidence</h2>
+    <p class="section-lead">Pictures help most when they are tied tightly to the words and symbols, so every method here links a picture to a step you actually do.</p>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="icon icon-sketch" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="draw" d="M4 40 C 14 40, 16 8, 26 8 S 38 34, 44 30"/><line x1="4" y1="44" x2="44" y2="44"/><line x1="4" y1="4" x2="4" y2="44"/></svg></div>
+        <h3>Sketch before you solve</h3>
+        <p>Words and pictures are processed in two channels. Students given a picture with the explanation solved more new problems than students given text alone, as long as the picture matched the words.</p>
+        <p class="today"><b>Do it today:</b> draw a rough graph for every exam problem before you calculate anything.</p>
+        <p class="src">Mayer &amp; Moreno (2002); Paivio's dual coding theory</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="8" y="6" width="32" height="8" rx="2"/><rect x="8" y="20" width="32" height="8" rx="2"/><rect class="fade" x="8" y="34" width="32" height="8" rx="2"/></svg></div>
+        <h3>Worked example, then fade it</h3>
+        <p>Studying a full solution beats solving cold when a topic is new. Then remove the last step, then two steps, until you solve alone. In math, worked examples have a medium effect on performance.</p>
+        <p class="today"><b>Do it today:</b> read a solution, cover its last line, and finish it yourself.</p>
+        <p class="src">Renkl et al. (2002); math meta-analysis, g ≈ 0.48 (Educational Psychology Review, 2023)</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="10" width="28" height="20" rx="3"/><rect class="flip" x="14" y="18" width="28" height="20" rx="3"/></svg></div>
+        <h3>Test yourself</h3>
+        <p>Practice testing got the top "high utility" rating in a review of ten common study techniques. Rereading and highlighting scored low.</p>
+        <p class="today"><b>Do it today:</b> make Anki cards for every derivative rule and the theorem conditions.</p>
+        <p class="src">Dunlosky et al. (2013)</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="pulse" cx="8" cy="24" r="4"/><circle class="pulse d1" cx="20" cy="24" r="4"/><circle class="pulse d2" cx="34" cy="24" r="4"/><line x1="4" y1="36" x2="44" y2="36"/></svg></div>
+        <h3>Space it out</h3>
+        <p>Spreading study over several days was the other top-rated technique. Three short sessions on three days beat one long night.</p>
+        <p class="today"><b>Do it today:</b> touch every chapter on at least two different days before Nov 11.</p>
+        <p class="src">Dunlosky et al. (2013)</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect class="c1" x="6" y="14" width="8" height="20" rx="2"/><rect class="c2" x="17" y="14" width="8" height="20" rx="2"/><rect class="c3" x="28" y="14" width="8" height="20" rx="2"/><rect class="c1" x="39" y="14" width="4" height="20" rx="2"/></svg></div>
+        <h3>Mix problem types</h3>
+        <p>In a randomized trial with 787 students, the group that mixed problem types scored 61% on a surprise test a month later, against 38% for the group that practised one type at a time.</p>
+        <p class="today"><b>Do it today:</b> do one mixed set with limits, derivatives and max/min together, like the real exam.</p>
+        <p class="src">Rohrer, Dedrick, Hartwig &amp; Cheung (2020), Journal of Educational Psychology</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M6 10 h30 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-18 l-8 7 v-7 h-4 a4 4 0 0 1 -4 -4 v-14 a4 4 0 0 1 4 -4z"/><line class="type" x1="12" y1="20" x2="32" y2="20"/></svg></div>
+        <h3>Explain every step</h3>
+        <p>Saying <em>why</em> each step works improves both procedures and understanding, with small to moderate effects in math. It works best on worked examples.</p>
+        <p class="today"><b>Do it today:</b> explain one solution out loud as if you were teaching your AI class.</p>
+        <p class="src">Rittle-Johnson, Loehr &amp; Durkin (2017), ZDM; Chi's self-explanation research</p>
+      </article>
+
+      <article class="card reveal">
+        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><line x1="16" y1="16" x2="32" y2="16"/><line x1="16" y1="24" x2="32" y2="24"/><path class="check" d="M16 32 l4 4 l8 -8"/></svg></div>
+        <h3>Keep a mistake log</h3>
+        <p>A practical habit that turns errors into retrieval practice: write down every mistake and redo it two days later without looking.</p>
+        <p class="today"><b>Do it today:</b> start a page called "mistakes" and add to it after every practice set.</p>
+        <p class="src">Applies practice testing and spacing to your own errors</p>
+      </article>
+    </div>
+
+    <aside class="note reveal">
+      <h3>A note on "visual learners"</h3>
+      <p>The idea that people learn best when teaching matches their style (visual, auditory, and so on) has almost no experimental support. A major review found the needed evidence was missing, and several good studies contradicted it. What does work is pairing clear pictures with words and symbols. That helps everyone, so this site uses visuals because they work, not because of a learner label.</p>
+      <p class="src">Pashler, McDaniel, Rohrer &amp; Bjork (2008), Psychological Science in the Public Interest</p>
+    </aside>
+  </div>
+</section>
+
+<!-- LAB -->
+<section id="lab" class="section">
+  <div class="wrap">
+    <p class="eyebrow">Calculus Lab</p>
+    <h2>Twelve graphs you can move</h2>
+    <p class="section-lead">Drag the sliders and watch what changes. Panels marked <span class="tag">Exam</span> use the exact functions from last year's paper. Try those questions on paper first, then open the steps.</p>
+
+    <div class="chapter-tabs" role="tablist">
+      <button class="tab ch1 active" data-ch="1" role="tab">1 · Functions</button>
+      <button class="tab ch2" data-ch="2" role="tab">2 · Limits</button>
+      <button class="tab ch3" data-ch="3" role="tab">3 · Derivatives</button>
+      <button class="tab ch4" data-ch="4" role="tab">4 · Applications</button>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <div class="chapter" data-ch="1">
+      <article class="lab ch1">
+        <header><h3>Transformations</h3><span class="ref">§1.3 · book p.36 · PDF p.68 · Ex. 1–3, 9–16</span></header>
+        <div class="lab-body">
+          <canvas id="c-transform"></canvas>
+          <div class="controls">
+            <label>Base function
+              <select id="t-base"><option value="sq">x²</option><option value="abs">|x|</option><option value="sin">sin x</option><option value="sqrt">√x</option></select>
+            </label>
+            <label>a (stretch / flip) <output id="o-a">1</output><input type="range" id="t-a" min="-3" max="3" step="0.1" value="1"></label>
+            <label>b (horizontal squeeze) <output id="o-b">1</output><input type="range" id="t-b" min="0.2" max="3" step="0.1" value="1"></label>
+            <label>h (shift right) <output id="o-h">0</output><input type="range" id="t-h" min="-4" max="4" step="0.1" value="0"></label>
+            <label>k (shift up) <output id="o-k">0</output><input type="range" id="t-k" min="-4" max="4" step="0.1" value="0"></label>
+            <p class="formula" id="t-formula"></p>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> h and k move the graph, but a negative h inside the bracket moves it <em>left</em>. Changes inside the function act on x, so they work backwards.</p>
+      </article>
+
+      <article class="lab ch1">
+        <header><h3>Inverse = mirror across y = x</h3><span class="ref">§1.6 · book p.58 · PDF p.90 · Ex. 3–8, 21–26</span></header>
+        <div class="lab-body">
+          <canvas id="c-inverse"></canvas>
+          <div class="controls">
+            <label>Point a <output id="o-ia">0</output><input type="range" id="i-a" min="-2" max="1.4" step="0.01" value="0"></label>
+            <p class="readout" id="i-read"></p>
+            <p class="formula">\( f(x)=e^x \quad\leftrightarrow\quad f^{-1}(x)=\ln x \)</p>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> the point \((a, e^a)\) on \(e^x\) always has a twin \((e^a, a)\) on \(\ln x\). Swapping x and y is the same as reflecting in the dashed line.</p>
+      </article>
+    </div>
+
+    <!-- CHAPTER 2 -->
+    <div class="chapter" data-ch="2" hidden>
+      <article class="lab ch2">
+        <header><h3>A limit at a hole <span class="tag">Exam Q4(1)</span></h3><span class="ref">§2.2–2.3 · book p.87 · PDF p.119 · Ex. 2.3: 1–32</span></header>
+        <div class="lab-body">
+          <canvas id="c-hole"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=\dfrac{x^2-5x+6}{x-2} \)</p>
+            <label>Distance from 2 <output id="o-d">0.5</output><input type="range" id="h-d" min="-3" max="0" step="0.01" value="-0.3"></label>
+            <table class="mini" id="h-table"></table>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> f is not defined at 2 (the open circle), but from both sides the values close in on one number. A limit cares about <em>near</em> 2, never <em>at</em> 2.</p>
+        <details><summary>Show steps</summary><p>\( \dfrac{x^2-5x+6}{x-2}=\dfrac{(x-2)(x-3)}{x-2}=x-3 \) for \(x\ne2\), so the limit is \(2-3=-1\).</p></details>
+      </article>
+
+      <article class="lab ch2">
+        <header><h3>Continuity of a piecewise function <span class="tag">Exam Q3</span></h3><span class="ref">§2.5 · book p.118 · PDF p.150</span></header>
+        <div class="lab-body">
+          <canvas id="c-piece"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=\begin{cases}x-1 & x<0\\ c & x=0\\ \cos(\pi-x) & x>0\end{cases} \)</p>
+            <label>Value c = f(0) <output id="o-c">-1</output><input type="range" id="p-c" min="-2" max="1" step="0.5" value="-1"></label>
+            <p class="readout" id="p-read"></p>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> continuity needs three things to agree: the left limit, the right limit and the actual value. Move c away from −1 and the dot jumps off the curve.</p>
+        <details><summary>Show steps</summary><p>Left: \(\lim_{x\to0^-}(x-1)=-1\). Right: \(\lim_{x\to0^+}\cos(\pi-x)=\cos\pi=-1\). Value: \(f(0)=-1\) on the exam. All three are equal, so f is continuous at 0.</p></details>
+      </article>
+
+      <article class="lab ch2">
+        <header><h3>Secant becomes tangent</h3><span class="ref">§2.1 &amp; 2.7 · book p.82 · PDF p.114 · Ex. 2.1: 3–5</span></header>
+        <div class="lab-body">
+          <canvas id="c-secant"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=x^2,\ a=1 \)</p>
+            <label>h <output id="o-sh">1.5</output><input type="range" id="s-h" min="-2" max="2" step="0.01" value="1.5"></label>
+            <p class="readout" id="s-read"></p>
+            <button class="ghost" id="s-play">Animate h → 0</button>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> the secant slope is \(2+h\). As h shrinks the secant turns into the tangent, and the slope settles at 2. That limit <em>is</em> the derivative.</p>
+      </article>
+
+      <article class="lab ch2">
+        <header><h3>The squeeze theorem <span class="tag">Exam Q4(3)</span></h3><span class="ref">§2.3 · book p.99 · PDF p.131 · Ex. 37–48</span></header>
+        <div class="lab-body">
+          <canvas id="c-squeeze"></canvas>
+          <div class="controls">
+            <p class="formula">\( -x^2\le x^2\cos\!\left(\tfrac1x\right)\le x^2 \)</p>
+            <label>Zoom in <output id="o-z">1×</output><input type="range" id="q-z" min="0" max="2" step="0.01" value="0"></label>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> \(\cos(1/x)\) never settles down, but it is trapped between −1 and 1. Multiplied by \(x^2\), it is squeezed between two parabolas that both go to 0.</p>
+        <details><summary>Show steps</summary><p>Since \(-1\le\cos(1/x)\le1\), we get \(-x^2\le x^2\cos(1/x)\le x^2\). Both \(\pm x^2\to0\), so by the squeeze theorem the limit is 0.</p></details>
+      </article>
+    </div>
+
+    <!-- CHAPTER 3 -->
+    <div class="chapter" data-ch="3" hidden>
+      <article class="lab ch3">
+        <header><h3>f and f′ side by side</h3><span class="ref">§2.8 &amp; 3.1 · book p.154 · PDF p.186</span></header>
+        <div class="lab-body">
+          <div class="stack"><canvas id="c-f"></canvas><canvas id="c-fp"></canvas></div>
+          <div class="controls">
+            <label>Function
+              <select id="d-fn"><option value="cubic">x³ − 2x² + x</option><option value="sin">sin x</option><option value="exp">e^x</option><option value="ln">ln x</option></select>
+            </label>
+            <label>x <output id="o-dx">0.5</output><input type="range" id="d-x" min="-1" max="2.5" step="0.01" value="0.5"></label>
+            <p class="readout" id="d-read"></p>
+            <p class="hint">Tip: drag on the top graph.</p>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> the height of the bottom graph equals the slope of the top one. Where f has a peak or a valley, f′ crosses zero.</p>
+      </article>
+
+      <article class="lab ch3">
+        <header><h3>Chain rule as linked rates</h3><span class="ref">§3.4 · book p.198 · PDF p.230 · Ex. 1–30</span></header>
+        <div class="lab-body">
+          <canvas id="c-chain"></canvas>
+          <div class="controls">
+            <p class="formula">\( y=\sin(x^2),\quad \dfrac{dy}{dx}=\cos(x^2)\cdot 2x \)</p>
+            <label>x <output id="o-cx">1</output><input type="range" id="ch-x" min="-2.5" max="2.5" step="0.01" value="1"></label>
+            <div class="meters" id="ch-meters"></div>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> the inner part \(u=x^2\) changes at rate \(2x\). The outer part \(\sin u\) changes at rate \(\cos u\). The total rate is the product, so the outer derivative is evaluated at the inner function.</p>
+      </article>
+
+      <article class="lab ch3">
+        <header><h3>Implicit curve and its tangent <span class="tag">Exam Q6</span></h3><span class="ref">§3.5 · book p.209 · PDF p.241 · Ex. 5–22, 25–30</span></header>
+        <div class="lab-body">
+          <canvas id="c-implicit"></canvas>
+          <div class="controls">
+            <p class="formula">\( x^2+2y^3=3xy \)</p>
+            <label><input type="checkbox" id="im-tan"> Show tangent at (1, 1)</label>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> this curve fails the vertical line test, so y is not one function of x. Implicit differentiation still gives the slope at any single point on it.</p>
+        <details><summary>Show steps</summary><p>Differentiate both sides: \(2x+6y^2y'=3y+3xy'\). Solve: \(y'=\dfrac{3y-2x}{6y^2-3x}\). At \((1,1)\): \(y'=\dfrac{3-2}{6-3}=\dfrac13\). Tangent: \(y-1=\tfrac13(x-1)\), or \(y=\tfrac13x+\tfrac23\).</p></details>
+      </article>
+    </div>
+
+    <!-- CHAPTER 4 -->
+    <div class="chapter" data-ch="4" hidden>
+      <article class="lab ch4">
+        <header><h3>Absolute max and min on [0, 2] <span class="tag">Exam Q7</span></h3><span class="ref">§4.1 · book p.274 · PDF p.306</span></header>
+        <div class="lab-body">
+          <canvas id="c-extrema"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=\dfrac{x^2+3}{1+x} \)</p>
+            <label>x <output id="o-ex">0.5</output><input type="range" id="e-x" min="0" max="2" step="0.01" value="0.5"></label>
+            <p class="readout" id="e-read"></p>
+            <label><input type="checkbox" id="e-cand"> Show the candidates</label>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> on a closed interval the answer is always one of a short list: the endpoints and the critical points inside. Check each one; don't guess from the picture.</p>
+        <details><summary>Show steps</summary><p>\(f'(x)=\dfrac{2x(1+x)-(x^2+3)}{(1+x)^2}=\dfrac{(x+3)(x-1)}{(1+x)^2}\), so the critical point in \([0,2]\) is \(x=1\). Values: \(f(0)=3,\ f(1)=2,\ f(2)=\tfrac73\). Absolute max 3 at \(x=0\); absolute min 2 at \(x=1\).</p></details>
+      </article>
+
+      <article class="lab ch4">
+        <header><h3>Mean Value Theorem <span class="tag">Exam Q1(2)</span></h3><span class="ref">§4.2 · book p.284 · PDF p.316</span></header>
+        <div class="lab-body">
+          <canvas id="c-mvt"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=x^3-2x^2+x \)</p>
+            <label>a <output id="o-ma">0</output><input type="range" id="m-a" min="-0.5" max="2" step="0.01" value="0"></label>
+            <label>b <output id="o-mb">2</output><input type="range" id="m-b" min="-0.3" max="2.4" step="0.01" value="2"></label>
+            <p class="readout" id="m-read"></p>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> for any a and b, at least one tangent (orange) is parallel to the secant. Some point inside has \(f'(c)\) equal to the average slope.</p>
+        <details><summary>Show steps</summary><p>Exam Q1(2) option B: f(0)=10, f(8)=30 means average slope \(\tfrac{30-10}{8-0}=2.5\), so the MVT promises \(f'(c)=2.5\), not 2. Option A is the Intermediate Value Theorem: 25 is between 10 and 30, so it must be true.</p></details>
+      </article>
+
+      <article class="lab ch4">
+        <header><h3>Increasing, decreasing, extrema <span class="tag">Exam Q8</span></h3><span class="ref">§4.3 · book p.290 · PDF p.322</span></header>
+        <div class="lab-body">
+          <canvas id="c-sign"></canvas>
+          <div class="controls">
+            <p class="formula">\( f(x)=x^3-2x^2+x \)<br>\( f'(x)=(3x-1)(x-1) \)</p>
+            <div class="signchart" aria-label="Sign chart of f prime">
+              <span class="pos">f′ &gt; 0 ↗</span><i>1/3</i><span class="neg">f′ &lt; 0 ↘</span><i>1</i><span class="pos">f′ &gt; 0 ↗</span>
+            </div>
+            <label><input type="checkbox" id="g-ext" checked> Mark the extrema</label>
+          </div>
+        </div>
+        <p class="notice"><b>What to notice:</b> the color changes exactly where f′ changes sign. Going up then down gives a local max; going down then up gives a local min.</p>
+        <details><summary>Show steps</summary><p>Critical points: \(x=\tfrac13\) and \(x=1\). Increasing on \((-\infty,\tfrac13)\) and \((1,\infty)\), decreasing on \((\tfrac13,1)\). Local max \(f(\tfrac13)=\tfrac{4}{27}\); local min \(f(1)=0\).</p></details>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PLAN -->
+<section id="plan" class="section">
+  <div class="wrap">
+    <p class="eyebrow">6-day plan</p>
+    <h2>Nov 5 → Nov 11</h2>
+    <p class="section-lead">Tick each day off as you go. Your progress is saved in this browser.</p>
+    <div class="days" id="days"></div>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources" class="section">
+  <div class="wrap">
+    <p class="eyebrow">Resources</p>
+    <h2>Videos, tools and apps</h2>
+    <div class="res-grid">
+      <a class="res reveal" href="https://www.3blue1brown.com/topics/calculus" target="_blank" rel="noopener"><b>3Blue1Brown · Essence of Calculus</b><span>Video</span><p>The best intuition for derivatives and the chain rule. Watch before a topic, not instead of practice.</p></a>
+      <a class="res reveal" href="https://www.khanacademy.org/math/calculus-1" target="_blank" rel="noopener"><b>Khan Academy · Calculus 1</b><span>Video + practice</span><p>Short worked examples with instant-check exercises for every section.</p></a>
+      <a class="res reveal" href="https://www.youtube.com/@ProfessorLeonard" target="_blank" rel="noopener"><b>Professor Leonard</b><span>Video</span><p>Full-length lectures, close to a real class. Good when the slides feel too short.</p></a>
+      <a class="res reveal" href="https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx" target="_blank" rel="noopener"><b>Paul's Online Math Notes</b><span>Notes + problems</span><p>Clear notes with practice problems and full solutions, ordered like Stewart.</p></a>
+      <a class="res reveal" href="https://www.desmos.com/calculator" target="_blank" rel="noopener"><b>Desmos</b><span>Interactive tool</span><p>Graph anything with sliders in seconds. Check your sketches here.</p></a>
+      <a class="res reveal" href="https://www.geogebra.org/calculator" target="_blank" rel="noopener"><b>GeoGebra</b><span>Interactive tool</span><p>Graphs, tangent lines and 3D. Good for exploring the MVT and implicit curves.</p></a>
+      <a class="res reveal" href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/" target="_blank" rel="noopener"><b>MIT OpenCourseWare 18.01</b><span>Course</span><p>Lectures, problem sets and exams with solutions for single-variable calculus.</p></a>
+      <a class="res reveal" href="https://apps.ankiweb.net/" target="_blank" rel="noopener"><b>Anki</b><span>App</span><p>Spaced-repetition flashcards. Use it for rules, formulas and theorem conditions.</p></a>
+      <a class="res reveal" href="https://www.wolframalpha.com/" target="_blank" rel="noopener"><b>Wolfram|Alpha</b><span>Checker</span><p>Check a derivative or limit after you solve it, never before.</p></a>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN NOTES -->
+<section id="design" class="section">
+  <div class="wrap narrow">
+    <p class="eyebrow">Design notes</p>
+    <h2>How this site is designed</h2>
+    <p>The layout is one long page with a sticky top bar, because a student revising wants to move between strategies, graphs and the plan without losing their place. A thin progress line under the bar shows how far down the page you are. On phones the links fold into a menu button. The order follows a study session: why a method works, then the graphs to practise on, then the plan, then extra resources.</p>
+    <div class="wireframe" aria-label="Wireframe of the page layout">
+      <div class="wf-bar">logo · Strategies · Lab · Plan · Resources · Design</div>
+      <div class="wf-hero">HERO: 3D curve + tangent · title · countdown · "Start the lab"</div>
+      <div class="wf-row"><span>card</span><span>card</span><span>card</span><span>card</span></div>
+      <div class="wf-lab"><span class="wf-canvas">interactive graph</span><span class="wf-ctrl">sliders · formula · steps</span></div>
+      <div class="wf-row"><span>day</span><span>day</span><span>day</span><span>day</span></div>
+      <div class="wf-row"><span>resource</span><span>resource</span><span>resource</span></div>
+    </div>
+    <p>The colors are a deep navy background with soft, lighter panels so the graphs stand out, and each chapter has its own accent, used on its tab, its panels and its main curve. The color tells you where you are before you read anything.</p>
+    <div class="swatches">
+      <span style="--c:#0f1424">Navy #0F1424</span><span style="--c:#1b2340">Panel #1B2340</span><span style="--c:#60a5fa">Brand #60A5FA</span><span style="--c:#2dd4bf">Ch 1 #2DD4BF</span><span style="--c:#a78bfa">Ch 2 #A78BFA</span><span style="--c:#fbbf24">Ch 3 #FBBF24</span><span style="--c:#fb7185">Ch 4 #FB7185</span>
+    </div>
+    <p>The 3D hero is a curve in space with a tangent line sliding along it, built with Three.js. It shows the core idea of the course, a tangent as the local direction of a curve, before you read a word. It turns slowly and follows your mouse a little. Strategy icons animate the idea they describe: a curve draws itself, a card flips, problem types shuffle.</p>
+    <p>Animation always serves understanding. The graphs respond instantly to sliders, so you see cause and effect, and the "Animate h → 0" button plays the limit that defines the derivative. Cards fade in gently as you scroll. If your device is set to reduce motion, all animation stops and the 3D scene becomes a still image. Exam solutions sit behind "Show steps", so you try first and check second.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <p>Built for Advanced Math I (Stewart, <em>Calculus: Early Transcendentals</em>, 7th ed.). Graphs drawn in your browser. Study research cited in the Strategies section.</p>
+</footer>
+
+<script src="vendor/katex/katex.min.js" defer></script>
+<script src="vendor/katex/auto-render.min.js" defer></script>
+<script type="module" src="js/app.js"></script>
+<script type="module" src="js/labs.js"></script>
+<script type="module" src="js/hero.js"></script>
+</body>
+</html>
