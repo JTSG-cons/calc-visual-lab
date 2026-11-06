@@ -86,6 +86,8 @@ function math() {
   else addEventListener("load", run);
 }
 
+document.getElementById("print-sheet").addEventListener("click", () => print());
+
 countdown();
 plan();
 nav();

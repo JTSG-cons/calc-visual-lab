@@ -16,6 +16,7 @@
   <a class="brand" href="#top"><span class="brand-mark">∫</span> Calculus Visual Lab</a>
   <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
   <nav id="nav" aria-label="Sections">
+    <a href="#summary">Summary</a>
     <a href="#practice">Practice</a>
     <a href="#lab">Lab</a>
     <a href="#strategies">Strategies</a>
@@ -35,12 +36,136 @@
     <h1>See calculus<br><span class="grad">before you solve it.</span></h1>
     <p class="lead">Endless practice questions with instant checking, a timed mock exam, twelve interactive graphs and a day-by-day plan for the exam.</p>
     <div class="hero-row">
-      <a class="btn" href="#practice">Start practising</a>
+      <a class="btn" href="#summary">Read the summary</a>
+      <a class="btn btn-ghost" href="#practice">Start practising</a>
       <a class="btn btn-ghost" href="#lab">Open the lab</a>
       <div class="countdown"><b id="days-left">–</b><span id="days-label">days to the exam · Nov 11</span></div>
     </div>
   </div>
   <div class="scroll-hint" aria-hidden="true">scroll</div>
+</section>
+
+<!-- SUMMARY -->
+<section id="summary" class="section">
+  <div class="wrap">
+    <p class="eyebrow">Summary</p>
+    <h2>Every chapter on one page</h2>
+    <p class="section-lead">The main ideas, formulas and theorems of chapters 1–4, the mistakes that cost marks, and where each topic showed up on last year's paper. Read a chapter, then practise it.</p>
+    <div class="sum-bar">
+      <a class="chip ch1" href="#sum-1">1 · Functions</a>
+      <a class="chip ch2" href="#sum-2">2 · Limits</a>
+      <a class="chip ch3" href="#sum-3">3 · Derivatives</a>
+      <a class="chip ch4" href="#sum-4">4 · Applications</a>
+      <button class="ghost" id="print-sheet">Print as formula sheet</button>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <article class="sum ch1" id="sum-1">
+      <header><h3>Chapter 1 · Functions and Models</h3><span class="ref">§1.1–1.6 · the language the rest of the course uses</span></header>
+      <p class="sum-big">A function turns each input into exactly one output. Chapter 1 is the toolbox: reading graphs, finding domains, building new functions from old ones, and undoing functions with inverses and logs.</p>
+      <div class="sum-grid">
+        <div class="sc"><h4>Function and domain</h4><p>Each \(x\) gives exactly one \(f(x)\). A curve is a function if every vertical line hits it at most once.</p><p class="f">\(\tfrac1{g}\): \(g\ne0\) · \(\sqrt{g}\): \(g\ge0\) · \(\ln g\): \(g>0\)</p></div>
+        <div class="sc"><h4>Even and odd</h4><p class="f">\(f(-x)=f(x)\) even · \(f(-x)=-f(x)\) odd</p><p>Even is symmetric about the y-axis (\(x^2,\cos x\)). Odd is symmetric about the origin (\(x^3,\sin x\)).</p></div>
+        <div class="sc"><h4>Essential functions</h4><p>Linear \(mx+b\) · polynomial · power \(x^a\) · rational \(\tfrac{P}{Q}\) · trig · exponential \(a^x\) · logarithmic \(\log_a x\).</p></div>
+        <div class="sc"><h4>Transformations</h4><p class="f">\(y=a\,f\big(b(x-h)\big)+k\)</p><p>\(h\): right, \(k\): up, \(a\): vertical stretch (\(a<0\) flips over the x-axis), \(b\): horizontal squeeze by \(b\). Changes <em>inside</em> work backwards.</p></div>
+        <div class="sc"><h4>Composition</h4><p class="f">\((f\circ g)(x)=f\big(g(x)\big)\)</p><p>Work inside out. The domain is the \(x\) in the domain of \(g\) with \(g(x)\) in the domain of \(f\). Usually \(f\circ g\ne g\circ f\).</p></div>
+        <div class="sc"><h4>Exponentials</h4><p class="f">\(a^{x+y}=a^xa^y\) <span class='gap'></span> \((a^x)^y=a^{xy}\) <span class='gap'></span> \(a^{-x}=\tfrac1{a^x}\)</p><p>\(a^x>0\) always. \(e\approx2.71828\) is the base whose tangent at \(x=0\) has slope 1.</p></div>
+        <div class="sc"><h4>Inverse functions</h4><p class="f">\(f^{-1}(y)=x \iff f(x)=y\)</p><p>Only one-to-one functions have inverses (horizontal line test). To find one: write \(y=f(x)\), solve for \(x\), swap. The graph is the mirror image in \(y=x\), and \(f(f^{-1}(x))=x\).</p></div>
+        <div class="sc"><h4>Logarithms</h4><p class="f">\(\log_a x=y\iff a^y=x\) <span class='gap'></span> \(\ln x=\log_e x\)</p><p class="f">\(\ln(xy)=\ln x+\ln y\) <span class='gap'></span> \(\ln\tfrac xy=\ln x-\ln y\) <span class='gap'></span> \(\ln x^r=r\ln x\)</p><p class="f">\(\ln e^x=x\) <span class='gap'></span> \(e^{\ln x}=x\) <span class='gap'></span> \(\log_a x=\tfrac{\ln x}{\ln a}\)</p></div>
+        <div class="sc"><h4>Inverse trig</h4><p class="f">\(\arcsin x\): \([-1,1]\to[-\tfrac\pi2,\tfrac\pi2]\) · \(\arctan x\): \(\mathbb R\to(-\tfrac\pi2,\tfrac\pi2)\)</p><p>\(\sin x\) has to be restricted before it can be inverted.</p></div>
+      </div>
+      <div class="sum-foot">
+        <div class="mist"><h4>Mistakes that cost marks</h4><ul>
+          <li>\(f(x-3)\) moves the graph <b>right</b>, not left.</li>
+          <li>\(\ln(x+y)\ne\ln x+\ln y\).</li>
+          <li>\(f^{-1}(x)\) is the inverse, not \(\tfrac1{f(x)}\).</li>
+        </ul></div>
+        <div class="exam"><h4>On last year's paper</h4><p>No question of its own, but every question uses it: logs in Q2(2) and Q5, composition in every chain rule.</p></div>
+      </div>
+    </article>
+
+    <!-- CHAPTER 2 -->
+    <article class="sum ch2" id="sum-2">
+      <header><h3>Chapter 2 · Limits and Derivatives</h3><span class="ref">§2.1–2.8 · about 30% of last year's marks</span></header>
+      <p class="sum-big">A limit asks what \(f(x)\) approaches as \(x\) gets close to \(a\), never what happens <em>at</em> \(a\). Limits define continuity, and the limit of secant slopes defines the derivative.</p>
+      <div class="sum-grid">
+        <div class="sc"><h4>Limit and one-sided limits</h4><p class="f">\(\displaystyle\lim_{x\to a}f(x)=L\)</p><p>\(f(x)\) gets close to \(L\) as \(x\to a\), \(x\ne a\). The limit exists only when \(\lim_{x\to a^-}=\lim_{x\to a^+}\).</p></div>
+        <div class="sc"><h4>Limit laws</h4><p>Limits of sums, products, constant multiples, powers and roots are the sums, products, etc. of the limits. Quotients too, if the bottom limit \(\ne0\).</p><p><b>Direct substitution</b> works for polynomials, rationals, trig, exp and log at points in their domain.</p></div>
+        <div class="sc"><h4>When you get 0/0</h4><p>0/0 means more work, not "undefined":</p><ul><li><b>Factor</b> and cancel: \(\tfrac{x^2-5x+6}{x-2}=x-3\)</li><li><b>Conjugate</b> for roots: multiply by \(\sqrt{\cdot}+k\)</li><li><b>Common denominator</b> for fractions</li></ul></div>
+        <div class="sc"><h4>Trig limits and squeeze</h4><p class="f">\(\displaystyle\lim_{\theta\to0}\frac{\sin\theta}{\theta}=1\) <span class='gap'></span> \(\lim_{\theta\to0}\frac{\cos\theta-1}{\theta}=0\)</p><p><b>Squeeze:</b> if \(g\le f\le h\) near \(a\) and \(g,h\to L\), then \(f\to L\). Example: \(x^2\cos\tfrac1x\to0\).</p></div>
+        <div class="sc"><h4>Precise definition (2.4)</h4><p class="f">\(\forall\varepsilon>0\ \exists\delta>0:\ 0<|x-a|<\delta\Rightarrow|f(x)-L|<\varepsilon\)</p><p>"You can make \(f(x)\) as close to \(L\) as you want by taking \(x\) close enough to \(a\)."</p></div>
+        <div class="sc"><h4>Continuity</h4><p class="f">\(\displaystyle\lim_{x\to a}f(x)=f(a)\)</p><p>Three checks: \(f(a)\) is defined, the limit exists, and they are equal. Failures: removable (hole), jump, infinite. Sums, products, quotients and compositions of continuous functions are continuous.</p></div>
+        <div class="sc"><h4>Intermediate Value Theorem</h4><p>If \(f\) is <b>continuous on \([a,b]\)</b> and \(N\) is between \(f(a)\) and \(f(b)\), then \(f(c)=N\) for some \(c\in(a,b)\).</p><p>Use it to prove an equation has a root: find a sign change.</p></div>
+        <div class="sc"><h4>Limits at infinity</h4><p class="f">\(\displaystyle\lim_{x\to\infty}\frac1{x^r}=0\) <span class='gap'></span> \(\lim_{x\to-\infty}e^x=0\)</p><p>For rational functions compare the top and bottom degrees: equal gives the ratio of leading coefficients, top smaller gives 0, top bigger gives \(\pm\infty\). That limit \(L\) is a horizontal asymptote \(y=L\).</p></div>
+        <div class="sc"><h4>The derivative</h4><p class="f">\(\displaystyle f'(a)=\lim_{h\to0}\frac{f(a+h)-f(a)}{h}=\lim_{x\to a}\frac{f(x)-f(a)}{x-a}\)</p><p>It is the slope of the tangent and the instantaneous rate of change. Tangent line: \(y-f(a)=f'(a)(x-a)\).</p></div>
+        <div class="sc"><h4>Differentiable vs continuous</h4><p class="f">differentiable \(\Rightarrow\) continuous \(\Rightarrow\) limit exists</p><p>Not the other way: \(|x|\) is continuous at 0 but not differentiable (corner). A derivative also fails at cusps, vertical tangents and breaks.</p></div>
+      </div>
+      <div class="sum-foot">
+        <div class="mist"><h4>Mistakes that cost marks</h4><ul>
+          <li>Stopping at 0/0. Factor, rationalize or simplify.</li>
+          <li>Assuming the limit equals \(f(a)\). That's only true if \(f\) is continuous.</li>
+          <li>Proving continuity without checking <b>both</b> sides of a piecewise function.</li>
+          <li>Using the IVT without saying "\(f\) is continuous on \([a,b]\)".</li>
+        </ul></div>
+        <div class="exam"><h4>On last year's paper</h4><p>Q1(1) limit/continuity/differentiability logic · Q2(1)–(3) quick limits incl. \(\tfrac{\sin2x}{\sin5x}\) · Q3 piecewise continuity · Q4 factor, conjugate, squeeze.</p></div>
+      </div>
+    </article>
+
+    <!-- CHAPTER 3 -->
+    <article class="sum ch3" id="sum-3">
+      <header><h3>Chapter 3 · Differentiation Rules</h3><span class="ref">§3.1–3.11 · about 35% of last year's marks</span></header>
+      <p class="sum-big">Instead of using the limit definition every time, you build any derivative from a few rules. The chain rule is the one that appears everywhere.</p>
+      <div class="sum-grid">
+        <div class="sc"><h4>Basic rules</h4><p class="f">\((c)'=0\) <span class='gap'></span> \((x^n)'=nx^{n-1}\) <span class='gap'></span> \((cf)'=cf'\) <span class='gap'></span> \((f\pm g)'=f'\pm g'\)</p><p class="f">\((e^x)'=e^x\) <span class='gap'></span> \((a^x)'=a^x\ln a\)</p></div>
+        <div class="sc"><h4>Product and quotient</h4><p class="f">\((fg)'=f'g+fg'\)</p><p class="f">\(\left(\dfrac fg\right)'=\dfrac{f'g-fg'}{g^2}\)</p><p>Quotient: "low d-high minus high d-low, over low squared".</p></div>
+        <div class="sc"><h4>Trig derivatives</h4><p class="f">\((\sin x)'=\cos x\) <span class='gap'></span> \((\cos x)'=-\sin x\) <span class='gap'></span> \((\tan x)'=\sec^2x\)</p><p class="f">\((\sec x)'=\sec x\tan x\) <span class='gap'></span> \((\csc x)'=-\csc x\cot x\) <span class='gap'></span> \((\cot x)'=-\csc^2x\)</p><p>Derivatives of \(\sin\) and \(\cos\) repeat every 4: use \(n \bmod 4\) for the \(n\)th derivative.</p></div>
+        <div class="sc"><h4>Chain rule</h4><p class="f">\(\big(f(g(x))\big)'=f'\big(g(x)\big)\cdot g'(x)\) <span class='gap'></span> \(\dfrac{dy}{dx}=\dfrac{dy}{du}\dfrac{du}{dx}\)</p><p class="f">\((u^n)'=nu^{n-1}u'\) <span class='gap'></span> \((e^u)'=e^uu'\) <span class='gap'></span> \((\sin u)'=\cos u\cdot u'\)</p><p>Outside first, keep the inside, then multiply by the inside's derivative.</p></div>
+        <div class="sc"><h4>Implicit differentiation</h4><p>Differentiate both sides with respect to \(x\), treating \(y\) as a function of \(x\): \((y^3)'=3y^2y'\), \((xy)'=y+xy'\). Then collect the \(y'\) terms and solve.</p><p class="f">\((\arcsin x)'=\dfrac1{\sqrt{1-x^2}}\) <span class='gap'></span> \((\arctan x)'=\dfrac1{1+x^2}\)</p></div>
+        <div class="sc"><h4>Log derivatives</h4><p class="f">\((\ln x)'=\dfrac1x\) <span class='gap'></span> \((\ln|x|)'=\dfrac1x\) <span class='gap'></span> \((\ln u)'=\dfrac{u'}u\) <span class='gap'></span> \((\log_ax)'=\dfrac1{x\ln a}\)</p><p><b>Logarithmic differentiation</b> for \(f(x)^{g(x)}\) or messy products: take \(\ln\), differentiate, multiply by \(y\). Example: \(y=x^x\Rightarrow y'=x^x(\ln x+1)\).</p></div>
+        <div class="sc"><h4>Rates and growth (3.7–3.8)</h4><p class="f">\(v=s'(t)\) <span class='gap'></span> \(a=v'(t)=s''(t)\)</p><p class="f">\(\dfrac{dy}{dt}=ky\ \Rightarrow\ y=y_0e^{kt}\)</p><p>\(k>0\) growth, \(k<0\) decay. Half-life: \(t=\tfrac{\ln2}{|k|}\).</p></div>
+        <div class="sc"><h4>Related rates (3.9)</h4><ol><li>Draw it, name the variables</li><li>Write an equation linking them</li><li>Differentiate with respect to \(t\)</li><li>Substitute the numbers <b>after</b> differentiating</li></ol></div>
+        <div class="sc"><h4>Linear approximation (3.10–3.11)</h4><p class="f">\(L(x)=f(a)+f'(a)(x-a)\) <span class='gap'></span> \(dy=f'(x)\,dx\)</p><p class="f">\(\sinh x=\tfrac{e^x-e^{-x}}2\) <span class='gap'></span> \(\cosh x=\tfrac{e^x+e^{-x}}2\) <span class='gap'></span> \((\sinh)'=\cosh\ \ (\cosh)'=\sinh\)</p></div>
+      </div>
+      <div class="sum-foot">
+        <div class="mist"><h4>Mistakes that cost marks</h4><ul>
+          <li>Forgetting the inner derivative in the chain rule.</li>
+          <li>\((fg)'\ne f'g'\) and \(\left(\tfrac fg\right)'\ne\tfrac{f'}{g'}\).</li>
+          <li>Treating \(x^x\) like \(x^n\): you need logarithmic differentiation.</li>
+          <li>In implicit differentiation, forgetting \(y'\) on terms with \(y\).</li>
+        </ul></div>
+        <div class="exam"><h4>On last year's paper</h4><p>Q2(4)–(8) one-line derivatives, incl. the 17th derivative of \(\cos x\) · Q5 product+log, chain+quotient, \(x^{\cos x}\) · Q6 tangent line by implicit differentiation.</p></div>
+      </div>
+    </article>
+
+    <!-- CHAPTER 4 -->
+    <article class="sum ch4" id="sum-4">
+      <header><h3>Chapter 4 · Applications of Differentiation</h3><span class="ref">§4.1–4.9 · about 35% of last year's marks</span></header>
+      <p class="sum-big">The sign of \(f'\) tells you where a graph rises and falls; the sign of \(f''\) tells you how it bends. That is enough to find maxima and minima, sketch curves and solve optimization problems.</p>
+      <div class="sum-grid">
+        <div class="sc"><h4>Extrema and critical numbers</h4><p><b>Extreme Value Theorem:</b> \(f\) continuous on a <b>closed</b> \([a,b]\) has an absolute max and min there.</p><p><b>Critical number:</b> \(c\) in the domain with \(f'(c)=0\) or \(f'(c)\) undefined. Local extrema happen only at critical numbers (Fermat).</p></div>
+        <div class="sc"><h4>Closed interval method</h4><ol><li>Find the critical numbers inside \((a,b)\)</li><li>Evaluate \(f\) at them <b>and</b> at \(a\), \(b\)</li><li>Largest value is the absolute max, smallest the absolute min</li></ol></div>
+        <div class="sc"><h4>Rolle and the Mean Value Theorem</h4><p>Conditions: \(f\) <b>continuous on \([a,b]\)</b> and <b>differentiable on \((a,b)\)</b>.</p><p class="f">MVT: \(f'(c)=\dfrac{f(b)-f(a)}{b-a}\) for some \(c\in(a,b)\)</p><p>Rolle is the case \(f(a)=f(b)\Rightarrow f'(c)=0\). Consequence: \(f'=0\) everywhere means \(f\) is constant.</p></div>
+        <div class="sc"><h4>Increasing / decreasing</h4><p class="f">\(f'>0\Rightarrow\) increasing \(\) <span class='gap'></span> \(f'<0\Rightarrow\) decreasing</p><p><b>First derivative test:</b> \(f'\) changes \(+\to-\): local max; \(-\to+\): local min; no change: neither. Make a sign chart.</p></div>
+        <div class="sc"><h4>Concavity</h4><p class="f">\(f''>0\) concave up ∪ \(\) <span class='gap'></span> \(f''<0\) concave down ∩</p><p><b>Inflection point:</b> where concavity changes. <b>Second derivative test:</b> \(f'(c)=0\) and \(f''(c)>0\) is a min, \(f''(c)<0\) a max, \(f''(c)=0\) tells you nothing.</p></div>
+        <div class="sc"><h4>L'Hôpital's rule (4.4)</h4><p class="f">\(\dfrac00\) or \(\dfrac\infty\infty:\) <span class='gap'></span> \(\displaystyle\lim\frac fg=\lim\frac{f'}{g'}\)</p><p>Other forms: \(0\cdot\infty\) → rewrite as a fraction; \(\infty-\infty\) → common denominator; \(1^\infty,0^0,\infty^0\) → take \(\ln\) first.</p></div>
+        <div class="sc"><h4>Curve sketching (4.5)</h4><p>Domain → intercepts → symmetry → asymptotes → increasing/decreasing → local max/min → concavity and inflection → sketch.</p></div>
+        <div class="sc"><h4>Optimization (4.7)</h4><ol><li>Draw it, name the variables</li><li>Write the quantity to optimize</li><li>Use the constraint to get one variable</li><li>Find critical points; check endpoints or use the first derivative test</li></ol></div>
+        <div class="sc"><h4>Newton and antiderivatives (4.8–4.9)</h4><p class="f">\(x_{n+1}=x_n-\dfrac{f(x_n)}{f'(x_n)}\)</p><p class="f">\(\int x^n=\tfrac{x^{n+1}}{n+1}+C\ (n\ne-1)\) <span class='gap'></span> \(\int\tfrac1x=\ln|x|+C\) <span class='gap'></span> \(\int e^x=e^x+C\)</p><p class="f">\(\int\cos x=\sin x+C\) <span class='gap'></span> \(\int\sin x=-\cos x+C\) <span class='gap'></span> \(\int\sec^2x=\tan x+C\)</p></div>
+      </div>
+      <div class="sum-foot">
+        <div class="mist"><h4>Mistakes that cost marks</h4><ul>
+          <li>Forgetting to check the <b>endpoints</b> in the closed interval method.</li>
+          <li>Thinking \(f'(c)=0\) guarantees an extremum: \(x^3\) at 0.</li>
+          <li>Using L'Hôpital when the limit isn't 0/0 or ∞/∞.</li>
+          <li>Using the quotient rule in L'Hôpital. Differentiate top and bottom <b>separately</b>.</li>
+          <li>Writing the MVT conclusion without checking both conditions.</li>
+        </ul></div>
+        <div class="exam"><h4>On last year's paper</h4><p>Q1(2) IVT vs MVT · Q7 absolute max/min of \(\tfrac{x^2+3}{1+x}\) on \([0,2]\) · Q8 critical points, increasing/decreasing, local extrema of \(x^3-2x^2+x\).</p></div>
+      </div>
+    </article>
+
+    <div class="sum-next"><p>Read a chapter? <a href="#practice">Practise it now →</a> or <a href="#lab">see it move in the lab →</a></p></div>
+  </div>
 </section>
 
 <!-- PRACTICE -->
