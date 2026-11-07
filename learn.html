@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculus Lessons · Chapters 1–4</title>
+<meta name="description" content="Every concept of Calculus chapters 1–4 explained visually, with methods, worked examples and practice.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2360a5fa'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%230f1424' font-family='serif' font-weight='bold'%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="learn-page">
+<div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+<header class="topbar">
+  <a class="brand" href="index.html"><span class="brand-mark">∫</span> Calculus Visual Lab</a>
+  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <nav id="nav" aria-label="Sections">
+    <a href="learn.html" class="active">Learn</a>
+    <a href="index.html#summary">Summary</a>
+    <a href="index.html#practice">Practice</a>
+    <a href="index.html#lab">Lab</a>
+    <a href="index.html#plan">6-day plan</a>
+  </nav>
+</header>
+
+<div class="learn-hero">
+  <div class="wrap">
+    <p class="eyebrow">Learn</p>
+    <h1>Every concept, explained with pictures</h1>
+    <p class="lead">33 lessons covering chapters 1–4. Each one has an interactive picture, a step-by-step method, worked examples you reveal one step at a time, the trap to avoid, and a button to practise it.</p>
+    <p class="learn-progress" id="learn-progress"></p>
+  </div>
+</div>
+
+<div class="learn-layout wrap">
+  <aside class="toc" id="toc" aria-label="Lessons"></aside>
+
+  <main class="lessons" id="lessons">
+
+<!-- ===================== CHAPTER 1 ===================== -->
+<h2 class="ch-title ch1" id="ch1">Chapter 1 · Functions and Models</h2>
+
+<article class="lesson ch1" id="l-functions" data-num="1.1–1.2">
+  <h3>Functions, domains and the main families</h3>
+  <p class="lead2">A <b>function</b> is a rule: you put in \(x\) and get exactly <b>one</b> output \(f(x)\). The <b>domain</b> is every \(x\) you are allowed to put in. Almost every calculus problem quietly starts with: where does this function exist?</p>
+  <figure class="lf double" data-fig="vlt"><div class="duo"><canvas></canvas><canvas></canvas></div>
+    <div class="lf-ctl"><label>Move the vertical line <input type="range" class="lf-k" min="0" max="1000" value="700"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the vertical line test. On the parabola \(y=x^2\) (teal) any vertical line hits once, so it's a function. On the sideways parabola \(x=y^2\) (coral) it hits twice: one \(x\), two outputs, so not a function.</figcaption>
+  </figure>
+  <div class="how"><h4>How to find a domain</h4><ol>
+    <li>Start with all real numbers.</li>
+    <li>Remove any \(x\) that makes a <b>denominator 0</b>.</li>
+    <li>Keep only \(x\) that make the inside of an <b>even root \(\ge 0\)</b>.</li>
+    <li>Keep only \(x\) that make the inside of a <b>log \(> 0\)</b>.</li>
+    <li>Combine all the conditions (they must all hold at once).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Find the domain of \(f(x)=\dfrac{\sqrt{x+2}}{x-3}\).</p><ol class="steps">
+    <li>Root: \(x+2\ge0\Rightarrow x\ge-2\).</li>
+    <li>Denominator: \(x-3\ne0\Rightarrow x\ne3\).</li>
+    <li>Both together: \(x\ge-2\) but not 3, so the domain is \([-2,3)\cup(3,\infty)\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <p class="mini-title">The families you need to recognise on sight</p>
+  <div class="catalog">
+    <figure class="lf mini" data-fig="mini" data-fn="lin"><canvas></canvas><figcaption>Linear \(mx+b\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="sq"><canvas></canvas><figcaption>Quadratic \(x^2\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="cube"><canvas></canvas><figcaption>Cubic \(x^3\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="sqrt"><canvas></canvas><figcaption>Root \(\sqrt x\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="recip"><canvas></canvas><figcaption>Reciprocal \(\tfrac1x\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="exp"><canvas></canvas><figcaption>Exponential \(e^x\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="ln"><canvas></canvas><figcaption>Logarithm \(\ln x\)</figcaption></figure>
+    <figure class="lf mini" data-fig="mini" data-fn="sin"><canvas></canvas><figcaption>Sine \(\sin x\)</figcaption></figure>
+  </div>
+  <div class="note-box"><b>Even and odd.</b> Substitute \(-x\) and simplify. If you get \(f(x)\) back it is <b>even</b> (mirror in the y-axis, like \(x^2\)). If you get \(-f(x)\) it is <b>odd</b> (rotate 180° about the origin, like \(x^3\)). Example: \(f(x)=x^3-x\Rightarrow f(-x)=-x^3+x=-f(x)\), odd.</div>
+  <div class="trap"><b>Trap:</b> a log needs its input <b>strictly</b> positive (\(>0\)), a square root allows 0 (\(\ge0\)).</div>
+  <a class="try" data-t="1.1 Domain"></a>
+</article>
+
+<article class="lesson ch1" id="l-transform" data-num="1.3">
+  <h3>Transformations: moving a graph</h3>
+  <p class="lead2">You rarely graph from scratch. Most functions are a basic shape that has been shifted, stretched or flipped. Learn four moves and you can sketch \(y=a\,f\big(b(x-h)\big)+k\) instantly.</p>
+  <figure class="lf" data-fig="trans"><canvas></canvas>
+    <div class="lf-ctl"><label>Apply the moves one by one <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(x^2\) (dashed) turns into \(-\tfrac12(x-2)^2+1\) in three moves: shift right 2, flip and squash by \(-\tfrac12\), then lift up 1.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Name the base function (\(x^2,\sqrt x,|x|,\sin x,\dots\)).</li>
+    <li><b>Inside changes act on \(x\) and work backwards:</b> \(x-h\) moves right by \(h\); \(bx\) squeezes horizontally by \(b\); \(-x\) flips left-right.</li>
+    <li><b>Outside changes act on \(y\) normally:</b> \(+k\) moves up; \(a\cdot\) stretches vertically; a negative \(a\) flips upside down.</li>
+    <li>Do the horizontal moves first, then the vertical ones. Track one key point, like the vertex or the start of \(\sqrt x\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Sketch \(y=-2\sqrt{x+1}+3\).</p><ol class="steps">
+    <li>Base \(\sqrt x\): starts at \((0,0)\), rises to the right.</li>
+    <li>\(x+1\) inside: shift <b>left</b> 1. Start point \((-1,0)\).</li>
+    <li>\(\times2\): twice as steep. The minus sign flips it, so it now falls to the right.</li>
+    <li>\(+3\): lift up 3. Start point \((-1,3)\), heading down-right. Domain \(x\ge-1\), range \(y\le3\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(f(x+1)\) moves the graph <b>left</b>, and \(f(2x)\) makes it <b>narrower</b>. Inside changes do the opposite of what they look like.</div>
+  <a class="try lab" href="index.html#lab">Play with all four sliders in the lab →</a>
+</article>
+
+<article class="lesson ch1" id="l-compose" data-num="1.3">
+  <h3>Composition: one function inside another</h3>
+  <p class="lead2">\((f\circ g)(x)=f\big(g(x)\big)\): run \(x\) through \(g\), then feed the result to \(f\). Learning to see the <b>inside</b> and the <b>outside</b> now is what makes the chain rule easy in chapter 3.</p>
+  <figure class="lf svgfig">
+    <svg viewBox="0 0 640 150" class="machine" role="img" aria-label="x equals 3 enters machine g which adds 1 giving 4, which enters machine f which squares giving 16">
+      <line x1="40" y1="75" x2="600" y2="75" class="wire"/>
+      <rect x="170" y="35" width="110" height="80" rx="14" class="box g"/><text x="225" y="70" class="bt">g</text><text x="225" y="95" class="bs">u = x + 1</text>
+      <rect x="390" y="35" width="110" height="80" rx="14" class="box f"/><text x="445" y="70" class="bt">f</text><text x="445" y="95" class="bs">y = u²</text>
+      <text x="60" y="58" class="lbl">x = 3</text><text x="320" y="58" class="lbl">u = 4</text><text x="545" y="58" class="lbl">y = 16</text>
+      <circle r="9" class="ball"><animateMotion dur="3.2s" repeatCount="indefinite" path="M40,75 L600,75"/></circle>
+    </svg>
+    <figcaption><b>What you're seeing:</b> \(f(g(3))\). The number 3 goes into \(g\) and comes out as 4. That 4 goes into \(f\) and comes out as 16. The inside machine always runs first.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li><b>To evaluate</b> \(f(g(a))\): compute \(g(a)\) first, then put that number into \(f\).</li>
+    <li><b>To find the formula</b> \(f(g(x))\): write \(f\)'s formula and replace every \(x\) with the whole of \(g(x)\) in brackets.</li>
+    <li><b>To break a function apart:</b> ask "what is computed <b>last</b>?" That is the outside \(f\); everything it acts on is the inside \(g\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Break \(h(x)=\sqrt{x^2+1}\) into \(f(g(x))\), then find \(h\) using \(f\) and \(g\) at \(x=2\).</p><ol class="steps">
+    <li>The last operation is the square root, so the outside is \(f(u)=\sqrt u\).</li>
+    <li>What the root acts on is the inside: \(g(x)=x^2+1\).</li>
+    <li>Check: \(f(g(x))=\sqrt{x^2+1}\) ✓.</li>
+    <li>At 2: \(g(2)=5\), then \(f(5)=\sqrt5\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> order matters. With \(f(x)=x^2\), \(g(x)=3x-1\): \(f(g(x))=(3x-1)^2\) but \(g(f(x))=3x^2-1\).</div>
+  <a class="try" data-t="1.3 Composition"></a>
+</article>
+
+<article class="lesson ch1" id="l-exp" data-num="1.5">
+  <h3>Exponential functions and the number e</h3>
+  <p class="lead2">\(a^x\) multiplies by \(a\) every time \(x\) goes up by 1, so it grows (\(a>1\)) or decays (\(0<a<1\)) faster than any polynomial. Of all the bases, exactly one makes the slope at \(x=0\) equal to 1: \(e\approx2.71828\). That is why \(e\) is everywhere in calculus.</p>
+  <figure class="lf" data-fig="expbase"><canvas></canvas>
+    <div class="lf-ctl"><label>Change the base a <input type="range" class="lf-k" min="0" max="1000" value="150"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(y=a^x\) and its tangent at \((0,1)\). The slope of that tangent is \(\ln a\). Slide until the slope is exactly 1: the base is then \(e\).</figcaption>
+  </figure>
+  <div class="how"><h4>The rules</h4><ol>
+    <li>\(a^{x+y}=a^xa^y\), \(a^{x-y}=\dfrac{a^x}{a^y}\), \((a^x)^y=a^{xy}\), \((ab)^x=a^xb^x\).</li>
+    <li>\(a^0=1\), \(a^{-x}=\dfrac1{a^x}\), and \(a^x>0\) for every \(x\).</li>
+    <li>To solve \(a^{\text{something}}=\text{number}\): write both sides with the same base, or take \(\ln\) of both sides.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Solve \(4^x=8\).</p><ol class="steps">
+    <li>Both are powers of 2: \(4=2^2\), \(8=2^3\).</li>
+    <li>\((2^2)^x=2^3\Rightarrow 2^{2x}=2^3\).</li>
+    <li>Same base, so the powers match: \(2x=3\Rightarrow x=\tfrac32\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(2^x\) (exponential, variable on top) and \(x^2\) (power, variable at the bottom) are different animals with different derivatives.</div>
+  <a class="try" data-t="1.6 Inverse & logs"></a>
+</article>
+
+<article class="lesson ch1" id="l-inverse" data-num="1.6">
+  <h3>Inverse functions and logarithms</h3>
+  <p class="lead2">An <b>inverse</b> undoes a function: if \(f\) sends 3 to 8, then \(f^{-1}\) sends 8 back to 3. The logarithm is the inverse of the exponential, which is why \(\ln\) and \(e^x\) cancel each other out.</p>
+  <figure class="lf" data-fig="inverse"><canvas></canvas>
+    <div class="lf-ctl"><label>Move the point <input type="range" class="lf-k" min="0" max="1000" value="560"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> every point \((a,b)\) on \(e^x\) has a twin \((b,a)\) on \(\ln x\). Swapping \(x\) and \(y\) is a reflection in the dashed line \(y=x\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Check \(f\) is one-to-one: every horizontal line hits the graph at most once.</li>
+    <li>Write \(y=f(x)\) and solve for \(x\) in terms of \(y\).</li>
+    <li>Swap the letters: that formula is \(f^{-1}(x)\).</li>
+    <li><b>Log laws:</b> \(\ln(xy)=\ln x+\ln y\), \(\ln\tfrac xy=\ln x-\ln y\), \(\ln x^r=r\ln x\), \(\ln e^x=x\), \(e^{\ln x}=x\), \(\log_ax=\tfrac{\ln x}{\ln a}\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Find the inverse of \(f(x)=\ln(x-2)\).</p><ol class="steps">
+    <li>Write \(y=\ln(x-2)\).</li>
+    <li>Undo the log by raising \(e\) to both sides: \(e^y=x-2\).</li>
+    <li>Solve: \(x=e^y+2\).</li>
+    <li>Swap: \(f^{-1}(x)=e^x+2\). Check: \(f(f^{-1}(x))=\ln(e^x)=x\) ✓.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(f^{-1}(x)\) is the inverse, <b>not</b> \(\tfrac1{f(x)}\). And \(\ln(a+b)\ne\ln a+\ln b\): the log laws work for products, not sums.</div>
+  <a class="try" data-t="1.6 Inverse & logs"></a>
+</article>
+
+<!-- ===================== CHAPTER 2 ===================== -->
+<h2 class="ch-title ch2" id="ch2">Chapter 2 · Limits and Derivatives</h2>
+
+<article class="lesson ch2" id="l-limit" data-num="2.2">
+  <h3>The idea of a limit</h3>
+  <p class="lead2">\(\displaystyle\lim_{x\to a}f(x)=L\) means: as \(x\) gets close to \(a\) from both sides, but never equal to \(a\), the values \(f(x)\) get close to \(L\). What happens <b>exactly at</b> \(a\) does not matter. \(f(a)\) can be different, or not exist at all.</p>
+  <figure class="lf" data-fig="approach"><canvas></canvas>
+    <div class="lf-ctl"><label>Move closer to x = 1 <input type="range" class="lf-k" min="0" max="1000" value="200"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(f(x)=\dfrac{x^2-1}{x-1}\) has a hole at \(x=1\). The two points close in on \(x=1\) from the left and the right, and their heights (on the y-axis) close in on 2. The limit is 2, even though \(f(1)\) doesn't exist.</figcaption>
+  </figure>
+  <div class="how"><h4>How to estimate a limit</h4><ol>
+    <li><b>Table:</b> plug in \(x\) values closer and closer to \(a\) from both sides (like \(0.9, 0.99, 0.999\) and \(1.1, 1.01, 1.001\)).</li>
+    <li><b>Graph:</b> follow the curve toward \(x=a\) from the left and from the right.</li>
+    <li>If both sides head to the same height \(L\), the limit is \(L\). The next lessons show how to get it exactly.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Estimate \(\displaystyle\lim_{x\to1}\frac{x^2-1}{x-1}\).</p><ol class="steps">
+    <li>Left side: \(f(0.9)=1.9\), \(f(0.99)=1.99\), \(f(0.999)=1.999\).</li>
+    <li>Right side: \(f(1.1)=2.1\), \(f(1.01)=2.01\), \(f(1.001)=2.001\).</li>
+    <li>Both sides approach 2, so the limit is 2. (Exactly: \(\tfrac{(x-1)(x+1)}{x-1}=x+1\to2\).)</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> "the limit equals \(f(a)\)" is only true when \(f\) is continuous at \(a\). Never assume it.</div>
+  <a class="try" data-t="Concepts (multiple choice)"></a>
+</article>
+
+<article class="lesson ch2" id="l-onesided" data-num="2.2">
+  <h3>One-sided limits, and when limits don't exist</h3>
+  <p class="lead2">\(\lim_{x\to a^-}\) approaches from the left, \(\lim_{x\to a^+}\) from the right. The two-sided limit exists <b>only if both one-sided limits exist and are equal</b>. There are three classic ways for a limit to fail.</p>
+  <figure class="lf triple" data-fig="fail"><div class="tri"><canvas></canvas><canvas></canvas><canvas></canvas></div>
+    <figcaption><b>What you're seeing:</b> <b>Jump:</b> left limit 1, right limit 3, so no limit. <b>Blow-up:</b> \(\tfrac1{x^2}\to\infty\) as \(x\to0\), so no finite limit. <b>Oscillation:</b> \(\sin\tfrac1x\) swings between −1 and 1 faster and faster, so it never settles.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it on a piecewise function</h4><ol>
+    <li>Left limit: use the piece for \(x<a\) and substitute \(a\).</li>
+    <li>Right limit: use the piece for \(x>a\) and substitute \(a\).</li>
+    <li>Equal: the limit is that number. Different: the limit does not exist.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>\(f(x)=\begin{cases}x+1 & x<2\\ x^2-1 & x\ge2\end{cases}\). Find \(\lim_{x\to2}f(x)\).</p><ol class="steps">
+    <li>Left: \(\lim_{x\to2^-}(x+1)=3\).</li>
+    <li>Right: \(\lim_{x\to2^+}(x^2-1)=3\).</li>
+    <li>Equal, so \(\lim_{x\to2}f(x)=3\). (If the right piece were \(x^2\), the right limit would be 4 and the limit would not exist.)</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> writing "\(=\infty\)" describes <b>how</b> the limit fails. It is not a number, so the limit still does not exist.</div>
+  <a class="try" data-t="2.5 Continuity"></a>
+</article>
+
+<article class="lesson ch2" id="l-laws" data-num="2.3">
+  <h3>Limit laws and direct substitution</h3>
+  <p class="lead2">Limits follow arithmetic: the limit of a sum is the sum of the limits, and the same for differences, products, constant multiples, powers, roots and quotients (if the bottom limit isn't 0). The result: for polynomials, rational functions, roots, trig, \(e^x\) and \(\ln x\) at points in their domain, you can just <b>plug in</b>.</p>
+  <figure class="lf" data-fig="laws"><canvas></canvas>
+    <figcaption><b>What you're seeing:</b> near \(x=1\), \(f\) (violet) heads to 1 and \(g\) (blue) heads to 2, so \(f+g\) (amber) heads to \(1+2=3\). The heights simply add.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it: always try substitution first</h4><ol>
+    <li>Substitute \(x=a\).</li>
+    <li>You get a normal number: that's the answer.</li>
+    <li>You get \(\tfrac{\text{nonzero}}{0}\): it blows up (\(\pm\infty\)). Check the signs from each side.</li>
+    <li>You get \(\tfrac00\): <b>indeterminate</b>. Simplify first (next lesson).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q2)</h4><p>(1) \(\displaystyle\lim_{x\to-5}\frac{x+2}{x+3}\) and (2) \(\displaystyle\lim_{x\to4}\ln(x^2-9)\).</p><ol class="steps">
+    <li>(1) Substitute: \(\dfrac{-5+2}{-5+3}=\dfrac{-3}{-2}=\dfrac32\). The denominator isn't 0, so done.</li>
+    <li>(2) \(\ln\) is continuous where its input is positive: \(4^2-9=7>0\).</li>
+    <li>So the limit is \(\ln7\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(\tfrac00\) is not 0 and not "undefined". It means "this needs more work".</div>
+  <a class="try" data-t="2.3 Limits: plug in"></a>
+</article>
+
+<article class="lesson ch2" id="l-zerozero" data-num="2.3">
+  <h3>Fixing 0/0: factor and conjugate</h3>
+  <p class="lead2">Getting \(\tfrac00\) at \(x=a\) almost always means the top and bottom share a hidden factor \((x-a)\). Cancel it and the hole disappears. The simplified function equals the original everywhere except at \(a\), so it has the same limit.</p>
+  <figure class="lf" data-fig="cancel"><canvas></canvas>
+    <div class="lf-ctl"><label>Before → after cancelling <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(\tfrac{x^2-5x+6}{x-2}\) is the line \(x-3\) with a hole at \(x=2\). Cancelling \((x-2)\) fills the hole, and the height there, \(-1\), is the limit.</figcaption>
+  </figure>
+  <div class="how"><h4>Three methods</h4><ol>
+    <li><b>Factor</b> (polynomials): factor top and bottom, cancel \((x-a)\), substitute again.</li>
+    <li><b>Conjugate</b> (square roots): multiply top and bottom by \(\sqrt{\cdot}+k\), use \((A-B)(A+B)=A^2-B^2\) on the top, cancel, substitute.</li>
+    <li><b>Common denominator</b> (fractions inside fractions): combine into one fraction, simplify, cancel.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example 1 (last year's Q4(1))</h4><p>\(\displaystyle\lim_{x\to2}\frac{x^2-5x+6}{x-2}\)</p><ol class="steps">
+    <li>Substitute: \(\tfrac{4-10+6}{0}=\tfrac00\). Simplify.</li>
+    <li>Factor: \(x^2-5x+6=(x-2)(x-3)\).</li>
+    <li>Cancel: \(\dfrac{(x-2)(x-3)}{x-2}=x-3\) for \(x\ne2\).</li>
+    <li>Substitute: \(2-3=-1\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example 2 (last year's Q4(2))</h4><p>\(\displaystyle\lim_{x\to0}\frac{\sqrt{x+16}-4}{x}\)</p><ol class="steps">
+    <li>Substitute: \(\tfrac{4-4}{0}=\tfrac00\).</li>
+    <li>Multiply top and bottom by the conjugate \(\sqrt{x+16}+4\).</li>
+    <li>Top: \((\sqrt{x+16})^2-4^2=x+16-16=x\).</li>
+    <li>So \(\dfrac{x}{x(\sqrt{x+16}+4)}=\dfrac1{\sqrt{x+16}+4}\).</li>
+    <li>Substitute: \(\dfrac1{4+4}=\dfrac18\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> you may cancel \((x-a)\) only because in a limit \(x\ne a\). Write the limit sign on every line until you substitute.</div>
+  <a class="try" data-t="2.3 Limits: factor"></a> <a class="try" data-t="2.3 Limits: rationalize"></a>
+</article>
+
+<article class="lesson ch2" id="l-squeeze" data-num="2.3 + 3.3">
+  <h3>The squeeze theorem and sin θ / θ</h3>
+  <p class="lead2">When a function wiggles too much to simplify, trap it between two simpler functions that go to the same limit. It has nowhere else to go. The same idea proves the most important trig limit, \(\tfrac{\sin\theta}{\theta}\to1\).</p>
+  <figure class="lf" data-fig="squeeze"><canvas></canvas>
+    <div class="lf-ctl"><label>Zoom in on 0 <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(x^2\cos\tfrac1x\) (blue) wiggles forever, but it is always between \(-x^2\) and \(x^2\) (dashed). Both walls go to 0, so it is squeezed to 0.</figcaption>
+  </figure>
+  <figure class="lf" data-fig="unit"><canvas></canvas>
+    <div class="lf-ctl"><label>Shrink the angle θ <input type="range" class="lf-k" min="0" max="1000" value="300"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> on the unit circle, the arc length is \(\theta\) (amber) and the vertical height is \(\sin\theta\) (blue). As \(\theta\) shrinks they become the same length, so their ratio goes to 1.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use the squeeze theorem</h4><ol>
+    <li>Find the bounded part: \(-1\le\sin(\text{anything})\le1\), \(-1\le\cos(\text{anything})\le1\).</li>
+    <li>Multiply the inequality by the rest of the function. It must be \(\ge0\) (like \(x^2\) or \(|x|\)) so the signs don't flip.</li>
+    <li>Check both bounds have the same limit \(L\).</li>
+    <li>Conclude: the squeezed function also goes to \(L\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example 1 (last year's Q4(3))</h4><p>\(\displaystyle\lim_{x\to0}x^2\cos\tfrac1x\)</p><ol class="steps">
+    <li>\(-1\le\cos\tfrac1x\le1\) for all \(x\ne0\).</li>
+    <li>Multiply by \(x^2\ge0\): \(-x^2\le x^2\cos\tfrac1x\le x^2\).</li>
+    <li>\(\lim_{x\to0}(-x^2)=0\) and \(\lim_{x\to0}x^2=0\).</li>
+    <li>By the squeeze theorem the limit is \(0\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example 2 (last year's Q2(3))</h4><p>\(\displaystyle\lim_{x\to0}\frac{\sin2x}{\sin5x}\)</p><ol class="steps">
+    <li>Make the pattern \(\tfrac{\sin u}{u}\) appear: \(\dfrac{\sin2x}{\sin5x}=\dfrac{\sin2x}{2x}\cdot\dfrac{5x}{\sin5x}\cdot\dfrac{2x}{5x}\).</li>
+    <li>As \(x\to0\): \(\tfrac{\sin2x}{2x}\to1\) and \(\tfrac{5x}{\sin5x}\to1\).</li>
+    <li>What's left: \(\tfrac{2x}{5x}=\tfrac25\). The limit is \(\tfrac25\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(\tfrac{\sin\theta}{\theta}\to1\) only works in <b>radians</b> and only when the angle inside \(\sin\) matches the bottom exactly.</div>
+  <a class="try" data-t="2.3 Squeeze & trig limits"></a>
+</article>
+
+<article class="lesson ch2" id="l-asym" data-num="2.2 + 2.6">
+  <h3>Asymptotes: limits involving infinity</h3>
+  <p class="lead2">A <b>vertical asymptote</b> \(x=a\) is where \(f\) blows up to \(\pm\infty\). A <b>horizontal asymptote</b> \(y=L\) is the height \(f\) settles to as \(x\to\pm\infty\). Together they give the skeleton of a graph.</p>
+  <figure class="lf" data-fig="asym"><canvas></canvas>
+    <figcaption><b>What you're seeing:</b> \(f(x)=\dfrac{2x^2}{x^2-1}\). The bottom is 0 at \(x=\pm1\): vertical asymptotes. Far out, \(f\) flattens toward \(y=2\): a horizontal asymptote.</figcaption>
+  </figure>
+  <div class="how"><h4>How to find them</h4><ol>
+    <li><b>Vertical:</b> find where the denominator is 0 but the numerator isn't (if both are 0, it's a hole instead). Check the sign on each side to see \(+\infty\) or \(-\infty\).</li>
+    <li><b>Horizontal (rational functions):</b> divide top and bottom by the highest power of \(x\) in the denominator. Every \(\tfrac{c}{x^n}\to0\).</li>
+    <li>Shortcut: equal degrees → ratio of leading coefficients; top smaller → 0; top bigger → no horizontal asymptote.</li>
+    <li>Also: \(e^x\to0\) as \(x\to-\infty\), and \(\ln x\to-\infty\) as \(x\to0^+\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>\(\displaystyle\lim_{x\to\infty}\frac{3x^2-x}{5x^2+2}\)</p><ol class="steps">
+    <li>Divide every term by \(x^2\): \(\dfrac{3-\tfrac1x}{5+\tfrac2{x^2}}\).</li>
+    <li>As \(x\to\infty\): \(\tfrac1x\to0\) and \(\tfrac2{x^2}\to0\).</li>
+    <li>The limit is \(\tfrac35\), so \(y=\tfrac35\) is a horizontal asymptote.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> a graph <b>can</b> cross its horizontal asymptote (for example \(\tfrac{\sin x}x\)). It can never cross a vertical one.</div>
+  <a class="try" data-t="4.4 L'Hôpital"></a>
+</article>
+
+<article class="lesson ch2" id="l-cont" data-num="2.5">
+  <h3>Continuity</h3>
+  <p class="lead2">\(f\) is <b>continuous</b> at \(a\) if you can draw through \(x=a\) without lifting your pen. Precisely, three things must hold: \(f(a)\) is defined, \(\lim_{x\to a}f(x)\) exists, and they are <b>equal</b>.</p>
+  <figure class="lf triple" data-fig="disc"><div class="tri"><canvas></canvas><canvas></canvas><canvas></canvas></div>
+    <figcaption><b>What you're seeing:</b> the three ways to break continuity. <b>Removable:</b> the limit exists but \(f(a)\) is missing or in the wrong place. <b>Jump:</b> the left and right limits differ. <b>Infinite:</b> the function blows up.</figcaption>
+  </figure>
+  <div class="how"><h4>How to check continuity at a point</h4><ol>
+    <li>Compute \(f(a)\) using the piece that includes \(x=a\).</li>
+    <li>Compute the left limit and the right limit using the correct pieces.</li>
+    <li>All three equal: continuous. Otherwise say which condition fails.</li>
+    <li><b>To make it continuous</b> (find a constant \(k\)): set left limit = right limit and solve for \(k\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q3)</h4><p>\(f(x)=\begin{cases}x-1 & x<0\\ -1 & x=0\\ \cos(\pi-x) & x>0\end{cases}\). Is \(f\) continuous at 0?</p><ol class="steps">
+    <li>Value: \(f(0)=-1\).</li>
+    <li>Left: \(\lim_{x\to0^-}(x-1)=-1\).</li>
+    <li>Right: \(\lim_{x\to0^+}\cos(\pi-x)=\cos\pi=-1\).</li>
+    <li>\(\lim_{x\to0}f(x)=-1=f(0)\), so \(f\) is continuous at 0 by the definition.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> the question says "using the definition", so write all three checks. A correct answer with no justification loses marks.</div>
+  <a class="try" data-t="2.5 Continuity"></a>
+</article>
+
+<article class="lesson ch2" id="l-ivt" data-num="2.5">
+  <h3>The Intermediate Value Theorem</h3>
+  <p class="lead2">A continuous function can't skip values. If it goes from \(f(a)\) to \(f(b)\), it passes through every value in between. This is how you prove an equation has a solution without solving it.</p>
+  <figure class="lf" data-fig="ivt"><canvas></canvas>
+    <div class="lf-ctl"><label>Choose a value N between f(a) and f(b) <input type="range" class="lf-k" min="0" max="1000" value="500"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> whatever height \(N\) you pick between \(f(a)\) and \(f(b)\), the unbroken curve must cross the line \(y=N\) somewhere: that's the \(c\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it to prove a root exists</h4><ol>
+    <li>Say why \(f\) is <b>continuous on \([a,b]\)</b> (polynomial, sum of continuous functions, …).</li>
+    <li>Compute \(f(a)\) and \(f(b)\).</li>
+    <li>Show \(N\) (usually 0) is between them. For roots this means a sign change.</li>
+    <li>Conclude: by the IVT there is a \(c\in(a,b)\) with \(f(c)=N\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Show \(x^3+x-1=0\) has a solution in \((0,1)\).</p><ol class="steps">
+    <li>\(f(x)=x^3+x-1\) is a polynomial, so it is continuous on \([0,1]\).</li>
+    <li>\(f(0)=-1<0\) and \(f(1)=1>0\).</li>
+    <li>0 is between \(-1\) and 1.</li>
+    <li>By the IVT, some \(c\in(0,1)\) has \(f(c)=0\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> without continuity it fails: \(\tfrac1x\) is \(-1\) at \(x=-1\) and \(1\) at \(x=1\) but never 0. Last year's Q1(2) option A was the IVT.</div>
+  <a class="try" data-t="Concepts (multiple choice)"></a>
+</article>
+
+<article class="lesson ch2" id="l-deriv" data-num="2.1 + 2.7">
+  <h3>The derivative: slope of the tangent</h3>
+  <p class="lead2">The derivative \(f'(a)\) is the slope of the curve at a single point. You get it as the limit of slopes of secant lines as the second point slides into the first. It is also the <b>instantaneous rate of change</b>, like a speedometer reading.</p>
+  <figure class="lf" data-fig="secant"><canvas></canvas>
+    <div class="lf-ctl"><label>Slide h toward 0 <input type="range" class="lf-k" min="0" max="1000" value="200"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> for \(f(x)=x^2\) at \(a=1\), the secant through \((1,1)\) and \((1+h,(1+h)^2)\) has slope \(2+h\). As \(h\to0\) it turns into the tangent, slope 2.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use the definition</h4><ol>
+    <li>Write \(f(a+h)\) and expand it.</li>
+    <li>Subtract \(f(a)\) and simplify. Every remaining term should contain \(h\).</li>
+    <li>Divide by \(h\) (cancel it).</li>
+    <li>Let \(h\to0\). That number is \(f'(a)\).</li>
+    <li>Tangent line: \(y-f(a)=f'(a)(x-a)\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Use the definition to find \(f'(3)\) for \(f(x)=x^2\), then the tangent line at \(x=3\).</p><ol class="steps">
+    <li>\(f(3+h)=9+6h+h^2\).</li>
+    <li>\(f(3+h)-f(3)=6h+h^2\).</li>
+    <li>Divide by \(h\): \(6+h\).</li>
+    <li>\(h\to0\): \(f'(3)=6\).</li>
+    <li>Tangent: \(y-9=6(x-3)\), so \(y=6x-9\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> don't let \(h\to0\) before cancelling \(h\), or you get \(\tfrac00\) again.</div>
+  <a class="try" data-t="2.7 Derivative definition"></a>
+</article>
+
+<article class="lesson ch2" id="l-diff" data-num="2.8">
+  <h3>Where derivatives fail</h3>
+  <p class="lead2">\(f'(x)\) is itself a function: the slope of \(f\) at every \(x\). <b>Differentiable implies continuous</b>, but not the other way round. A graph can be unbroken and still have no single slope at a point.</p>
+  <figure class="lf triple" data-fig="nodiff"><div class="tri"><canvas></canvas><canvas></canvas><canvas></canvas></div>
+    <figcaption><b>What you're seeing:</b> continuous but not differentiable at 0. <b>Corner</b> \(|x|\): the slope jumps from −1 to 1. <b>Cusp</b> \(x^{2/3}\): the slopes shoot to \(\pm\infty\). <b>Vertical tangent</b> \(x^{1/3}\): the slope is infinite.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li><b>Reading \(f'\) from a graph of \(f\):</b> rising means \(f'>0\), falling means \(f'<0\), flat (peak or valley) means \(f'=0\).</li>
+    <li><b>Checking differentiability at \(a\):</b> compute the slope limit from the left and from the right. They must be equal and finite.</li>
+    <li>Not continuous at \(a\) means automatically not differentiable at \(a\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Is \(f(x)=|x|\) differentiable at 0?</p><ol class="steps">
+    <li>Slope quotient: \(\dfrac{f(0+h)-f(0)}{h}=\dfrac{|h|}{h}\).</li>
+    <li>For \(h>0\) it is 1; for \(h<0\) it is −1.</li>
+    <li>The one-sided limits differ, so \(f'(0)\) does not exist, even though \(f\) is continuous at 0.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Last year's Q1(1):</b> continuous does <b>not</b> imply differentiable, and a limit existing does not imply continuity. But differentiable ⇒ continuous ⇒ the limit exists, so the true statement was D.</div>
+  <a class="try" data-t="Concepts (multiple choice)"></a>
+</article>
+
+<!-- ===================== CHAPTER 3 ===================== -->
+<h2 class="ch-title ch3" id="ch3">Chapter 3 · Differentiation Rules</h2>
+
+<article class="lesson ch3" id="l-power" data-num="3.1">
+  <h3>Power, sum and exponential rules</h3>
+  <p class="lead2">Instead of the limit definition, use rules. The <b>power rule</b> \((x^n)'=nx^{n-1}\) works for every power, including roots and negative powers once you rewrite them. And \(e^x\) is the function that is its own derivative.</p>
+  <figure class="lf" data-fig="power"><canvas></canvas>
+    <div class="lf-ctl"><label>Move along the curve <input type="range" class="lf-k" min="0" max="1000" value="700"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the tangent to \(y=x^3\). The measured slope always equals the power rule's prediction \(3x^2\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Rewrite first: \(\sqrt x=x^{1/2}\), \(\tfrac1{x^3}=x^{-3}\), \(\tfrac{1}{\sqrt x}=x^{-1/2}\).</li>
+    <li>Bring the power down in front, then subtract 1 from the power.</li>
+    <li>Constants multiply through: \((5x^4)'=20x^3\). A lone constant has derivative 0.</li>
+    <li>Sums: differentiate term by term.</li>
+    <li>\((e^x)'=e^x\) and \((a^x)'=a^x\ln a\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q2(4) and Q2(6))</h4><p>Differentiate \(g(t)=3t^{-1/4}\) and \(f(x)=2x+e^{3.6}\).</p><ol class="steps">
+    <li>\(g'(t)=3\cdot\left(-\tfrac14\right)t^{-1/4-1}=-\tfrac34t^{-5/4}\).</li>
+    <li>\(e^{3.6}\) has no \(x\) in it: it is just a number, so its derivative is 0.</li>
+    <li>\(f'(x)=2\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(e^{3.6}\), \(\pi^2\), \(\ln5\) are constants. Their derivative is 0, not "themselves".</div>
+  <a class="try" data-t="3.1 Power rule"></a>
+</article>
+
+<article class="lesson ch3" id="l-product" data-num="3.2">
+  <h3>Product and quotient rules</h3>
+  <p class="lead2">The derivative of a product is <b>not</b> the product of the derivatives. Picture a rectangle with sides \(u\) and \(v\). When both sides grow a little, the area grows by two strips, \(u\,dv\) and \(v\,du\), plus a tiny corner that vanishes in the limit.</p>
+  <figure class="lf svgfig">
+    <svg viewBox="0 0 560 300" class="prodrule" role="img" aria-label="Rectangle u by v with extra strips v du on the right and u dv on top and a tiny corner du dv">
+      <rect x="60" y="80" width="300" height="180" class="pr-main"/>
+      <rect x="360" y="80" width="70" height="180" class="pr-a"/>
+      <rect x="60" y="40" width="300" height="40" class="pr-b"/>
+      <rect x="360" y="40" width="70" height="40" class="pr-c"/>
+      <text x="210" y="175" class="pt">u · v</text>
+      <text x="395" y="175" class="pt small">v·du</text>
+      <text x="210" y="66" class="pt small">u·dv</text>
+      <text x="395" y="66" class="pt tiny">du·dv</text>
+      <text x="210" y="285" class="pl">u</text><text x="395" y="285" class="pl">du</text>
+      <text x="38" y="175" class="pl">v</text><text x="38" y="66" class="pl">dv</text>
+    </svg>
+    <figcaption><b>What you're seeing:</b> the change in area is \(v\,du+u\,dv+du\,dv\). Divide by \(dx\) and let the changes shrink: the tiny corner disappears, leaving \((uv)'=u'v+uv'\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use them</h4><ol>
+    <li><b>Product:</b> \((uv)'=u'v+uv'\). Derivative of the first times the second, plus the first times the derivative of the second.</li>
+    <li><b>Quotient:</b> \(\left(\dfrac uv\right)'=\dfrac{u'v-uv'}{v^2}\). "Low d-high minus high d-low, over low squared."</li>
+    <li>Simplify first when you can: \(\tfrac{x^2+x}{x}=x+1\) needs no quotient rule.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Differentiate \(f(x)=x^2e^x\) and \(g(x)=\dfrac{x}{x^2+1}\).</p><ol class="steps">
+    <li>Product: \(u=x^2,\ v=e^x\), so \(f'=2x\,e^x+x^2e^x=xe^x(x+2)\).</li>
+    <li>Quotient: \(u=x,\ u'=1,\ v=x^2+1,\ v'=2x\).</li>
+    <li>\(g'=\dfrac{1\cdot(x^2+1)-x\cdot2x}{(x^2+1)^2}=\dfrac{1-x^2}{(x^2+1)^2}\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> in the quotient rule the order matters because of the minus sign: top's derivative comes <b>first</b>.</div>
+  <a class="try" data-t="3.2 Product & quotient"></a>
+</article>
+
+<article class="lesson ch3" id="l-trig" data-num="3.3">
+  <h3>Derivatives of trig functions</h3>
+  <p class="lead2">Watch the slope of \(\sin x\) as you move along it: it traces out \(\cos x\) exactly. Where \(\sin\) peaks, its slope is 0, and that is where \(\cos\) crosses zero.</p>
+  <figure class="lf" data-fig="sinslope"><canvas></canvas>
+    <div class="lf-ctl"><label>Move along sin x <input type="range" class="lf-k" min="0" max="1000" value="350"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the tangent to \(\sin x\) (amber) and its slope plotted as a dot (blue). The dots fill in the curve \(\cos x\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use them</h4><ol>
+    <li>Memorise: \((\sin x)'=\cos x\), \((\cos x)'=-\sin x\), \((\tan x)'=\sec^2x\).</li>
+    <li>And: \((\sec x)'=\sec x\tan x\), \((\csc x)'=-\csc x\cot x\), \((\cot x)'=-\csc^2x\). The "co" ones all get a minus.</li>
+    <li>Repeated derivatives cycle every 4: \(\sin\to\cos\to-\sin\to-\cos\to\sin\). For the \(n\)th derivative, use \(n\bmod4\).</li>
+    <li>These formulas only hold in <b>radians</b>.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q2(8))</h4><p>\(u(x)=\cos x\). Find \(u^{(17)}\!\left(\tfrac\pi3\right)\).</p><ol class="steps">
+    <li>The cycle for \(\cos\): \(u'=-\sin x,\ u''=-\cos x,\ u'''=\sin x,\ u^{(4)}=\cos x\).</li>
+    <li>\(17=4\cdot4+1\), so \(u^{(17)}=u'=-\sin x\).</li>
+    <li>\(-\sin\tfrac\pi3=-\tfrac{\sqrt3}2\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example (last year's Q2(5))</h4><p>\(f(x)=\tfrac12\cot x\). Find \(f'(x)\).</p><ol class="steps">
+    <li>Constant multiple: \(f'=\tfrac12(\cot x)'\).</li>
+    <li>\((\cot x)'=-\csc^2x\), so \(f'(x)=-\tfrac12\csc^2x\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> the minus in \((\cos x)'=-\sin x\) is the most-lost sign in the whole course.</div>
+  <a class="try" data-t="3.3 Trig derivatives"></a>
+</article>
+
+<article class="lesson ch3" id="l-chain" data-num="3.4">
+  <h3>The chain rule</h3>
+  <p class="lead2">For a composition \(y=f(g(x))\), <b>rates multiply</b>. If \(u\) changes 2 times as fast as \(x\), and \(y\) changes 3 times as fast as \(u\), then \(y\) changes \(2\times3=6\) times as fast as \(x\): \(\dfrac{dy}{dx}=\dfrac{dy}{du}\cdot\dfrac{du}{dx}\).</p>
+  <figure class="lf svgfig">
+    <svg viewBox="0 0 600 220" class="gears" role="img" aria-label="Three gears: x turns once, u turns twice as fast, y turns three times as fast as u">
+      <g transform="translate(110,110)"><g class="gear g1"><circle r="70"/><line x1="0" y1="-70" x2="0" y2="70"/><line x1="-70" y1="0" x2="70" y2="0"/></g></g>
+      <g transform="translate(290,110)"><g class="gear g2"><circle r="45"/><line x1="0" y1="-45" x2="0" y2="45"/><line x1="-45" y1="0" x2="45" y2="0"/></g></g>
+      <g transform="translate(450,110)"><g class="gear g3"><circle r="22"/><line x1="0" y1="-22" x2="0" y2="22"/><line x1="-22" y1="0" x2="22" y2="0"/></g></g>
+      <text x="110" y="205" class="gl">x: speed 1</text><text x="290" y="205" class="gl">u: 2 × faster</text><text x="450" y="205" class="gl">y: 3 × faster than u</text>
+      <text x="200" y="30" class="gr">du/dx = 2</text><text x="370" y="30" class="gr">dy/du = 3</text><text x="540" y="110" class="gr big">dy/dx = 6</text>
+    </svg>
+    <figcaption><b>What you're seeing:</b> linked gears. The small gear turns 6 times for each turn of the big one. Each link multiplies the speed, just as the chain rule multiplies derivatives.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Spot the outside function \(f\) and the inside \(g\) (lesson "Composition").</li>
+    <li>Differentiate the <b>outside</b>, leaving the inside untouched: \(f'(g(x))\).</li>
+    <li>Multiply by the derivative of the <b>inside</b>: \(\cdot\,g'(x)\).</li>
+    <li>Several layers? Peel them one at a time, outside to inside, multiplying as you go.</li>
+    <li>Useful forms: \((u^n)'=nu^{n-1}u'\), \((e^u)'=e^uu'\), \((\sin u)'=\cos u\cdot u'\), \((\ln u)'=\tfrac{u'}u\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example 1</h4><p>\(y=(x^2+1)^5\)</p><ol class="steps">
+    <li>Outside: \((\ )^5\). Inside: \(u=x^2+1\).</li>
+    <li>Outside derivative: \(5(x^2+1)^4\).</li>
+    <li>Times inside derivative \(2x\): \(y'=10x(x^2+1)^4\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example 2 (last year's Q5(2))</h4><p>\(f(x)=\sin\!\left(\dfrac{x-1}{x+1}\right)\)</p><ol class="steps">
+    <li>Outside: \(\sin(\ )\). Inside: \(u=\dfrac{x-1}{x+1}\).</li>
+    <li>Inside derivative (quotient rule): \(u'=\dfrac{(x+1)-(x-1)}{(x+1)^2}=\dfrac{2}{(x+1)^2}\).</li>
+    <li>\(f'(x)=\cos\!\left(\dfrac{x-1}{x+1}\right)\cdot\dfrac{2}{(x+1)^2}\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> forgetting to multiply by the inside derivative. If there is something other than plain \(x\) inside, there is a chain rule.</div>
+  <a class="try" data-t="3.4 Chain rule"></a>
+</article>
+
+<article class="lesson ch3" id="l-implicit" data-num="3.5">
+  <h3>Implicit differentiation</h3>
+  <p class="lead2">Some curves, like circles, can't be written as one \(y=f(x)\). Differentiate the equation as it stands, treating \(y\) as an unknown function of \(x\). Every \(y\)-term picks up a \(y'\) from the chain rule.</p>
+  <figure class="lf" data-fig="circle"><canvas></canvas>
+    <div class="lf-ctl"><label>Move around the circle <input type="range" class="lf-k" min="0" max="1000" value="150"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the circle \(x^2+y^2=25\) and its tangent. Implicit differentiation gives \(y'=-\tfrac xy\) at any point, top or bottom half, without solving for \(y\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Apply \(\tfrac{d}{dx}\) to both sides.</li>
+    <li>\(x\)-terms: as usual. \(y\)-terms: chain rule, \((y^n)'=ny^{n-1}\,y'\).</li>
+    <li>Mixed terms like \(xy\): product rule, \((xy)'=y+xy'\).</li>
+    <li>Move all \(y'\) terms to one side, factor out \(y'\), divide.</li>
+    <li>Plug in the point to get the slope; then \(y-y_0=m(x-x_0)\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q6)</h4><p>Tangent line to \(x^2+2y^3=3xy\) at \((1,1)\).</p><ol class="steps">
+    <li>Differentiate: \(2x+6y^2y'=3y+3xy'\).</li>
+    <li>Collect: \(6y^2y'-3xy'=3y-2x\).</li>
+    <li>Factor: \(y'(6y^2-3x)=3y-2x\Rightarrow y'=\dfrac{3y-2x}{6y^2-3x}\).</li>
+    <li>At \((1,1)\): \(y'=\dfrac{3-2}{6-3}=\dfrac13\).</li>
+    <li>Tangent: \(y-1=\tfrac13(x-1)\), so \(y=\tfrac13x+\tfrac23\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \((y^3)'\) is \(3y^2y'\), not \(3y^2\). And \(3xy\) needs the product rule.</div>
+  <a class="try" data-t="3.5 Implicit"></a>
+</article>
+
+<article class="lesson ch3" id="l-log" data-num="3.6">
+  <h3>Log derivatives and logarithmic differentiation</h3>
+  <p class="lead2">The slope of \(\ln x\) at \(x\) is \(\tfrac1x\): steep near 0, flatter further out. Logs also turn products into sums and powers into multiplication. That is the trick behind <b>logarithmic differentiation</b>, the only way to handle \(x^{x}\)-type functions.</p>
+  <figure class="lf" data-fig="lnslope"><canvas></canvas>
+    <div class="lf-ctl"><label>Move along ln x <input type="range" class="lf-k" min="0" max="1000" value="200"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the tangent to \(\ln x\). Its slope is always \(\tfrac1x\): 2 at \(x=\tfrac12\), 1 at \(x=1\), \(\tfrac14\) at \(x=4\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>\((\ln u)'=\dfrac{u'}{u}\), \((\ln|x|)'=\dfrac1x\), \((\log_ax)'=\dfrac1{x\ln a}\).</li>
+    <li>Simplify with log laws <b>before</b> differentiating: \(\ln(x^2\sqrt{x+1})=2\ln x+\tfrac12\ln(x+1)\).</li>
+    <li><b>Logarithmic differentiation</b> for \(y=f(x)^{g(x)}\): take \(\ln\): \(\ln y=g(x)\ln f(x)\).</li>
+    <li>Differentiate both sides: \(\tfrac{y'}y=\dots\) (product rule on the right).</li>
+    <li>Multiply by \(y\), then substitute \(y\) back.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q5(3))</h4><p>\(y=x^{\cos x}\)</p><ol class="steps">
+    <li>Take logs: \(\ln y=\cos x\,\ln x\).</li>
+    <li>Differentiate (product rule): \(\dfrac{y'}{y}=-\sin x\,\ln x+\cos x\cdot\dfrac1x\).</li>
+    <li>Multiply by \(y\): \(y'=x^{\cos x}\left(\dfrac{\cos x}{x}-\sin x\ln x\right)\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example (last year's Q5(1))</h4><p>\(f(x)=\sqrt x\,\ln(x^2+1)\)</p><ol class="steps">
+    <li>Product rule with \(u=\sqrt x\), \(v=\ln(x^2+1)\).</li>
+    <li>\(u'=\dfrac1{2\sqrt x}\); \(v'=\dfrac{2x}{x^2+1}\) (chain rule).</li>
+    <li>\(f'(x)=\dfrac{\ln(x^2+1)}{2\sqrt x}+\dfrac{2x\sqrt x}{x^2+1}\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \((x^x)'\ne x\cdot x^{x-1}\) (power rule) and \(\ne x^x\ln x\) (exponential rule). With \(x\) in both base and exponent you need logs.</div>
+  <a class="try" data-t="3.6 Log differentiation"></a>
+</article>
+
+<article class="lesson ch3" id="l-related" data-num="3.9">
+  <h3>Related rates</h3>
+  <p class="lead2">When quantities are linked by an equation and they change over time, their rates of change are linked too. Differentiate the equation with respect to time \(t\), and the known rate gives you the unknown one.</p>
+  <figure class="lf" data-fig="ladder"><canvas></canvas>
+    <div class="lf-ctl"><label>Slide the ladder <input type="range" class="lf-k" min="0" max="1000" value="400"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> a 5 m ladder whose foot moves away at 1 m/s. \(x^2+y^2=25\) links the two ends. The top falls slowly at first, then faster and faster as it nears the ground.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it: 6 steps</h4><ol>
+    <li>Draw the situation. Label changing quantities with letters, fixed ones with numbers.</li>
+    <li>Write what you know and what you want as derivatives (\(\tfrac{dx}{dt}=1\), find \(\tfrac{dy}{dt}\)).</li>
+    <li>Find an equation linking the variables (Pythagoras, area, volume, similar triangles).</li>
+    <li>Differentiate with respect to \(t\), using the chain rule on every variable.</li>
+    <li><b>Now</b> substitute the numbers for that instant.</li>
+    <li>Solve, and give units and the meaning of the sign.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>The 5 m ladder's foot slides out at 1 m/s. How fast is the top falling when the foot is 3 m from the wall?</p><ol class="steps">
+    <li>Equation: \(x^2+y^2=25\). Known: \(x'=1\).</li>
+    <li>Differentiate in \(t\): \(2x\,x'+2y\,y'=0\).</li>
+    <li>When \(x=3\): \(y=\sqrt{25-9}=4\).</li>
+    <li>\(2(3)(1)+2(4)y'=0\Rightarrow y'=-\tfrac34\).</li>
+    <li>The top is falling at \(0.75\) m/s (negative: \(y\) is decreasing).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> substituting \(x=3\) <b>before</b> differentiating turns \(x\) into a constant with derivative 0, and the answer collapses.</div>
+  <a class="try" data-t="3.9 Related rates"></a>
+</article>
+
+<article class="lesson ch3" id="l-linear" data-num="3.10">
+  <h3>Linear approximation</h3>
+  <p class="lead2">Zoom in far enough on any smooth curve and it looks like its tangent line. So near \(x=a\): \(f(x)\approx L(x)=f(a)+f'(a)(x-a)\). That turns hard values into easy arithmetic.</p>
+  <figure class="lf" data-fig="linear"><canvas></canvas>
+    <div class="lf-ctl"><label>Zoom in on x = 4 <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(\sqrt x\) (amber) and its tangent at \(x=4\) (blue). Zoom in and the two become impossible to tell apart.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Pick an easy point \(a\) near the value you want (a perfect square, 0, …).</li>
+    <li>Compute \(f(a)\) and \(f'(a)\).</li>
+    <li>Build \(L(x)=f(a)+f'(a)(x-a)\).</li>
+    <li>Evaluate \(L\) at your \(x\). The differential version is \(dy=f'(x)\,dx\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Estimate \(\sqrt{4.1}\).</p><ol class="steps">
+    <li>\(f(x)=\sqrt x\), \(a=4\): \(f(4)=2\).</li>
+    <li>\(f'(x)=\dfrac1{2\sqrt x}\Rightarrow f'(4)=\dfrac14\).</li>
+    <li>\(L(x)=2+\tfrac14(x-4)\).</li>
+    <li>\(L(4.1)=2+\tfrac14(0.1)=2.025\). The true value is \(2.0248\dots\)</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> the approximation is only good <b>near</b> \(a\). Choose \(a\) as close as possible.</div>
+</article>
+
+<article class="lesson ch3" id="l-growth" data-num="3.7–3.8">
+  <h3>Rates of change and exponential growth</h3>
+  <p class="lead2">Derivatives measure change in the real world: position → velocity → acceleration. And when a quantity grows at a rate proportional to its size, \(\tfrac{dy}{dt}=ky\), the solution is always an exponential, \(y=y_0e^{kt}\).</p>
+  <figure class="lf" data-fig="growth"><canvas></canvas>
+    <div class="lf-ctl"><label>Change the rate k <input type="range" class="lf-k" min="0" max="1000" value="750"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(y=y_0e^{kt}\) with \(y_0=1\). Positive \(k\): growth that keeps speeding up. Negative \(k\): decay that slows down toward 0.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li><b>Motion:</b> \(v(t)=s'(t)\), \(a(t)=v'(t)\). Speeding up when \(v\) and \(a\) have the same sign.</li>
+    <li><b>Growth/decay:</b> write \(y=y_0e^{kt}\) with \(y_0\) the starting amount.</li>
+    <li>Find \(k\) from a second data point: \(y_1=y_0e^{kt_1}\Rightarrow k=\dfrac{\ln(y_1/y_0)}{t_1}\).</li>
+    <li>Half-life (decay): \(t_{1/2}=\dfrac{\ln2}{|k|}\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>A culture grows from 100 to 300 bacteria in 2 hours. How many after 5 hours?</p><ol class="steps">
+    <li>\(300=100e^{2k}\Rightarrow e^{2k}=3\Rightarrow k=\tfrac{\ln3}2\approx0.549\).</li>
+    <li>\(y(5)=100e^{5k}=100\left(e^{2k}\right)^{5/2}=100\cdot3^{2.5}\).</li>
+    <li>\(\approx 1559\) bacteria.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> use the natural log \(\ln\) to solve for \(k\), and keep \(k\) in "per hour" (or whatever time unit the data uses).</div>
+</article>
+
+<!-- ===================== CHAPTER 4 ===================== -->
+<h2 class="ch-title ch4" id="ch4">Chapter 4 · Applications of Differentiation</h2>
+
+<article class="lesson ch4" id="l-extrema" data-num="4.1">
+  <h3>Extreme values and critical numbers</h3>
+  <p class="lead2">An <b>absolute</b> max is the highest point on the whole interval. A <b>local</b> max is just higher than its neighbours. Extrema can only happen at <b>critical numbers</b> (where \(f'=0\) or \(f'\) doesn't exist) or at the <b>endpoints</b>.</p>
+  <figure class="lf" data-fig="extint"><canvas></canvas>
+    <div class="lf-ctl"><label>Stretch the interval's right end b <input type="range" class="lf-k" min="0" max="1000" value="450"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(f(x)=x^3-3x\) on \([-2,b]\). The local max \((-1,2)\) and local min \((1,-2)\) never move, but which point is the <b>absolute</b> max or min changes as the interval grows. Sometimes it's an endpoint.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Find \(f'(x)\).</li>
+    <li>Solve \(f'(x)=0\).</li>
+    <li>Also find where \(f'\) is undefined but \(f\) is defined (corners, cusps).</li>
+    <li>Those \(x\) values are the critical numbers: the only places a local extremum can be.</li>
+    <li><b>Extreme Value Theorem:</b> if \(f\) is continuous on a <b>closed</b> interval \([a,b]\), an absolute max and min are guaranteed.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Find the critical numbers of \(f(x)=x^3-3x\) and of \(g(x)=|x|\).</p><ol class="steps">
+    <li>\(f'(x)=3x^2-3=3(x-1)(x+1)\).</li>
+    <li>\(f'=0\) at \(x=\pm1\). \(f'\) exists everywhere, so the critical numbers are \(-1\) and \(1\).</li>
+    <li>\(g'(x)\) is \(-1\) for \(x<0\) and \(1\) for \(x>0\), and doesn't exist at 0.</li>
+    <li>So \(x=0\) is a critical number of \(|x|\) (and it is the minimum).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(f'(c)=0\) does not guarantee an extremum: \(x^3\) has \(f'(0)=0\) but keeps rising. And on an open interval like \((0,1)\), \(f(x)=x\) has no max at all.</div>
+  <a class="try" data-t="4.3 Critical points & shape"></a>
+</article>
+
+<article class="lesson ch4" id="l-cim" data-num="4.1">
+  <h3>The closed interval method</h3>
+  <p class="lead2">On \([a,b]\), the absolute max and min are always among a short list: the endpoints and the critical numbers inside. Evaluate \(f\) at every one of them and compare. No guessing from the picture.</p>
+  <figure class="lf" data-fig="cim"><canvas></canvas>
+    <div class="lf-ctl"><label>Test a point x <input type="range" class="lf-k" min="0" max="1000" value="250"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> last year's Q7, \(f(x)=\tfrac{x^2+3}{1+x}\) on \([0,2]\). The three candidates are marked. The highest one, \(f(0)=3\), is the absolute max; the lowest, \(f(1)=2\), is the absolute min.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Find \(f'(x)\) and the critical numbers.</li>
+    <li>Throw away critical numbers <b>outside</b> \([a,b]\).</li>
+    <li>Make a table: \(f\) at each remaining critical number <b>and</b> at \(a\) and \(b\).</li>
+    <li>Biggest value = absolute max; smallest = absolute min. State both the value and where it happens.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q7)</h4><p>Absolute max and min of \(f(x)=\dfrac{x^2+3}{1+x}\) on \([0,2]\).</p><ol class="steps">
+    <li>Quotient rule: \(f'(x)=\dfrac{2x(1+x)-(x^2+3)}{(1+x)^2}=\dfrac{x^2+2x-3}{(1+x)^2}\).</li>
+    <li>Factor: \(\dfrac{(x+3)(x-1)}{(1+x)^2}=0\Rightarrow x=1\) or \(x=-3\). Only \(x=1\) is in \([0,2]\).</li>
+    <li>Table: \(f(0)=3\), \(f(1)=\tfrac42=2\), \(f(2)=\tfrac73\approx2.33\).</li>
+    <li>Absolute max \(3\) at \(x=0\); absolute min \(2\) at \(x=1\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> forgetting the endpoints. Here the maximum <b>is</b> an endpoint.</div>
+  <a class="try" data-t="4.1 Absolute extrema"></a>
+</article>
+
+<article class="lesson ch4" id="l-mvt" data-num="4.2">
+  <h3>Rolle's theorem and the Mean Value Theorem</h3>
+  <p class="lead2">Somewhere between \(a\) and \(b\), the instantaneous slope equals the average slope. If you drive 120 km in 1.5 hours, at some moment your speedometer read exactly 80 km/h.</p>
+  <figure class="lf" data-fig="mvt"><canvas></canvas>
+    <div class="lf-ctl"><label>Move the right end b <input type="range" class="lf-k" min="0" max="1000" value="800"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> the secant from \(a\) to \(b\) (blue) and a tangent with the same slope (orange) at the point \(c\) the MVT promises.</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Check condition 1: \(f\) is continuous on \([a,b]\).</li>
+    <li>Check condition 2: \(f\) is differentiable on \((a,b)\).</li>
+    <li>Average slope: \(m=\dfrac{f(b)-f(a)}{b-a}\).</li>
+    <li>Solve \(f'(c)=m\) and keep only \(c\) strictly between \(a\) and \(b\).</li>
+    <li><b>Rolle</b> is the special case \(f(a)=f(b)\), which gives \(f'(c)=0\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Find the \(c\) for \(f(x)=x^3-2x^2+x\) on \([0,2]\).</p><ol class="steps">
+    <li>A polynomial is continuous and differentiable everywhere, so the MVT applies.</li>
+    <li>\(m=\dfrac{f(2)-f(0)}{2-0}=\dfrac{2-0}{2}=1\).</li>
+    <li>\(f'(c)=3c^2-4c+1=1\Rightarrow c(3c-4)=0\).</li>
+    <li>\(c=0\) is an endpoint, not inside, so \(c=\tfrac43\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Last year's Q1(2):</b> with \(f(0)=10\) and \(f(8)=30\) the MVT gives \(f'(c)=\tfrac{30-10}{8}=2.5\). Option B said 2, which is not guaranteed.</div>
+  <a class="try" data-t="4.2 Mean Value Theorem"></a>
+</article>
+
+<article class="lesson ch4" id="l-shape" data-num="4.3">
+  <h3>Increasing, decreasing and the first derivative test</h3>
+  <p class="lead2">The sign of \(f'\) is the direction of the graph: positive means going up, negative means going down. A <b>local max</b> is where \(f'\) switches from + to −, and a <b>local min</b> where it switches from − to +.</p>
+  <figure class="lf" data-fig="sign"><canvas></canvas>
+    <div class="lf-ctl"><label>Move the test point <input type="range" class="lf-k" min="0" max="1000" value="150"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> last year's Q8, \(f(x)=x^3-2x^2+x\). Teal where it rises (\(f'>0\)), coral where it falls (\(f'<0\)). The colour changes exactly at the critical numbers \(\tfrac13\) and \(1\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Find \(f'\) and factor it.</li>
+    <li>Find the critical numbers and mark them on a number line.</li>
+    <li>Pick a test point in each interval and find the <b>sign</b> of \(f'\) there.</li>
+    <li>\(+\): increasing on that interval; \(-\): decreasing.</li>
+    <li>Sign change \(+\to-\): local max; \(-\to+\): local min; no change: neither.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example (last year's Q8)</h4><p>\(f(x)=x^3-2x^2+x\): critical points, increasing/decreasing, local extrema.</p><ol class="steps">
+    <li>\(f'(x)=3x^2-4x+1=(3x-1)(x-1)\). Critical points: \(x=\tfrac13\), \(x=1\).</li>
+    <li>Test \(x=0\): \((-1)(-1)=+\). Test \(x=\tfrac12\): \((\tfrac12)(-\tfrac12)=-\). Test \(x=2\): \((5)(1)=+\).</li>
+    <li>Increasing on \((-\infty,\tfrac13)\) and \((1,\infty)\); decreasing on \((\tfrac13,1)\).</li>
+    <li>Local max at \(x=\tfrac13\): \(f(\tfrac13)=\tfrac1{27}-\tfrac29+\tfrac13=\tfrac4{27}\).</li>
+    <li>Local min at \(x=1\): \(f(1)=0\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> answer with <b>intervals</b> for increasing/decreasing and <b>points</b> (with the value) for extrema. Use test points, not guesses.</div>
+  <a class="try" data-t="4.3 Critical points & shape"></a>
+</article>
+
+<article class="lesson ch4" id="l-concave" data-num="4.3">
+  <h3>Concavity and the second derivative test</h3>
+  <p class="lead2">\(f''\) tells you how the slope is changing. \(f''>0\): the slope increases, so the curve bends up like a cup ∪ and tangents lie <b>below</b> it. \(f''<0\): it bends down like a cap ∩. An <b>inflection point</b> is where the bending flips.</p>
+  <figure class="lf" data-fig="concave"><canvas></canvas>
+    <div class="lf-ctl"><label>Move the tangent <input type="range" class="lf-k" min="0" max="1000" value="250"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(f(x)=x^3-3x^2\). Violet part concave down (tangent above the curve), amber part concave up (tangent below). They meet at the inflection point \((1,-2)\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Find \(f''(x)\).</li>
+    <li>Solve \(f''=0\) (and where \(f''\) is undefined).</li>
+    <li>Sign chart of \(f''\): \(+\) concave up, \(-\) concave down.</li>
+    <li>Inflection point where the sign of \(f''\) actually changes (and \(f\) is defined there).</li>
+    <li><b>Second derivative test</b> at a critical point \(c\) (\(f'(c)=0\)): \(f''(c)>0\) local min, \(f''(c)<0\) local max, \(f''(c)=0\) no conclusion.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>\(f(x)=x^3-3x^2\): classify the critical points and find the inflection point.</p><ol class="steps">
+    <li>\(f'=3x^2-6x=3x(x-2)\): critical points 0 and 2.</li>
+    <li>\(f''=6x-6\).</li>
+    <li>\(f''(0)=-6<0\): local max \(f(0)=0\). \(f''(2)=6>0\): local min \(f(2)=-4\).</li>
+    <li>\(f''=0\) at \(x=1\), and the sign changes there: inflection point \((1,-2)\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> \(f''(c)=0\) does not mean inflection: \(x^4\) has \(f''(0)=0\) but is concave up on both sides.</div>
+  <a class="try" data-t="4.3 Critical points & shape"></a>
+</article>
+
+<article class="lesson ch4" id="l-lhopital" data-num="4.4">
+  <h3>L'Hôpital's rule</h3>
+  <p class="lead2">When \(f\) and \(g\) are both 0 at a point, zoom in: each one looks like its tangent line, so \(\tfrac{f}{g}\) behaves like the ratio of their slopes, \(\tfrac{f'}{g'}\). That is L'Hôpital's rule.</p>
+  <figure class="lf" data-fig="lhop"><canvas></canvas>
+    <div class="lf-ctl"><label>Zoom in on 0 <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> \(f(x)=\sin2x\) (coral) and \(g(x)=x\) (blue). Zoomed in, both are straight lines through 0 with slopes 2 and 1, so \(\tfrac{\sin2x}{x}\to\tfrac21=2\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Substitute first. It must be \(\tfrac00\) or \(\tfrac\infty\infty\); otherwise the rule does not apply.</li>
+    <li>Differentiate the top and the bottom <b>separately</b>.</li>
+    <li>Take the limit of \(\tfrac{f'}{g'}\). Still \(\tfrac00\)? Apply again.</li>
+    <li>Other forms: \(0\cdot\infty\) → rewrite as a fraction; \(\infty-\infty\) → common denominator; \(1^\infty,0^0,\infty^0\) → take \(\ln\) first.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example 1</h4><p>\(\displaystyle\lim_{x\to0}\frac{1-\cos x}{x^2}\)</p><ol class="steps">
+    <li>Substitute: \(\tfrac{0}{0}\). OK to use L'Hôpital.</li>
+    <li>\(\dfrac{\sin x}{2x}\): still \(\tfrac00\).</li>
+    <li>Again: \(\dfrac{\cos x}{2}\to\dfrac12\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="ex"><h4>Worked example 2</h4><p>\(\displaystyle\lim_{x\to0^+}x\ln x\) (form \(0\cdot(-\infty)\))</p><ol class="steps">
+    <li>Rewrite as a fraction: \(\dfrac{\ln x}{1/x}\), form \(\tfrac{-\infty}{\infty}\).</li>
+    <li>Differentiate top and bottom: \(\dfrac{1/x}{-1/x^2}=-x\).</li>
+    <li>\(-x\to0\). The limit is \(0\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> it is <b>not</b> the quotient rule. And using it on a limit that isn't \(\tfrac00\) or \(\tfrac\infty\infty\) gives wrong answers.</div>
+  <a class="try" data-t="4.4 L'Hôpital"></a>
+</article>
+
+<article class="lesson ch4" id="l-sketch" data-num="4.5">
+  <h3>Curve sketching</h3>
+  <p class="lead2">Everything together. Each step adds one piece of information, and after the last step the shape of the graph is forced. Use the slider to build the sketch one layer at a time.</p>
+  <figure class="lf" data-fig="sketch"><canvas></canvas>
+    <div class="lf-ctl"><label>Add the next step <input type="range" class="lf-k" min="0" max="1000" value="0"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> sketching \(f(x)=x^3-3x^2\) from its intercepts, its increasing/decreasing pieces, its extrema and its concavity.</figcaption>
+  </figure>
+  <div class="how"><h4>The checklist</h4><ol>
+    <li><b>Domain.</b> Where is \(f\) defined?</li>
+    <li><b>Intercepts.</b> \(y\)-intercept \(f(0)\); \(x\)-intercepts solve \(f(x)=0\).</li>
+    <li><b>Symmetry.</b> Even, odd, periodic?</li>
+    <li><b>Asymptotes.</b> Vertical and horizontal.</li>
+    <li><b>Increasing / decreasing</b> from the sign of \(f'\).</li>
+    <li><b>Local max / min</b> from the sign changes.</li>
+    <li><b>Concavity and inflection</b> from the sign of \(f''\).</li>
+    <li><b>Sketch,</b> joining everything smoothly.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>Sketch \(f(x)=x^3-3x^2\).</p><ol class="steps">
+    <li>Domain: all real numbers. No symmetry, no asymptotes (it's a polynomial).</li>
+    <li>Intercepts: \(f(0)=0\); \(x^2(x-3)=0\Rightarrow x=0,3\).</li>
+    <li>\(f'=3x(x-2)\): increasing on \((-\infty,0)\) and \((2,\infty)\), decreasing on \((0,2)\).</li>
+    <li>Local max \((0,0)\), local min \((2,-4)\).</li>
+    <li>\(f''=6x-6\): concave down for \(x<1\), up for \(x>1\); inflection \((1,-2)\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <a class="try" data-t="4.3 Critical points & shape"></a>
+</article>
+
+<article class="lesson ch4" id="l-optim" data-num="4.7">
+  <h3>Optimization</h3>
+  <p class="lead2">Real problems ask for the biggest or smallest something: area, volume, cost, time. Turn the words into a function of <b>one</b> variable, and it becomes the closed interval method again.</p>
+  <figure class="lf double" data-fig="box"><div class="duo"><canvas></canvas><canvas></canvas></div>
+    <div class="lf-ctl"><label>Cut size x (cm) <input type="range" class="lf-k" min="0" max="1000" value="200"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> cut \(x\times x\) squares from the corners of a 12 cm sheet and fold up the sides. Small cuts make a flat box, big cuts a narrow one. The volume curve \(V(x)\) peaks at \(x=2\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use it</h4><ol>
+    <li>Read carefully and draw a picture.</li>
+    <li>Name the variables. Write the quantity \(Q\) you want to maximize or minimize.</li>
+    <li>Use the constraint (the fixed amount) to write \(Q\) using <b>one</b> variable.</li>
+    <li>Find the domain (physical limits like \(0\le x\le6\)).</li>
+    <li>Find critical numbers and compare with the endpoints (or use the first derivative test).</li>
+    <li>Answer the question that was asked, with units.</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>From a 12 cm × 12 cm sheet, cut equal squares from the corners and fold an open box. Find the largest volume.</p><ol class="steps">
+    <li>Cut size \(x\). Base \((12-2x)\times(12-2x)\), height \(x\): \(V=x(12-2x)^2\), with \(0\le x\le6\).</li>
+    <li>\(V'=(12-2x)^2+x\cdot2(12-2x)(-2)=(12-2x)(12-6x)\).</li>
+    <li>\(V'=0\Rightarrow x=6\) or \(x=2\).</li>
+    <li>Compare: \(V(0)=0\), \(V(6)=0\), \(V(2)=2\cdot8^2=128\).</li>
+    <li>The largest volume is \(128\text{ cm}^3\), with \(2\) cm squares cut out.</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> answer what was asked (the volume, or the dimensions?) and remember the endpoints.</div>
+  <a class="try" data-t="4.7 Optimization"></a>
+</article>
+
+<article class="lesson ch4" id="l-newton" data-num="4.8–4.9">
+  <h3>Newton's method and antiderivatives</h3>
+  <p class="lead2"><b>Newton's method</b> finds roots: follow the tangent line down to the x-axis to get a better guess, then repeat. <b>Antiderivatives</b> run differentiation backwards: find \(F\) with \(F'=f\). They lead straight into chapter 5.</p>
+  <figure class="lf" data-fig="newton"><canvas></canvas>
+    <div class="lf-ctl"><label>Run more steps <input type="range" class="lf-k" min="0" max="1000" value="250"></label><output class="lf-out"></output></div>
+    <figcaption><b>What you're seeing:</b> Newton's method on \(f(x)=x^2-2\) starting at \(x_0=3\). Each tangent line hits the axis closer to \(\sqrt2\approx1.41421\).</figcaption>
+  </figure>
+  <div class="how"><h4>How to use them</h4><ol>
+    <li><b>Newton:</b> \(x_{n+1}=x_n-\dfrac{f(x_n)}{f'(x_n)}\). Start near the root and repeat until the digits stop changing.</li>
+    <li><b>Antiderivatives:</b> reverse each rule. \(x^n\to\dfrac{x^{n+1}}{n+1}\) (\(n\ne-1\)), \(\tfrac1x\to\ln|x|\), \(e^x\to e^x\), \(\cos x\to\sin x\), \(\sin x\to-\cos x\), \(\sec^2x\to\tan x\).</li>
+    <li>Always add \(+C\). If you're given a value like \(f(0)=5\), use it to find \(C\).</li>
+  </ol></div>
+  <div class="ex"><h4>Worked example</h4><p>(1) Two Newton steps for \(x^2-2=0\) from \(x_0=3\). (2) Find \(f\) if \(f'(x)=3x^2+2\) and \(f(0)=5\).</p><ol class="steps">
+    <li>\(f'(x)=2x\). \(x_1=3-\dfrac{7}{6}\approx1.8333\).</li>
+    <li>\(x_2=1.8333-\dfrac{1.8333^2-2}{2(1.8333)}\approx1.4621\). Already close to \(1.4142\).</li>
+    <li>(2) Reverse the power rule: \(f(x)=x^3+2x+C\).</li>
+    <li>\(f(0)=C=5\), so \(f(x)=x^3+2x+5\).</li>
+  </ol><button class="ghost next-step">Show next step</button></div>
+  <div class="trap"><b>Trap:</b> forgetting \(+C\), and \(\int\sin x\,dx=-\cos x+C\) (the minus moves to the other side compared with derivatives).</div>
+</article>
+
+  </main>
+</div>
+
+<footer class="foot">
+  <p>Lessons follow Stewart, <em>Calculus: Early Transcendentals</em>, 7th ed., chapters 1–4. <a href="index.html">Back to the lab</a>.</p>
+</footer>
+
+<script src="vendor/katex/katex.min.js" defer></script>
+<script src="vendor/katex/auto-render.min.js" defer></script>
+<script type="module" src="js/learn.js"></script>
+</body>
+</html>

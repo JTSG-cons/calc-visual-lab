@@ -421,7 +421,10 @@ $("pr-reset").addEventListener("click", () => {
 });
 
 renderTopics();
-addEventListener("load", () => next("2.3 Limits: factor"));
+addEventListener("load", () => {
+  const want = new URLSearchParams(location.search).get("t");
+  next(want && T[want] ? want : "2.3 Limits: factor");
+});
 
 /* ---------- textbook exercise checklist (from the lecture slides) ---------- */
 const BOOK = [
