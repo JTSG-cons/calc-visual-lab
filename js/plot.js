@@ -1,8 +1,12 @@
-// Small canvas plotter: world coordinates, grid, curves, points, labels.
-export const COLORS = {
-  ch1: "#2dd4bf", ch2: "#a78bfa", ch3: "#fbbf24", ch4: "#fb7185",
-  brand: "#60a5fa", text: "#e7ecf7", muted: "#9aa6c4", orange: "#fb923c",
-};
+// Small canvas plotter: world coordinates, graph-paper grid, curves, points, labels.
+// Colours come from CSS variables (--plot-*) so the graphs follow the paper / chalkboard theme.
+export const COLORS = { ch1: "", ch2: "", ch3: "", ch4: "", brand: "", text: "", muted: "", orange: "", bg: "", grid: "", axis: "", label: "" };
+export function refreshColors() {
+  const cs = getComputedStyle(document.documentElement);
+  for (const k of Object.keys(COLORS)) COLORS[k] = cs.getPropertyValue("--plot-" + (k === "label" ? "label" : k)).trim() || COLORS[k];
+}
+refreshColors();
+const FONT = '"Source Serif 4", Georgia, serif';
 
 function niceStep(range) {
   const raw = range / 8;
@@ -42,16 +46,16 @@ export class Plot {
     const { ctx, v } = this;
     ctx.clearRect(0, 0, this.w, this.h);
     ctx.lineWidth = 1;
-    ctx.font = "11px Inter, sans-serif";
+    ctx.font = `12px ${FONT}`;
     const sx = niceStep(v.xmax - v.xmin), sy = niceStep(v.ymax - v.ymin);
-    ctx.strokeStyle = "rgba(255,255,255,0.06)";
-    ctx.fillStyle = COLORS.muted;
+    ctx.strokeStyle = COLORS.grid;
+    ctx.fillStyle = COLORS.label;
     ctx.beginPath();
     for (let x = Math.ceil(v.xmin / sx) * sx; x <= v.xmax; x += sx) { ctx.moveTo(this.X(x), 0); ctx.lineTo(this.X(x), this.h); }
     for (let y = Math.ceil(v.ymin / sy) * sy; y <= v.ymax; y += sy) { ctx.moveTo(0, this.Y(y)); ctx.lineTo(this.w, this.Y(y)); }
     ctx.stroke();
     // axes
-    ctx.strokeStyle = "rgba(255,255,255,0.28)";
+    ctx.strokeStyle = COLORS.axis;
     ctx.beginPath();
     const ax = Math.min(Math.max(this.Y(0), 0), this.h), ay = Math.min(Math.max(this.X(0), 0), this.w);
     ctx.moveTo(0, ax); ctx.lineTo(this.w, ax);
@@ -106,12 +110,12 @@ export class Plot {
     this.seg(this.v.xmin, y0 + m * (this.v.xmin - x0), this.v.xmax, y0 + m * (this.v.xmax - x0), opts);
   }
 
-  dot(x, y, color = COLORS.text, { r = 5, open = false, glow = true } = {}) {
+  dot(x, y, color = COLORS.text, { r = 5, open = false, glow = false } = {}) {
     const { ctx } = this;
     ctx.save();
     if (glow) { ctx.shadowColor = color; ctx.shadowBlur = 12; }
     ctx.beginPath(); ctx.arc(this.X(x), this.Y(y), r, 0, Math.PI * 2);
-    if (open) { ctx.fillStyle = "#0b1020"; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = color; ctx.stroke(); }
+    if (open) { ctx.fillStyle = COLORS.bg; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = color; ctx.stroke(); }
     else { ctx.fillStyle = color; ctx.fill(); }
     ctx.restore();
   }
@@ -119,7 +123,7 @@ export class Plot {
   label(text, x, y, { color = COLORS.text, align = "left", dx = 8, dy = -8, size = 12 } = {}) {
     const { ctx } = this;
     ctx.save();
-    ctx.font = `600 ${size}px Inter, sans-serif`;
+    ctx.font = `600 ${size}px ${FONT}`;
     ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = "bottom";
     ctx.fillText(text, this.X(x) + dx, this.Y(y) + dy);
     ctx.restore();

@@ -3,53 +3,70 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculus Visual Lab · Chapters 1–4</title>
-<meta name="description" content="Learn Calculus chapters 1–4 visually: research-backed study strategies, interactive graphs and a 6-day exam plan.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2360a5fa'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%230f1424' font-family='serif' font-weight='bold'%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
+<title>Calculus · Chapters 1–4</title>
+<meta name="description" content="Study site for Stewart Calculus chapters 1–4: lessons, summaries, book-level practice with spaced review, and interactive graphs.">
+<script>try{const t=localStorage.getItem("cvl-theme");if(t&&t!=="auto")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23FBF8F1' stroke='%231C1B19' stroke-width='2'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23C2412D' font-family='Georgia,serif' font-style='italic'%3E%E2%88%AB%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="vendor/jsxgraph/jsxgraph.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
 
 <header class="topbar">
-  <a class="brand" href="#top"><span class="brand-mark">∫</span> Calculus Visual Lab</a>
-  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  <a class="brand" href="#top"><span class="brand-mark">∫</span> Calculus 1–4 <small>Advanced Math I</small></a>
   <nav id="nav" aria-label="Sections">
     <a href="learn.html">Learn</a>
     <a href="#summary">Summary</a>
     <a href="#practice">Practice</a>
     <a href="#lab">Lab</a>
-    <a href="#strategies">Strategies</a>
-    <a href="#plan">6-day plan</a>
+    <a href="#plan">Plan</a>
+    <a href="#strategies">Methods</a>
     <a href="#resources">Resources</a>
-    <a href="#design">Design notes</a>
   </nav>
+  <button class="theme-btn" id="theme-btn" type="button" title="Switch paper / chalkboard">Theme: Auto</button>
+  <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </header>
 
 <main id="top">
 
-<!-- HERO -->
-<section class="hero">
-  <canvas id="hero3d" aria-hidden="true"></canvas>
-  <div class="hero-inner">
-    <p class="eyebrow">Advanced Math I · Stewart chapters 1–4</p>
-    <h1>See calculus<br><span class="grad">before you solve it.</span></h1>
-    <p class="lead">Endless practice questions with instant checking, a timed mock exam, twelve interactive graphs and a day-by-day plan for the exam.</p>
-    <div class="hero-row">
-      <a class="btn" href="learn.html">Start the lessons</a>
-      <a class="btn btn-ghost" href="#practice">Start practising</a>
-      <a class="btn btn-ghost" href="#lab">Open the lab</a>
-      <div class="countdown"><b id="days-left">–</b><span id="days-label">days to the exam · Nov 11</span></div>
+<!-- TODAY -->
+<section class="dash" aria-label="Today">
+  <div class="wrap dash-grid">
+    <div>
+      <p class="eyebrow">Advanced Math I · Stewart chapters 1–4</p>
+      <div class="dash-count"><b id="days-left">–</b><span id="days-label">days to the exam · Wed 11 Nov</span></div>
+      <p class="dash-sub" id="dash-sub">Learn a concept, practise it at book level, then clear what is due.</p>
+      <div class="today" id="today-box"></div>
+      <div class="dash-actions">
+        <a class="btn" id="continue-btn" href="learn.html">Continue the lessons</a>
+        <a class="btn btn-ghost" id="review-btn" href="?mode=review#practice">Review <span id="due-n">0</span> due</a>
+        <a class="btn btn-ghost" href="#practice">Practice</a>
+      </div>
     </div>
+    <aside class="dash-side" aria-label="Progress">
+      <h4>Practice accuracy by chapter</h4>
+      <ul class="acc" id="acc"></ul>
+      <div class="dash-stats">
+        <div><b id="st-lessons">0/33</b><span>lessons understood</span></div>
+        <div><b id="st-answered">0</b><span>questions answered</span></div>
+        <div><b id="st-due">0</b><span>reviews due</span></div>
+      </div>
+    </aside>
   </div>
-  <div class="scroll-hint" aria-hidden="true">scroll</div>
+  <div class="wrap">
+    <nav class="toc-strip" aria-label="On this page">
+      <b>On this page</b>
+      <a href="#summary">§1 Summary</a><a href="#practice">§2 Practice</a><a href="#lab">§3 Graph lab</a><a href="#plan">§4 Six-day plan</a><a href="#strategies">§5 Study methods</a><a href="#resources">§6 Resources</a><a href="#design">§7 Design notes</a>
+    </nav>
+  </div>
 </section>
 
 <!-- SUMMARY -->
 <section id="summary" class="section">
   <div class="wrap">
-    <p class="eyebrow">Summary</p>
+    <p class="eyebrow">§1 · Summary</p>
     <h2>Every chapter on one page</h2>
     <p class="section-lead">The main ideas, formulas and theorems of chapters 1–4, the mistakes that cost marks, and where each topic showed up on last year's paper. Want every concept explained step by step with pictures? <a href="learn.html">Open the 33 lessons →</a></p>
     <div class="sum-bar">
@@ -172,9 +189,9 @@
 <!-- PRACTICE -->
 <section id="practice" class="section">
   <div class="wrap">
-    <p class="eyebrow">Practice</p>
+    <p class="eyebrow">§2 · Practice</p>
     <h2>Solve, check, fix, repeat</h2>
-    <p class="section-lead">Every question is freshly generated, so you never run out. Type your answer as a number: <code>-1</code>, <code>1/3</code>, <code>2pi</code>, <code>sqrt(2)</code>, <code>ln(3)</code> or <code>e^2</code> all work. Wrong answers go to your mistake log automatically.</p>
+    <p class="section-lead">Every question is freshly generated, modeled on Stewart's exercises. Answers can be numbers or whole formulas, typed in a real math field. Wrong answers and weak topics are rescheduled with spaced repetition and come back under <b>Review due</b>.</p>
 
     <div class="pr-level">
       <span>Level</span>
@@ -182,9 +199,10 @@
       <button class="pr-lv" data-level="basic">Warm-up <small>last year's exam level</small></button>
     </div>
     <div class="pr-modes">
+      <span>Mode</span>
       <button class="pr-mode active" data-m="topic">By topic</button>
       <button class="pr-mode" data-m="mixed">Mixed (exam-style)</button>
-      <button class="pr-mode" data-m="mistakes">Mistake log · <span id="pr-mist-count">0</span></button>
+      <button class="pr-mode" data-m="review">Review due <span class="pr-badge" id="pr-due-count" hidden>0</span></button>
       <button class="pr-mode" data-m="mock">Mock exam · <span id="pr-mock-label">13 Q · 60 min</span></button>
     </div>
 
@@ -193,10 +211,12 @@
         <div class="pr-mock-bar" id="pr-mock-bar" hidden><span id="pr-mock-pos"></span><span id="pr-mock-time"></span></div>
         <p class="pr-topic-label" id="pr-topic-label"></p>
         <div class="pr-q" id="pr-q">Loading…</div>
+        <p class="pr-kind" id="pr-kind"></p>
         <div class="pr-input-row" id="pr-input-row">
-          <input id="pr-answer" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Your answer, then Enter">
+          <input id="pr-answer" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="Your answer, then Enter" aria-label="Your answer">
           <button class="btn" id="pr-check">Check</button>
         </div>
+        <p class="hint" id="pr-input-note"></p>
         <div class="pr-choices" id="pr-choices" hidden></div>
         <div class="pr-feedback" id="pr-feedback"></div>
         <div class="pr-actions">
@@ -224,85 +244,14 @@
   </div>
 </section>
 
-<!-- STRATEGIES -->
-<section id="strategies" class="section">
-  <div class="wrap">
-    <p class="eyebrow">How to learn math visually</p>
-    <h2>Seven methods, ranked by evidence</h2>
-    <p class="section-lead">Pictures help most when they are tied tightly to the words and symbols, so every method here links a picture to a step you actually do.</p>
 
-    <div class="cards">
-      <article class="card reveal">
-        <div class="icon icon-sketch" aria-hidden="true"><svg viewBox="0 0 48 48"><path class="draw" d="M4 40 C 14 40, 16 8, 26 8 S 38 34, 44 30"/><line x1="4" y1="44" x2="44" y2="44"/><line x1="4" y1="4" x2="4" y2="44"/></svg></div>
-        <h3>Sketch before you solve</h3>
-        <p>Words and pictures are processed in two channels. Students given a picture with the explanation solved more new problems than students given text alone, as long as the picture matched the words.</p>
-        <p class="today"><b>Do it today:</b> draw a rough graph for every exam problem before you calculate anything.</p>
-        <p class="src">Mayer &amp; Moreno (2002); Paivio's dual coding theory</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="8" y="6" width="32" height="8" rx="2"/><rect x="8" y="20" width="32" height="8" rx="2"/><rect class="fade" x="8" y="34" width="32" height="8" rx="2"/></svg></div>
-        <h3>Worked example, then fade it</h3>
-        <p>Studying a full solution beats solving cold when a topic is new. Then remove the last step, then two steps, until you solve alone. In math, worked examples have a medium effect on performance.</p>
-        <p class="today"><b>Do it today:</b> read a solution, cover its last line, and finish it yourself.</p>
-        <p class="src">Renkl et al. (2002); math meta-analysis, g ≈ 0.48 (Educational Psychology Review, 2023)</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="10" width="28" height="20" rx="3"/><rect class="flip" x="14" y="18" width="28" height="20" rx="3"/></svg></div>
-        <h3>Test yourself</h3>
-        <p>Practice testing got the top "high utility" rating in a review of ten common study techniques. Rereading and highlighting scored low.</p>
-        <p class="today"><b>Do it today:</b> make Anki cards for every derivative rule and the theorem conditions.</p>
-        <p class="src">Dunlosky et al. (2013)</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="pulse" cx="8" cy="24" r="4"/><circle class="pulse d1" cx="20" cy="24" r="4"/><circle class="pulse d2" cx="34" cy="24" r="4"/><line x1="4" y1="36" x2="44" y2="36"/></svg></div>
-        <h3>Space it out</h3>
-        <p>Spreading study over several days was the other top-rated technique. Three short sessions on three days beat one long night.</p>
-        <p class="today"><b>Do it today:</b> touch every chapter on at least two different days before Nov 11.</p>
-        <p class="src">Dunlosky et al. (2013)</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect class="c1" x="6" y="14" width="8" height="20" rx="2"/><rect class="c2" x="17" y="14" width="8" height="20" rx="2"/><rect class="c3" x="28" y="14" width="8" height="20" rx="2"/><rect class="c1" x="39" y="14" width="4" height="20" rx="2"/></svg></div>
-        <h3>Mix problem types</h3>
-        <p>In a randomized trial with 787 students, the group that mixed problem types scored 61% on a surprise test a month later, against 38% for the group that practised one type at a time.</p>
-        <p class="today"><b>Do it today:</b> do one mixed set with limits, derivatives and max/min together, like the real exam.</p>
-        <p class="src">Rohrer, Dedrick, Hartwig &amp; Cheung (2020), Journal of Educational Psychology</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M6 10 h30 a4 4 0 0 1 4 4 v14 a4 4 0 0 1 -4 4 h-18 l-8 7 v-7 h-4 a4 4 0 0 1 -4 -4 v-14 a4 4 0 0 1 4 -4z"/><line class="type" x1="12" y1="20" x2="32" y2="20"/></svg></div>
-        <h3>Explain every step</h3>
-        <p>Saying <em>why</em> each step works improves both procedures and understanding, with small to moderate effects in math. It works best on worked examples.</p>
-        <p class="today"><b>Do it today:</b> explain one solution out loud as if you were teaching your AI class.</p>
-        <p class="src">Rittle-Johnson, Loehr &amp; Durkin (2017), ZDM; Chi's self-explanation research</p>
-      </article>
-
-      <article class="card reveal">
-        <div class="icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><line x1="16" y1="16" x2="32" y2="16"/><line x1="16" y1="24" x2="32" y2="24"/><path class="check" d="M16 32 l4 4 l8 -8"/></svg></div>
-        <h3>Keep a mistake log</h3>
-        <p>A practical habit that turns errors into retrieval practice: write down every mistake and redo it two days later without looking.</p>
-        <p class="today"><b>Do it today:</b> start a page called "mistakes" and add to it after every practice set.</p>
-        <p class="src">Applies practice testing and spacing to your own errors</p>
-      </article>
-    </div>
-
-    <aside class="note reveal">
-      <h3>A note on "visual learners"</h3>
-      <p>The idea that people learn best when teaching matches their style (visual, auditory, and so on) has almost no experimental support. A major review found the needed evidence was missing, and several good studies contradicted it. What does work is pairing clear pictures with words and symbols. That helps everyone, so this site uses visuals because they work, not because of a learner label.</p>
-      <p class="src">Pashler, McDaniel, Rohrer &amp; Bjork (2008), Psychological Science in the Public Interest</p>
-    </aside>
-  </div>
-</section>
 
 <!-- LAB -->
 <section id="lab" class="section">
   <div class="wrap">
-    <p class="eyebrow">Calculus Lab</p>
+    <p class="eyebrow">§3 · Graph lab</p>
     <h2>Twelve graphs you can move</h2>
-    <p class="section-lead">Drag the sliders and watch what changes. Panels marked <span class="tag">Exam</span> use the exact functions from last year's paper. Try those questions on paper first, then open the steps.</p>
+    <p class="section-lead">Drag the points on each graph (or use the sliders) and watch what changes. Panels marked <span class="tag">Exam</span> use the exact functions from last year's paper. Try those questions on paper first, then open the steps.</p>
 
     <div class="chapter-tabs" role="tablist">
       <button class="tab ch1 active" data-ch="1" role="tab">1 · Functions</button>
@@ -316,7 +265,7 @@
       <article class="lab ch1">
         <header><h3>Transformations</h3><span class="ref">§1.3 · book p.36 · PDF p.68 · Ex. 1–3, 9–16</span></header>
         <div class="lab-body">
-          <canvas id="c-transform"></canvas>
+          <div id="b-transform" class="jxg-box"></div>
           <div class="controls">
             <label>Base function
               <select id="t-base"><option value="sq">x²</option><option value="abs">|x|</option><option value="sin">sin x</option><option value="sqrt">√x</option></select>
@@ -334,7 +283,7 @@
       <article class="lab ch1">
         <header><h3>Inverse = mirror across y = x</h3><span class="ref">§1.6 · book p.58 · PDF p.90 · Ex. 3–8, 21–26</span></header>
         <div class="lab-body">
-          <canvas id="c-inverse"></canvas>
+          <div id="b-inverse" class="jxg-box"></div>
           <div class="controls">
             <label>Point a <output id="o-ia">0</output><input type="range" id="i-a" min="-2" max="1.4" step="0.01" value="0"></label>
             <p class="readout" id="i-read"></p>
@@ -350,7 +299,7 @@
       <article class="lab ch2">
         <header><h3>A limit at a hole <span class="tag">Exam Q4(1)</span></h3><span class="ref">§2.2–2.3 · book p.87 · PDF p.119 · Ex. 2.3: 1–32</span></header>
         <div class="lab-body">
-          <canvas id="c-hole"></canvas>
+          <div id="b-hole" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=\dfrac{x^2-5x+6}{x-2} \)</p>
             <label>Distance from 2 <output id="o-d">0.5</output><input type="range" id="h-d" min="-3" max="0" step="0.01" value="-0.3"></label>
@@ -364,7 +313,7 @@
       <article class="lab ch2">
         <header><h3>Continuity of a piecewise function <span class="tag">Exam Q3</span></h3><span class="ref">§2.5 · book p.118 · PDF p.150</span></header>
         <div class="lab-body">
-          <canvas id="c-piece"></canvas>
+          <div id="b-piece" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=\begin{cases}x-1 & x<0\\ c & x=0\\ \cos(\pi-x) & x>0\end{cases} \)</p>
             <label>Value c = f(0) <output id="o-c">-1</output><input type="range" id="p-c" min="-2" max="1" step="0.5" value="-1"></label>
@@ -378,7 +327,7 @@
       <article class="lab ch2">
         <header><h3>Secant becomes tangent</h3><span class="ref">§2.1 &amp; 2.7 · book p.82 · PDF p.114 · Ex. 2.1: 3–5</span></header>
         <div class="lab-body">
-          <canvas id="c-secant"></canvas>
+          <div id="b-secant" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=x^2,\ a=1 \)</p>
             <label>h <output id="o-sh">1.5</output><input type="range" id="s-h" min="-2" max="2" step="0.01" value="1.5"></label>
@@ -392,7 +341,7 @@
       <article class="lab ch2">
         <header><h3>The squeeze theorem <span class="tag">Exam Q4(3)</span></h3><span class="ref">§2.3 · book p.99 · PDF p.131 · Ex. 37–48</span></header>
         <div class="lab-body">
-          <canvas id="c-squeeze"></canvas>
+          <div id="b-squeeze" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( -x^2\le x^2\cos\!\left(\tfrac1x\right)\le x^2 \)</p>
             <label>Zoom in <output id="o-z">1×</output><input type="range" id="q-z" min="0" max="2" step="0.01" value="0"></label>
@@ -408,14 +357,14 @@
       <article class="lab ch3">
         <header><h3>f and f′ side by side</h3><span class="ref">§2.8 &amp; 3.1 · book p.154 · PDF p.186</span></header>
         <div class="lab-body">
-          <div class="stack"><canvas id="c-f"></canvas><canvas id="c-fp"></canvas></div>
+          <div class="stack"><div id="b-f" class="jxg-box"></div><div id="b-fp" class="jxg-box"></div></div>
           <div class="controls">
             <label>Function
               <select id="d-fn"><option value="cubic">x³ − 2x² + x</option><option value="sin">sin x</option><option value="exp">e^x</option><option value="ln">ln x</option></select>
             </label>
             <label>x <output id="o-dx">0.5</output><input type="range" id="d-x" min="-1" max="2.5" step="0.01" value="0.5"></label>
             <p class="readout" id="d-read"></p>
-            <p class="hint">Tip: drag on the top graph.</p>
+            <p class="hint">Tip: drag the point on the top graph.</p>
           </div>
         </div>
         <p class="notice"><b>What to notice:</b> the height of the bottom graph equals the slope of the top one. Where f has a peak or a valley, f′ crosses zero.</p>
@@ -424,7 +373,7 @@
       <article class="lab ch3">
         <header><h3>Chain rule as linked rates</h3><span class="ref">§3.4 · book p.198 · PDF p.230 · Ex. 1–30</span></header>
         <div class="lab-body">
-          <canvas id="c-chain"></canvas>
+          <div id="b-chain" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( y=\sin(x^2),\quad \dfrac{dy}{dx}=\cos(x^2)\cdot 2x \)</p>
             <label>x <output id="o-cx">1</output><input type="range" id="ch-x" min="-2.5" max="2.5" step="0.01" value="1"></label>
@@ -437,7 +386,7 @@
       <article class="lab ch3">
         <header><h3>Implicit curve and its tangent <span class="tag">Exam Q6</span></h3><span class="ref">§3.5 · book p.209 · PDF p.241 · Ex. 5–22, 25–30</span></header>
         <div class="lab-body">
-          <canvas id="c-implicit"></canvas>
+          <div id="b-implicit" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( x^2+2y^3=3xy \)</p>
             <label><input type="checkbox" id="im-tan"> Show tangent at (1, 1)</label>
@@ -453,7 +402,7 @@
       <article class="lab ch4">
         <header><h3>Absolute max and min on [0, 2] <span class="tag">Exam Q7</span></h3><span class="ref">§4.1 · book p.274 · PDF p.306</span></header>
         <div class="lab-body">
-          <canvas id="c-extrema"></canvas>
+          <div id="b-extrema" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=\dfrac{x^2+3}{1+x} \)</p>
             <label>x <output id="o-ex">0.5</output><input type="range" id="e-x" min="0" max="2" step="0.01" value="0.5"></label>
@@ -468,7 +417,7 @@
       <article class="lab ch4">
         <header><h3>Mean Value Theorem <span class="tag">Exam Q1(2)</span></h3><span class="ref">§4.2 · book p.284 · PDF p.316</span></header>
         <div class="lab-body">
-          <canvas id="c-mvt"></canvas>
+          <div id="b-mvt" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=x^3-2x^2+x \)</p>
             <label>a <output id="o-ma">0</output><input type="range" id="m-a" min="-0.5" max="2" step="0.01" value="0"></label>
@@ -483,7 +432,7 @@
       <article class="lab ch4">
         <header><h3>Increasing, decreasing, extrema <span class="tag">Exam Q8</span></h3><span class="ref">§4.3 · book p.290 · PDF p.322</span></header>
         <div class="lab-body">
-          <canvas id="c-sign"></canvas>
+          <div id="b-sign" class="jxg-box"></div>
           <div class="controls">
             <p class="formula">\( f(x)=x^3-2x^2+x \)<br>\( f'(x)=(3x-1)(x-1) \)</p>
             <div class="signchart" aria-label="Sign chart of f prime">
@@ -502,28 +451,51 @@
 <!-- PLAN -->
 <section id="plan" class="section">
   <div class="wrap">
-    <p class="eyebrow">6-day plan</p>
+    <p class="eyebrow">§4 · Six-day plan</p>
     <h2>Nov 5 → Nov 11</h2>
     <p class="section-lead">Tick each day off as you go. Your progress is saved in this browser.</p>
     <div class="days" id="days"></div>
   </div>
 </section>
 
+<!-- STRATEGIES -->
+<section id="strategies" class="section">
+  <div class="wrap">
+    <p class="eyebrow">§5 · Study methods</p>
+    <h2>Seven methods, ranked by evidence</h2>
+    <p class="section-lead">Each method is built into this site somewhere. The sources are the studies behind them.</p>
+    <ol class="method-list">
+      <li><h3>Test yourself</h3><p>Practice testing earned the top "high utility" rating among ten common techniques; rereading and highlighting rated low.</p><p class="today-do"><b>Here:</b> Practice, with instant checking.</p><p class="src">Dunlosky et al. (2013)</p></li>
+      <li><h3>Space it out</h3><p>Spreading practice over days was the other top-rated technique.</p><p class="today-do"><b>Here:</b> "Review due" reschedules every mistake with FSRS.</p><p class="src">Dunlosky et al. (2013)</p></li>
+      <li><h3>Mix problem types</h3><p>In a randomized trial with 787 students, mixed practice scored 61% on a surprise test a month later against 38% for blocked practice.</p><p class="today-do"><b>Here:</b> Mixed mode and the mock exam.</p><p class="src">Rohrer, Dedrick, Hartwig &amp; Cheung (2020)</p></li>
+      <li><h3>Worked example, then fade it</h3><p>Studying full solutions beats solving cold early on; then remove steps one at a time. In math the effect is medium (g ≈ 0.48).</p><p class="today-do"><b>Here:</b> step-by-step examples in every lesson.</p><p class="src">Renkl et al. (2002); Educational Psychology Review (2023)</p></li>
+      <li><h3>Sketch before you solve</h3><p>A picture tied to the words improves problem solving; decoration does not.</p><p class="today-do"><b>Here:</b> a graph in every lesson and in the lab.</p><p class="src">Mayer &amp; Moreno (2002); Paivio, dual coding</p></li>
+      <li><h3>Explain every step</h3><p>Saying why each step works gives small to moderate gains in procedures and understanding.</p><p class="today-do"><b>Here:</b> explain a solution aloud before opening it.</p><p class="src">Rittle-Johnson, Loehr &amp; Durkin (2017)</p></li>
+      <li><h3>Keep a mistake log</h3><p>Redoing your own errors turns them into retrieval practice.</p><p class="today-do"><b>Here:</b> wrong answers are saved and come back when due.</p><p class="src">Applies practice testing and spacing</p></li>
+    </ol>
+    <aside class="note">
+      <h3>A note on "visual learners"</h3>
+      <p>Matching teaching to a learning style has almost no experimental support. Pairing clear pictures with words helps everyone, which is why this site uses them.</p>
+      <p class="src">Pashler, McDaniel, Rohrer &amp; Bjork (2008)</p>
+    </aside>
+  </div>
+</section>
+
 <!-- RESOURCES -->
 <section id="resources" class="section">
   <div class="wrap">
-    <p class="eyebrow">Resources</p>
+    <p class="eyebrow">§6 · Resources</p>
     <h2>Videos, tools and apps</h2>
     <div class="res-grid">
-      <a class="res reveal" href="https://www.3blue1brown.com/topics/calculus" target="_blank" rel="noopener"><b>3Blue1Brown · Essence of Calculus</b><span>Video</span><p>The best intuition for derivatives and the chain rule. Watch before a topic, not instead of practice.</p></a>
-      <a class="res reveal" href="https://www.khanacademy.org/math/calculus-1" target="_blank" rel="noopener"><b>Khan Academy · Calculus 1</b><span>Video + practice</span><p>Short worked examples with instant-check exercises for every section.</p></a>
-      <a class="res reveal" href="https://www.youtube.com/@ProfessorLeonard" target="_blank" rel="noopener"><b>Professor Leonard</b><span>Video</span><p>Full-length lectures, close to a real class. Good when the slides feel too short.</p></a>
-      <a class="res reveal" href="https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx" target="_blank" rel="noopener"><b>Paul's Online Math Notes</b><span>Notes + problems</span><p>Clear notes with practice problems and full solutions, ordered like Stewart.</p></a>
-      <a class="res reveal" href="https://www.desmos.com/calculator" target="_blank" rel="noopener"><b>Desmos</b><span>Interactive tool</span><p>Graph anything with sliders in seconds. Check your sketches here.</p></a>
-      <a class="res reveal" href="https://www.geogebra.org/calculator" target="_blank" rel="noopener"><b>GeoGebra</b><span>Interactive tool</span><p>Graphs, tangent lines and 3D. Good for exploring the MVT and implicit curves.</p></a>
-      <a class="res reveal" href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/" target="_blank" rel="noopener"><b>MIT OpenCourseWare 18.01</b><span>Course</span><p>Lectures, problem sets and exams with solutions for single-variable calculus.</p></a>
-      <a class="res reveal" href="https://apps.ankiweb.net/" target="_blank" rel="noopener"><b>Anki</b><span>App</span><p>Spaced-repetition flashcards. Use it for rules, formulas and theorem conditions.</p></a>
-      <a class="res reveal" href="https://www.wolframalpha.com/" target="_blank" rel="noopener"><b>Wolfram|Alpha</b><span>Checker</span><p>Check a derivative or limit after you solve it, never before.</p></a>
+      <a class="res" href="https://www.3blue1brown.com/topics/calculus" target="_blank" rel="noopener"><b>3Blue1Brown · Essence of Calculus</b><span>Video</span><p>The best intuition for derivatives and the chain rule. Watch before a topic, not instead of practice.</p></a>
+      <a class="res" href="https://www.khanacademy.org/math/calculus-1" target="_blank" rel="noopener"><b>Khan Academy · Calculus 1</b><span>Video + practice</span><p>Short worked examples with instant-check exercises for every section.</p></a>
+      <a class="res" href="https://www.youtube.com/@ProfessorLeonard" target="_blank" rel="noopener"><b>Professor Leonard</b><span>Video</span><p>Full-length lectures, close to a real class. Good when the slides feel too short.</p></a>
+      <a class="res" href="https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx" target="_blank" rel="noopener"><b>Paul's Online Math Notes</b><span>Notes + problems</span><p>Clear notes with practice problems and full solutions, ordered like Stewart.</p></a>
+      <a class="res" href="https://www.desmos.com/calculator" target="_blank" rel="noopener"><b>Desmos</b><span>Interactive tool</span><p>Graph anything with sliders in seconds. Check your sketches here.</p></a>
+      <a class="res" href="https://www.geogebra.org/calculator" target="_blank" rel="noopener"><b>GeoGebra</b><span>Interactive tool</span><p>Graphs, tangent lines and 3D. Good for exploring the MVT and implicit curves.</p></a>
+      <a class="res" href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/" target="_blank" rel="noopener"><b>MIT OpenCourseWare 18.01</b><span>Course</span><p>Lectures, problem sets and exams with solutions for single-variable calculus.</p></a>
+      <a class="res" href="https://apps.ankiweb.net/" target="_blank" rel="noopener"><b>Anki</b><span>App</span><p>Spaced-repetition flashcards. Use it for rules, formulas and theorem conditions.</p></a>
+      <a class="res" href="https://www.wolframalpha.com/" target="_blank" rel="noopener"><b>Wolfram|Alpha</b><span>Checker</span><p>Check a derivative or limit after you solve it, never before.</p></a>
     </div>
   </div>
 </section>
@@ -531,24 +503,20 @@
 <!-- DESIGN NOTES -->
 <section id="design" class="section">
   <div class="wrap narrow">
-    <p class="eyebrow">Design notes</p>
-    <h2>How this site is designed</h2>
-    <p>The layout is one long page with a sticky top bar, because a student revising wants to move between strategies, graphs and the plan without losing their place. A thin progress line under the bar shows how far down the page you are. On phones the links fold into a menu button. The order follows a study session: why a method works, then the graphs to practise on, then the plan, then extra resources.</p>
+    <p class="eyebrow">§7 · Design notes</p>
+    <h2>Why it looks like a textbook</h2>
+    <p>The page is built around one job: getting ready for the exam on 11 November. So the first screen is not a banner but today's task, the countdown, what to continue and what is due for review. Everything else is a numbered section you can jump to, like chapters in a book.</p>
     <div class="wireframe" aria-label="Wireframe of the page layout">
-      <div class="wf-bar">logo · Practice · Lab · Strategies · Plan · Resources · Design</div>
-      <div class="wf-hero">HERO: 3D curve + tangent · title · countdown · "Start the lab"</div>
-      <div class="wf-lab"><span class="wf-canvas">PRACTICE: question · answer box · check · hint · solution</span><span class="wf-ctrl">score · topic accuracy bars</span></div>
-      <div class="wf-row"><span>card</span><span>card</span><span>card</span><span>card</span></div>
-      <div class="wf-lab"><span class="wf-canvas">interactive graph</span><span class="wf-ctrl">sliders · formula · steps</span></div>
-      <div class="wf-row"><span>day</span><span>day</span><span>day</span><span>day</span></div>
-      <div class="wf-row"><span>resource</span><span>resource</span><span>resource</span></div>
+      <div class="wf-bar">∫ Calculus 1–4 · Learn · Summary · Practice · Lab · Plan · Methods · Resources · Theme</div>
+      <div class="wf-lab"><span class="wf-canvas">TODAY: countdown · today's plan · Continue · Review due</span><span class="wf-ctrl">accuracy by chapter · stats</span></div>
+      <div class="wf-row"><span>§1 Summary</span><span>§2 Practice</span><span>§3 Lab</span><span>§4 Plan</span></div>
+      <div class="wf-row"><span>§5 Methods</span><span>§6 Resources</span><span>§7 Notes</span></div>
     </div>
-    <p>The colors are a deep navy background with soft, lighter panels so the graphs stand out, and each chapter has its own accent, used on its tab, its panels and its main curve. The color tells you where you are before you read anything.</p>
+    <p>Generated websites tend to look alike: blue-purple gradients, dark navy, glowing rounded cards and the Inter font. This site avoids all of them on purpose. It uses warm paper, black ink and one red "marking pen" accent, with serif headings that sit naturally next to the math. A chalkboard dark mode follows your system setting, or switch it with the Theme button.</p>
     <div class="swatches">
-      <span style="--c:#0f1424">Navy #0F1424</span><span style="--c:#1b2340">Panel #1B2340</span><span style="--c:#60a5fa">Brand #60A5FA</span><span style="--c:#2dd4bf">Ch 1 #2DD4BF</span><span style="--c:#a78bfa">Ch 2 #A78BFA</span><span style="--c:#fbbf24">Ch 3 #FBBF24</span><span style="--c:#fb7185">Ch 4 #FB7185</span>
+      <span style="--c:#FBF8F1">Paper #FBF8F1</span><span style="--c:#1C1B19">Ink #1C1B19</span><span style="--c:#C2412D">Red pen #C2412D</span><span style="--c:#24539A">Graph blue #24539A</span><span style="--c:#2F7D4F">Graph green #2F7D4F</span><span style="--c:#1F2A24">Chalkboard #1F2A24</span>
     </div>
-    <p>The 3D hero is a curve in space with a tangent line sliding along it, built with Three.js. It shows the core idea of the course, a tangent as the local direction of a curve, before you read a word. It turns slowly and follows your mouse a little. Strategy icons animate the idea they describe: a curve draws itself, a card flips, problem types shuffle.</p>
-    <p>Animation always serves understanding. The graphs respond instantly to sliders, so you see cause and effect, and the "Animate h → 0" button plays the limit that defines the derivative. Cards fade in gently as you scroll. If your device is set to reduce motion, all animation stops and the 3D scene becomes a still image. Exam solutions sit behind "Show steps", so you try first and check second.</p>
+    <p>Type: Source Serif 4 for headings and explanations, Source Sans 3 for controls, JetBrains Mono for numbers. All fonts and libraries are stored on the site itself, so it loads without Google or overseas CDNs. Graphs are drawn on graph paper; in the lab you drag points directly (JSXGraph). Answers are typed in a real math field (MathLive), and mistakes are rescheduled with the FSRS spaced-repetition algorithm.</p>
   </div>
 </section>
 
@@ -560,9 +528,10 @@
 
 <script src="vendor/katex/katex.min.js" defer></script>
 <script src="vendor/katex/auto-render.min.js" defer></script>
+<script src="vendor/jsxgraph/jsxgraphcore.js" defer></script>
+<script src="vendor/fsrs/ts-fsrs.umd.js" defer></script>
 <script type="module" src="js/app.js"></script>
 <script type="module" src="js/labs.js"></script>
 <script type="module" src="js/practice.js"></script>
-<script type="module" src="js/hero.js"></script>
 </body>
 </html>

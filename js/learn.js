@@ -1,5 +1,10 @@
 // Learn page: lesson menu, progress, step-by-step examples, practice links, and every lesson figure.
 import { Plot, COLORS as C } from "./plot.js";
+import { initTheme } from "./theme.js";
+
+initTheme();
+const redraws = [];
+addEventListener("themechange", () => redraws.forEach((r) => r()));
 
 const lerp = (a, b, t) => a + (b - a) * t;
 const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -509,8 +514,8 @@ const FIG = {
       const x = lerp(0.2, 5.8, k), V = (t) => t * (12 - 2 * t) ** 2;
       square(a, 6, 6, 7);
       a.ctx.clearRect(0, 0, a.w, a.h);
-      rect(a, 0, 0, 12, 12, "rgba(251,113,133,0.12)", C.ch4);
-      [[0, 0], [12 - x, 0], [0, 12 - x], [12 - x, 12 - x]].forEach(([cx, cy]) => rect(a, cx, cy, x, x, "#0b1020", C.muted));
+      rect(a, 0, 0, 12, 12, "rgba(194,65,45,0.10)", C.ch4);
+      [[0, 0], [12 - x, 0], [0, 12 - x], [12 - x, 12 - x]].forEach(([cx, cy]) => rect(a, cx, cy, x, x, C.bg, C.muted));
       [[x, 0, x, 12], [12 - x, 0, 12 - x, 12], [0, x, 12, x], [0, 12 - x, 12, 12 - x]].forEach(([x1, y1, x2, y2]) => a.seg(x1, y1, x2, y2, { color: C.ch4, width: 1, dash: [4, 4] }));
       a.label(`x = ${f2(x)}`, 0, 12, { color: C.text, dx: 4, dy: 18 });
       b.clear(); title(b, "V(x) = x(12 − 2x)²", C.ch4);
@@ -555,7 +560,21 @@ function initFigure(el) {
     plots.forEach((p, i) => { if (!def.keepView) p.v = { ...(views[i] || views[0]) }; });
     def.draw(plots, slider ? slider.value / 1000 : 0, out, extra);
   };
-  if (slider) slider.addEventListener("input", draw);
+  if (slider) {
+    slider.addEventListener("input", draw);
+    // drag on the picture to move the slider
+    if (canvases.length === 1 || el.dataset.fig === "box" || el.dataset.fig === "vlt") canvases.forEach((c) => {
+      const drag = (e) => {
+        if (e.type === "pointermove" && !e.buttons) return;
+        const r = c.getBoundingClientRect();
+        slider.value = Math.round(Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * 1000);
+        draw();
+      };
+      c.addEventListener("pointerdown", (e) => { c.setPointerCapture?.(e.pointerId); drag(e); });
+      c.addEventListener("pointermove", drag);
+    });
+  }
+  redraws.push(draw);
   const ro = new ResizeObserver(() => { plots.forEach((p) => p.resize()); draw(); });
   canvases.forEach((c) => ro.observe(c));
 }

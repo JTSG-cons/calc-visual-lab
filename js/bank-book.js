@@ -211,6 +211,48 @@ TB["3.4 Chain rule (book)"] = () => pick([
       steps: `\\(f'=(1-x)e^{-x}\\), \\(f''=(x-2)e^{-x}\\), \\(f'''=(3-x)e^{-x}\\), so \\(f^{(n)}=(-1)^n(x-n)e^{-x}\\). At 0: \\((-1)^{${n}}(-${n})=${(n % 2 ? 1 : -1) * n}\\).` }; },
 ])();
 
+// Formula answers: `ans` is the expected formula (checked at sample points), `tex` is how it is shown.
+TB["3.4 Derivative formulas (book)"] = () => pick([
+  () => { const n = R(2, 4), k = nz(-3, 3);
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=x^{${n}}e^{${k}x}\\).`, ans: `${n}x^${n - 1}e^(${k}x)+(${k})x^${n}e^(${k}x)`, tex: `x^{${n - 1}}e^{${k}x}(${n}${k < 0 ? "" : "+"}${k}x)`,
+      hint: `Product rule, and \\((e^{${k}x})'=${k}e^{${k}x}\\).`, steps: `\\(f'=${n}x^{${n - 1}}e^{${k}x}+x^{${n}}\\cdot${k}e^{${k}x}=x^{${n - 1}}e^{${k}x}(${n}${k < 0 ? "" : "+"}${k}x)\\).` }; },
+  () => { const a = R(1, 4), b = R(1, 5);
+    const A = a === 1 ? "" : a;
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=\\cos(${A}x^2+${b})\\).`, ans: `-2(${a})x sin(${a}x^2+${b})`, tex: `-${2 * a}x\\sin(${A}x^2+${b})`,
+      hint: `Chain rule: outside \\(\\cos u\\), inside \\(u=${a}x^2+${b}\\).`, steps: `\\(f'=-\\sin(${a}x^2+${b})\\cdot${2 * a}x\\).` }; },
+  () => { const c = R(1, 9);
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=\\dfrac{x}{x^2+${c}}\\).`, ans: `(${c}-x^2)/(x^2+${c})^2`, tex: `\\dfrac{${c}-x^2}{(x^2+${c})^2}`,
+      hint: `Quotient rule.`, steps: `\\(\\dfrac{(x^2+${c})-x\\cdot2x}{(x^2+${c})^2}=\\dfrac{${c}-x^2}{(x^2+${c})^2}\\).` }; },
+  () => { const a = R(1, 3), b = R(1, 5), n = R(3, 6);
+    const A = a === 1 ? "" : a;
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=(${A}x^2+${b})^{${n}}\\).`, ans: `${n}(${a}x^2+${b})^${n - 1}*2(${a})x`, tex: `${2 * a * n}x(${A}x^2+${b})^{${n - 1}}`,
+      hint: `\\((u^n)'=nu^{n-1}u'\\).`, steps: `\\(${n}(${A}x^2+${b})^{${n - 1}}\\cdot${2 * a}x=${2 * a * n}x(${A}x^2+${b})^{${n - 1}}\\).` }; },
+  () => ({ q: `Find \\(f'(x)\\) for \\(f(x)=e^{\\sin x}\\).`, ans: `e^(sin x)cos x`, tex: `e^{\\sin x}\\cos x`,
+      hint: `\\((e^u)'=e^uu'\\).`, steps: `\\(f'=e^{\\sin x}\\cdot\\cos x\\).` }),
+  () => { const c = R(1, 9);
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=\\sqrt{x^2+${c}}\\).`, ans: `x/sqrt(x^2+${c})`, tex: `\\dfrac{x}{\\sqrt{x^2+${c}}}`,
+      hint: `\\(\\sqrt u=u^{1/2}\\), chain rule.`, steps: `\\(\\tfrac12(x^2+${c})^{-1/2}\\cdot2x=\\dfrac{x}{\\sqrt{x^2+${c}}}\\).` }; },
+  () => ({ q: `Find \\(f'(x)\\) for \\(f(x)=x\\ln x-x\\).`, ans: `ln x`, tex: `\\ln x`,
+      hint: `Product rule on \\(x\\ln x\\).`, steps: `\\(\\ln x+x\\cdot\\tfrac1x-1=\\ln x\\).` }),
+  () => { const k = R(2, 5);
+    return { q: `Find \\(f'(x)\\) for \\(f(x)=\\tan(${k}x)\\).`, ans: `${k}sec(${k}x)^2`, tex: `${k}\\sec^2(${k}x)`, points: [[0.05], [0.1], [0.13], [0.21], [0.27]],
+      hint: `\\((\\tan u)'=\\sec^2u\\cdot u'\\).`, steps: `\\(f'=${k}\\sec^2(${k}x)\\).` }; },
+])();
+
+TB["3.5 Implicit formulas (book)"] = () => pick([
+  () => { const k = R(3, 20);
+    return { q: `\\(x^2+xy+y^2=${k}\\). Find \\(y'\\) in terms of \\(x\\) and \\(y\\).`, ans: `-(2x+y)/(x+2y)`, tex: `-\\dfrac{2x+y}{x+2y}`, vars: ["x", "y"],
+      hint: `\\(2x+(y+xy')+2yy'=0\\).`, steps: `\\(y'(x+2y)=-(2x+y)\\Rightarrow y'=-\\dfrac{2x+y}{x+2y}\\).` }; },
+  () => ({ q: `\\(x^3+y^3=6xy\\). Find \\(y'\\) in terms of \\(x\\) and \\(y\\).`, ans: `(2y-x^2)/(y^2-2x)`, tex: `\\dfrac{2y-x^2}{y^2-2x}`, vars: ["x", "y"],
+      hint: `\\(3x^2+3y^2y'=6y+6xy'\\).`, steps: `\\(y'(3y^2-6x)=6y-3x^2\\Rightarrow y'=\\dfrac{2y-x^2}{y^2-2x}\\).` }),
+  () => { const r = R(2, 9);
+    return { q: `\\(x^2+y^2=${r * r}\\). Find \\(y''\\) in terms of \\(y\\) only (use the equation).`, ans: `-${r * r}/y^3`, tex: `-\\dfrac{${r * r}}{y^3}`, vars: ["y"],
+      hint: `\\(y'=-x/y\\); differentiate again and replace \\(x^2+y^2\\) by ${r * r}.`, steps: `\\(y''=-\\dfrac{y-xy'}{y^2}=-\\dfrac{x^2+y^2}{y^3}=-\\dfrac{${r * r}}{y^3}\\).` }; },
+  () => ({ q: `\\(e^{xy}=x+y\\). Find \\(y'\\) in terms of \\(x\\) and \\(y\\).`, ans: `(1-y e^(xy))/(x e^(xy)-1)`, tex: `\\dfrac{1-ye^{xy}}{xe^{xy}-1}`, vars: ["x", "y"],
+      points: [[0.2, 0.3], [0.5, 0.1], [0.3, 0.7], [1.2, 0.4], [0.9, 1.3]],
+      hint: `\\(e^{xy}(y+xy')=1+y'\\).`, steps: `\\(y'(xe^{xy}-1)=1-ye^{xy}\\Rightarrow y'=\\dfrac{1-ye^{xy}}{xe^{xy}-1}\\).` }),
+])();
+
 TB["3.5 Implicit (book)"] = () => pick([
   () => { const p = nz(-3, 3), q = nz(-3, 3), k = p * p + p * q + q * q;
     if (p + 2 * q === 0) return TB["3.5 Implicit (book)"]();
@@ -395,4 +437,17 @@ TB["4.7 Optimization (book)"] = () => pick([
   () => { const a = pick([1, 2, 3, 5]);
     return { q: `Find the minimum distance from the point \\((0,${a})\\) to the parabola \\(y=x^2\\).`, a: Math.sqrt(a - 0.25),
       hint: `Minimize \\(D=x^2+(x^2-${a})^2\\); use \\(u=x^2\\).`, steps: `\\(D=u+(u-${a})^2\\), \\(D'=1+2(u-${a})=0\\Rightarrow u=${a - 0.5}\\). \\(D=${a - 0.5}+\\tfrac14\\Rightarrow\\) distance \\(\\sqrt{${a - 0.25}}\\approx${num(Math.sqrt(a - 0.25))}\\).` }; },
+])();
+
+TB["4.9 Antiderivatives (book)"] = () => pick([
+  () => { const a = R(1, 4), b = nz(-5, 5), c = nz(-6, 6), C0 = R(-5, 9);
+    return { q: `Find \\(f(x)\\) if \\(f'(x)=${3 * a}x^2 ${b < 0 ? "-" : "+"} ${Math.abs(2 * b)}x ${c < 0 ? "-" : "+"} ${Math.abs(c)}\\) and \\(f(0)=${C0}\\).`,
+      ans: `${a}x^3+(${b})x^2+(${c})x+(${C0})`, tex: `${a}x^3 ${b < 0 ? "-" : "+"} ${Math.abs(b)}x^2 ${c < 0 ? "-" : "+"} ${Math.abs(c)}x ${C0 < 0 ? "-" : "+"} ${Math.abs(C0)}`,
+      hint: `Reverse the power rule term by term, add \\(C\\), then use \\(f(0)\\).`, steps: `\\(f=${a}x^3${b < 0 ? "-" : "+"}${Math.abs(b)}x^2${c < 0 ? "-" : "+"}${Math.abs(c)}x+C\\), and \\(f(0)=C=${C0}\\).` }; },
+  () => { const C0 = R(-3, 6);
+    return { q: `Find \\(f(x)\\) if \\(f'(x)=\\cos x+e^x\\) and \\(f(0)=${C0}\\).`, ans: `sin x+e^x+(${C0 - 1})`, tex: `\\sin x+e^x ${C0 - 1 < 0 ? "-" : "+"} ${Math.abs(C0 - 1)}`,
+      hint: `\\(\\int\\cos x=\\sin x\\), \\(\\int e^x=e^x\\); careful: \\(e^0=1\\).`, steps: `\\(f=\\sin x+e^x+C\\); \\(f(0)=0+1+C=${C0}\\Rightarrow C=${C0 - 1}\\).` }; },
+  () => { const k = R(2, 4), C0 = R(0, 5);
+    return { q: `Find \\(f(x)\\) for \\(x>0\\) if \\(f'(x)=\\dfrac{${k}}{x}+\\sqrt x\\) and \\(f(1)=${C0}\\).`, ans: `${k}ln x+(2/3)x^(3/2)+(${C0}-2/3)`, tex: `${k}\\ln x+\\tfrac23x^{3/2}+${C0}-\\tfrac23`,
+      hint: `\\(\\int\\frac1x=\\ln x\\), \\(\\int x^{1/2}=\\tfrac23x^{3/2}\\).`, steps: `\\(f=${k}\\ln x+\\tfrac23x^{3/2}+C\\); \\(f(1)=\\tfrac23+C=${C0}\\).` }; },
 ])();

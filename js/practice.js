@@ -1,45 +1,7 @@
 import { TB } from "./bank-book.js";
+import { compile, parseNum } from "./mathparse.js";
 // Practice engine: random question generators for chapters 1–4, answer checking,
 // hints, worked solutions, a timed mock exam, mastery tracking and a mistake log.
-
-/* ---------- safe expression parser (numbers only, no eval) ---------- */
-// Accepts: 1/3, -0.25, 2^3, sqrt(2), pi, e, ln(2), (1+2)/3, 3pi/2
-function parseNum(src) {
-  const s = String(src).toLowerCase().replace(/\s+/g, "").replace(/−/g, "-").replace(/π/g, "pi").replace(/√/g, "sqrt");
-  if (!s) return NaN;
-  let i = 0;
-  const peek = () => s[i];
-  const fns = { sqrt: Math.sqrt, ln: Math.log, sin: Math.sin, cos: Math.cos, tan: Math.tan, exp: Math.exp };
-  function atom() {
-    if (peek() === "(") { i++; const v = expr(); if (s[i] !== ")") throw 0; i++; return v; }
-    const m = /^(\d+\.?\d*|\.\d+)/.exec(s.slice(i));
-    if (m) { i += m[0].length; return parseFloat(m[0]); }
-    for (const name of Object.keys(fns)) {
-      if (s.startsWith(name, i)) { i += name.length; const v = atom(); return fns[name](v); }
-    }
-    if (s.startsWith("pi", i)) { i += 2; return Math.PI; }
-    if (s[i] === "e") { i++; return Math.E; }
-    throw 0;
-  }
-  function power() { const b = atom(); if (peek() === "^") { i++; return Math.pow(b, unary()); } return b; }
-  function unary() { if (peek() === "-") { i++; return -unary(); } if (peek() === "+") { i++; return unary(); } return power(); }
-  function term() {
-    let v = unary();
-    while (i < s.length) {
-      if (peek() === "*") { i++; v *= unary(); }
-      else if (peek() === "/") { i++; v /= unary(); }
-      else if (/[\d(a-z.]/.test(peek())) v *= unary(); // implicit multiply: 3pi, 2sqrt(3)
-      else break;
-    }
-    return v;
-  }
-  function expr() {
-    let v = term();
-    while (peek() === "+" || peek() === "-") { const op = s[i++]; const t = term(); v = op === "+" ? v + t : v - t; }
-    return v;
-  }
-  try { const v = expr(); return i === s.length ? v : NaN; } catch { return NaN; }
-}
 
 const close = (a, b) => Math.abs(a - b) <= 1e-6 * Math.max(1, Math.abs(b)) + 1e-9;
 
@@ -255,12 +217,46 @@ const CHAPTER = (t) => (t.startsWith("Concepts") ? "★" : t[0]);
 
 /* ---------- state ---------- */
 const KEY = "cvl-practice";
-const store = JSON.parse(localStorage.getItem(KEY) || "{}");
+const store = (() => { try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; } })();
 store.topic ??= {};      // topic -> {seen, right}
-store.mistakes ??= [];   // [{topic, q, steps, ...}]
+store.mistakes ??= [];   // legacy; migrated into FSRS cards below
 store.total ??= { seen: 0, right: 0, streak: 0, best: 0 };
-store.level ??= "book";     // "book" (Stewart exercise level) or "basic" (warm-up)
-const save = () => localStorage.setItem(KEY, JSON.stringify(store));
+store.level ??= "book";  // "book" (Stewart exercise level) or "basic" (warm-up)
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch {} dispatchEvent(new Event("practice-updated")); };
+
+/* ---------- FSRS spaced review (ts-fsrs) ---------- */
+const EXAM_EVE = new Date(2026, 10, 10, 18, 0);   // nothing is scheduled after the evening before the exam
+const FKEY = "cvl-fsrs";
+const FS = window.FSRS;
+const scheduler = FS ? FS.fsrs(FS.generatorParameters({ enable_fuzz: false })) : null;
+const fstore = (() => {
+  try {
+    const s = JSON.parse(localStorage.getItem(FKEY) || '{"cards":{}}');
+    Object.values(s.cards).forEach((c) => { c.card.due = new Date(c.card.due); if (c.card.last_review) c.card.last_review = new Date(c.card.last_review); });
+    return s;
+  } catch { return { cards: {} }; }
+})();
+const fsave = () => { try { localStorage.setItem(FKEY, JSON.stringify(fstore)); } catch {} };
+function rate(id, ok, extra) {
+  if (!scheduler) return;
+  const now = new Date();
+  const rec = fstore.cards[id] || (fstore.cards[id] = { card: FS.createEmptyCard(now), ...extra });
+  const next = scheduler.next(rec.card, now, ok ? FS.Rating.Good : FS.Rating.Again).card;
+  if (now < EXAM_EVE && next.due > EXAM_EVE) next.due = new Date(EXAM_EVE);
+  if (extra && extra.kind === "mistake") next.due = now;   // a fresh mistake is reviewable straight away
+  rec.card = next;
+  fsave();
+}
+const dueCards = () => {
+  const now = Date.now();
+  return Object.entries(fstore.cards).filter(([, c]) => c.card.due.getTime() <= now)
+    .sort(([, a], [, b]) => (a.kind === b.kind ? a.card.due - b.card.due : a.kind === "mistake" ? -1 : 1));
+};
+// migrate the old mistake list
+if (store.mistakes.length && scheduler) {
+  store.mistakes.forEach((m, i) => { fstore.cards[`m:legacy${i}`] = { card: FS.createEmptyCard(new Date()), kind: "mistake", topic: m.topic, qdata: m }; });
+  store.mistakes = []; fsave(); save();
+}
 
 /* ---------- rendering ---------- */
 const $ = (id) => document.getElementById(id);
@@ -268,35 +264,55 @@ const tex = (el) => window.renderMathInElement && renderMathInElement(el, {
   delimiters: [{ left: "\\(", right: "\\)", display: false }], throwOnError: false,
 });
 
-let mode = "topic", current = null, answered = false, mock = null;
+let mode = "topic", current = null, answered = false, mock = null, mf = null;
 
 function mastery(topic) {
   const s = store.topic[topic];
-  if (!s || !s.seen) return 0;
-  return Math.round((s.right / s.seen) * 100);
+  return s && s.seen ? Math.round((s.right / s.seen) * 100) : 0;
 }
 
 function renderTopics() {
   const host = $("pr-topics");
   host.innerHTML = topics().map((t) => {
     const m = mastery(t), s = store.topic[t];
-    return `<button class="pr-topic ch${CHAPTER(t) === "★" ? "" : CHAPTER(t)}" data-t="${t}">
-      <span>${t}</span><small>${s ? `${s.right}/${s.seen} · ${m}%` : "not started"}</small>
-      <i style="width:${m}%"></i></button>`;
+    return `<button class="pr-topic" data-t="${t}"><span>${t}</span><small>${s ? `${s.right}/${s.seen} · ${m}%` : "not started"}</small><i style="width:${m}%"></i></button>`;
   }).join("");
   host.querySelectorAll(".pr-topic").forEach((b) => b.addEventListener("click", () => {
-    mode = "topic"; setMode(); next(b.dataset.t);
+    if (mock) return;
+    setMode("topic"); next(b.dataset.t);
     $("pr-card").scrollIntoView({ behavior: "smooth", block: "center" });
   }));
   $("pr-total").textContent = `${store.total.right}/${store.total.seen} correct`;
   $("pr-streak").textContent = `streak ${store.total.streak} · best ${store.total.best}`;
-  $("pr-mist-count").textContent = store.mistakes.length;
+  const due = dueCards().length;
+  $("pr-due-count").textContent = due;
+  $("pr-due-count").hidden = due === 0;
 }
+
+/* ---------- answer field: MathLive, with a plain-text fallback ---------- */
+const answerText = () => (mf ? mf.getValue("ascii-math") : $("pr-answer").value);
+function clearAnswer() { if (mf) mf.value = ""; else if ($("pr-answer")) $("pr-answer").value = ""; }
+function focusAnswer() { (mf || $("pr-answer")).focus({ preventScroll: true }); }
+import("../vendor/mathlive/mathlive.min.mjs").then(({ MathfieldElement }) => {
+  MathfieldElement.fontsDirectory = new URL("../vendor/mathlive/fonts/", import.meta.url).href;
+  MathfieldElement.soundsDirectory = null;
+  mf = new MathfieldElement();
+  mf.id = "pr-mf";
+  mf.setAttribute("aria-label", "Your answer");
+  mf.mathVirtualKeyboardPolicy = "auto";
+  mf.smartFence = true;
+  mf.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") { e.preventDefault(); answered ? next(current?.topic) : check(); }
+  }, { capture: true });
+  $("pr-answer").replaceWith(mf);
+  $("pr-input-note").textContent = "Type math naturally: / makes a fraction, ^ a power, sqrt a root, pi gives π. On a phone, tap the field for the math keyboard.";
+}).catch(() => { $("pr-input-note").textContent = "Type a number or formula, e.g. -1, 1/3, 2pi, sqrt(2), 3x^2cos(x^3)."; });
 
 function show(qobj) {
   current = qobj; answered = false;
-  $("pr-topic-label").textContent = qobj.topic;
+  $("pr-topic-label").textContent = qobj.topic + (qobj.review ? " · review" : "");
   $("pr-q").innerHTML = qobj.q;
+  $("pr-kind").textContent = qobj.ans ? `Answer with a formula in ${(qobj.vars || ["x"]).join(" and ")}.` : Array.isArray(qobj.choices) ? "Choose one." : "Answer with a number (exact forms like 2/3, sqrt(3), ln 2 are fine).";
   $("pr-feedback").innerHTML = ""; $("pr-feedback").className = "pr-feedback";
   $("pr-hint-box").hidden = true; $("pr-hint-box").innerHTML = qobj.hint || "";
   $("pr-steps-box").hidden = true; $("pr-steps-box").innerHTML = qobj.steps || "";
@@ -306,17 +322,12 @@ function show(qobj) {
   if (isMC) {
     $("pr-choices").innerHTML = qobj.choices.map((c, i) => `<button class="pr-choice" data-i="${i}">${String.fromCharCode(65 + i)}. ${c}</button>`).join("");
     $("pr-choices").querySelectorAll(".pr-choice").forEach((b) => b.addEventListener("click", () => check(+b.dataset.i)));
-  } else {
-    $("pr-answer").value = ""; $("pr-answer").focus({ preventScroll: true });
-  }
+  } else { clearAnswer(); focusAnswer(); }
   $("pr-next").textContent = mock ? (mock.i + 1 < mock.qs.length ? "Next question" : "Finish exam") : "Next question";
   tex($("pr-card"));
 }
 
-function generate(topic) {
-  const q = ALL[topic]();
-  return { ...q, topic };
-}
+function generate(topic) { return { ...ALL[topic](), topic }; }
 
 function next(topic) {
   if (mock) {
@@ -324,12 +335,38 @@ function next(topic) {
     mock.i++; $("pr-mock-pos").textContent = `Question ${mock.i + 1} of ${mock.qs.length}`;
     return show(mock.qs[mock.i]);
   }
-  if (mode === "mistakes") {
-    if (!store.mistakes.length) { $("pr-q").innerHTML = "No mistakes saved. Nice. Go back to topics or mixed practice."; return; }
-    return show({ ...store.mistakes[0], retry: true });
+  if (mode === "review") {
+    const due = dueCards();
+    if (!due.length) {
+      current = null;
+      $("pr-topic-label").textContent = "Review";
+      $("pr-q").innerHTML = "Nothing is due right now. Wrong answers and weak topics come back here on the days the FSRS scheduler picks.";
+      $("pr-kind").textContent = ""; $("pr-input-row").hidden = true; $("pr-choices").hidden = true;
+      $("pr-feedback").innerHTML = ""; $("pr-hint-box").hidden = true; $("pr-steps-box").hidden = true;
+      return;
+    }
+    const [id, c] = due[0];
+    if (c.kind === "mistake" && c.qdata) return show({ ...c.qdata, topic: c.topic, review: id });
+    if (ALL[c.topic]) return show({ ...generate(c.topic), review: id });
+    delete fstore.cards[id]; fsave(); return next();
   }
-  const t = mode === "mixed" || !topic ? pick(topics()) : topic;
+  const t = mode === "mixed" || !topic || !ALL[topic] ? pick(topics()) : topic;
   show(generate(t));
+}
+
+// Formula answers: compare with the expected formula at several sample points.
+function sameFormula(userSrc, q) {
+  const vars = q.vars || ["x"];
+  const want = compile(q.ans, vars), got = compile(userSrc, vars);
+  const pts = q.points || Array.from({ length: 8 }, (_, k) => vars.map((_, j) => 0.37 + 0.61 * k + 0.29 * j));
+  let used = 0;
+  for (const p of pts) {
+    const a = want(...p), b = got(...p);
+    if (!Number.isFinite(a)) continue;
+    if (!Number.isFinite(b) || !close(b, a)) return false;
+    used++;
+  }
+  return used >= 3;
 }
 
 function check(choice) {
@@ -343,30 +380,40 @@ function check(choice) {
       b.disabled = true;
     });
   } else {
-    const v = parseNum($("pr-answer").value);
-    if (Number.isNaN(v)) { $("pr-feedback").textContent = "I couldn't read that. Try a number like -1, 1/3, 2pi or sqrt(2)."; $("pr-feedback").className = "pr-feedback warn"; return; }
-    ok = close(v, current.a);
+    const src = answerText();
+    try {
+      if (!String(src).trim()) throw new Error("empty");
+      ok = current.ans ? sameFormula(src, current) : close(compile(src, [])(), current.a);
+    } catch (e) {
+      $("pr-feedback").textContent = current.ans
+        ? `I couldn't read that formula (${e.message}). Use only ${(current.vars || ["x"]).join(", ")} as letters.`
+        : "I couldn't read that. Enter a number such as -1, 2/3, 2π, √3 or ln 2.";
+      $("pr-feedback").className = "pr-feedback warn";
+      return;
+    }
   }
   answered = true;
   const t = current.topic;
   store.topic[t] ??= { seen: 0, right: 0 };
-  if (!current.retry) { store.topic[t].seen++; store.total.seen++; }
-  if (ok) {
-    if (!current.retry) store.topic[t].right++;
-    store.total.right += current.retry ? 0 : 1;
-    store.total.streak++; store.total.best = Math.max(store.total.best, store.total.streak);
-    if (current.retry) store.mistakes.shift();
-  } else {
-    store.total.streak = 0;
-    if (!current.retry) store.mistakes.push({ topic: t, q: current.q, a: current.a, choices: current.choices, correct: current.correct, hint: current.hint, steps: current.steps });
-    else store.mistakes.push(store.mistakes.shift()); // move to the back, try again later
+  if (!current.review) { store.topic[t].seen++; store.total.seen++; if (ok) { store.topic[t].right++; store.total.right++; } }
+  if (ok) { store.total.streak++; store.total.best = Math.max(store.total.best, store.total.streak); } else store.total.streak = 0;
+
+  // spaced review
+  rate(`topic:${t}`, ok, { kind: "topic", topic: t });
+  if (current.review && current.review.startsWith("m:")) rate(current.review, ok);
+  if (!ok && !current.review) {
+    const qdata = { q: current.q, a: current.a, ans: current.ans, tex: current.tex, vars: current.vars, choices: current.choices, correct: current.correct, hint: current.hint, steps: current.steps };
+    rate(`m:${Date.now()}`, false, { kind: "mistake", topic: t, qdata });
   }
+
   if (mock) mock.right += ok ? 1 : 0;
   save();
-  const ans = Array.isArray(current.choices) ? current.choices[current.correct] : `\\(${+current.a.toFixed(4)}\\)`;
-  $("pr-feedback").innerHTML = ok ? `✓ Correct${current.retry ? ". Removed from your mistake log." : "."}` : `✗ Not quite. The answer is ${ans}.${current.retry ? "" : " Saved to your mistake log."}`;
+  const ans = Array.isArray(current.choices) ? current.choices[current.correct] : current.ans ? `\\(${current.tex || current.ans}\\)` : `\\(${+current.a.toFixed(4)}\\)`;
+  $("pr-feedback").innerHTML = ok
+    ? `✓ Correct${current.review ? ". Scheduled for a later review." : "."}`
+    : `✗ Not quite. The answer is ${ans}.${current.review ? " It will come back soon." : " Added to Review due."}`;
   $("pr-feedback").className = "pr-feedback " + (ok ? "ok" : "bad");
-  if (!ok || mock === null) $("pr-steps-box").hidden = ok; // show the working when wrong
+  if (!ok) $("pr-steps-box").hidden = false;
   tex($("pr-feedback"));
   renderTopics();
 }
@@ -375,7 +422,7 @@ function check(choice) {
 const MOCK_BASIC = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits: plug in", "2.3 Squeeze & trig limits", "3.3 Trig derivatives",
   "2.5 Continuity", "2.3 Limits: factor", "2.3 Limits: rationalize", "3.4 Chain rule", "3.6 Log differentiation", "3.5 Implicit", "4.1 Absolute extrema", "4.3 Critical points & shape"];
 const MOCK_BOOK = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits (book)", "2.3 Trig limits (book)", "2.5 Continuity constants (book)",
-  "2.6 Limits at infinity (book)", "3.3 Trig derivatives (book)", "3.4 Chain rule (book)", "3.5 Implicit (book)", "3.6 Logarithmic (book)",
+  "2.6 Limits at infinity (book)", "3.4 Derivative formulas (book)", "3.4 Chain rule (book)", "3.5 Implicit (book)", "3.6 Logarithmic (book)",
   "4.1 Closed interval (book)", "4.3 Shape & inflection (book)", "4.4 L'Hôpital (book)"];
 
 function startMock() {
@@ -400,7 +447,8 @@ function finishMock() {
   mock = null;
   $("pr-mock-bar").hidden = true;
   const pct = Math.round((right / qs.length) * 100);
-  $("pr-q").innerHTML = `<b>Mock exam finished: ${right}/${qs.length} (${pct}%).</b><br>${pct >= 85 ? "Exam-ready. Keep it warm with mixed practice." : pct >= 60 ? "Close. Clear your mistake log, then try another mock." : "Go topic by topic on the weakest bars below, then retry."}`;
+  $("pr-q").innerHTML = `<b>Mock exam finished: ${right}/${qs.length} (${pct}%).</b><br>${pct >= 85 ? "Exam-ready. Keep it warm with Review due." : pct >= 60 ? "Close. Clear Review due, then try another mock." : "Work topic by topic on the weakest bars, then retry."}`;
+  $("pr-kind").textContent = "";
   $("pr-input-row").hidden = true; $("pr-choices").hidden = true;
   $("pr-feedback").innerHTML = ""; $("pr-steps-box").hidden = true; $("pr-hint-box").hidden = true;
   setMode("topic");
@@ -435,13 +483,16 @@ $("pr-next").addEventListener("click", () => next(current?.topic));
 $("pr-hint").addEventListener("click", () => { $("pr-hint-box").hidden = false; });
 $("pr-show").addEventListener("click", () => { if (mock && !answered) return; $("pr-steps-box").hidden = false; });
 $("pr-reset").addEventListener("click", () => {
-  if (!confirm("Reset all practice progress and the mistake log?")) return;
-  localStorage.removeItem(KEY); location.reload();
+  if (!confirm("Reset all practice progress and the review schedule?")) return;
+  try { localStorage.removeItem(KEY); localStorage.removeItem(FKEY); } catch {}
+  location.reload();
 });
 
 renderTopics();
 addEventListener("load", () => {
-  const want = new URLSearchParams(location.search).get("t");
+  const params = new URLSearchParams(location.search);
+  if (params.get("mode") === "review") { setLevel(store.level); setMode("review"); return next(); }
+  const want = params.get("t");
   let t = want && ALL[want] ? want : null;
   if (t && T[t] && !TB[t] && store.level !== "basic") {
     // a lesson linked a warm-up topic: use the book-level topic for the same section if there is one
@@ -476,7 +527,7 @@ const BOOK = [
   ["4.3 How derivatives affect the shape (no slides)", 290, "pick odd numbers 1–45"],
 ];
 const BKEY = "cvl-book";
-const bdone = JSON.parse(localStorage.getItem(BKEY) || "{}");
+const bdone = (() => { try { return JSON.parse(localStorage.getItem(BKEY) || "{}"); } catch { return {}; } })();
 $("pr-book").innerHTML = BOOK.map(([name, page, ex], i) => `
   <label class="bk ${bdone[i] ? "done" : ""}"><input type="checkbox" data-i="${i}" ${bdone[i] ? "checked" : ""}>
   <span><b>${name}</b><small>Exercises ${ex} · book p.${page} · PDF p.${page + 32}</small></span></label>`).join("");
@@ -489,4 +540,4 @@ $("pr-book").querySelectorAll("input").forEach((box) => box.addEventListener("ch
 $("pr-book-count").textContent = `${Object.values(bdone).filter(Boolean).length}/${BOOK.length} sections done`;
 
 // for tests in the console
-window.__practice = { parseNum, T, TB, ALL, topics, get current() { return current; } };
+window.__practice = { parseNum, compile, T, TB, ALL, topics, fstore, get current() { return current; }, get mf() { return mf; } };
