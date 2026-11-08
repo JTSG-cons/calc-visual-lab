@@ -184,7 +184,13 @@ details p { margin: 10px 0 2px; }
 .btn-ghost { background: transparent; color: var(--text); border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: none; }
 .btn-ghost:hover { box-shadow: none; border-color: var(--brand); }
 code { background: var(--panel2); padding: 1px 6px; border-radius: 6px; font-size: 0.9em; color: var(--text); }
-.pr-modes { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.pr-level { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 12px; }
+.pr-level > span { color: var(--muted); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-right: 4px; }
+.pr-lv { display: flex; flex-direction: column; align-items: flex-start; background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; font: inherit; font-weight: 700; cursor: pointer; }
+.pr-lv small { font-weight: 500; color: var(--muted); font-size: 0.75rem; }
+.pr-lv.active { border-color: var(--ch3); box-shadow: 0 0 0 1px var(--ch3); }
+.pr-lv.active small { color: var(--ch3); }
+.pr-modes {display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
 .pr-mode { background: var(--panel); color: var(--muted); border: 1px solid var(--line); padding: 10px 16px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; }
 .pr-mode:hover { color: var(--text); }
 .pr-mode.active { background: var(--brand); color: #0b1020; border-color: var(--brand); }

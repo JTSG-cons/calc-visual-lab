@@ -1,3 +1,4 @@
+import { TB } from "./bank-book.js";
 // Practice engine: random question generators for chapters 1–4, answer checking,
 // hints, worked solutions, a timed mock exam, mastery tracking and a mistake log.
 
@@ -246,7 +247,10 @@ const MC = [
 ];
 T["Concepts (multiple choice)"] = () => ({ ...pick(MC), hint: "Think of a counterexample for each wrong option." });
 
-const TOPICS = Object.keys(T);
+TB["Concepts (multiple choice)"] = T["Concepts (multiple choice)"];
+const ALL = { ...T, ...TB };
+const bank = () => (store.level === "basic" ? T : TB);
+const topics = () => Object.keys(bank());
 const CHAPTER = (t) => (t.startsWith("Concepts") ? "★" : t[0]);
 
 /* ---------- state ---------- */
@@ -255,6 +259,7 @@ const store = JSON.parse(localStorage.getItem(KEY) || "{}");
 store.topic ??= {};      // topic -> {seen, right}
 store.mistakes ??= [];   // [{topic, q, steps, ...}]
 store.total ??= { seen: 0, right: 0, streak: 0, best: 0 };
+store.level ??= "book";     // "book" (Stewart exercise level) or "basic" (warm-up)
 const save = () => localStorage.setItem(KEY, JSON.stringify(store));
 
 /* ---------- rendering ---------- */
@@ -273,7 +278,7 @@ function mastery(topic) {
 
 function renderTopics() {
   const host = $("pr-topics");
-  host.innerHTML = TOPICS.map((t) => {
+  host.innerHTML = topics().map((t) => {
     const m = mastery(t), s = store.topic[t];
     return `<button class="pr-topic ch${CHAPTER(t) === "★" ? "" : CHAPTER(t)}" data-t="${t}">
       <span>${t}</span><small>${s ? `${s.right}/${s.seen} · ${m}%` : "not started"}</small>
@@ -309,7 +314,7 @@ function show(qobj) {
 }
 
 function generate(topic) {
-  const q = T[topic]();
+  const q = ALL[topic]();
   return { ...q, topic };
 }
 
@@ -323,7 +328,7 @@ function next(topic) {
     if (!store.mistakes.length) { $("pr-q").innerHTML = "No mistakes saved. Nice. Go back to topics or mixed practice."; return; }
     return show({ ...store.mistakes[0], retry: true });
   }
-  const t = mode === "mixed" || !topic ? pick(TOPICS) : topic;
+  const t = mode === "mixed" || !topic ? pick(topics()) : topic;
   show(generate(t));
 }
 
@@ -367,12 +372,15 @@ function check(choice) {
 }
 
 /* ---------- mock exam ---------- */
-const MOCK_PLAN = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits: plug in", "2.3 Squeeze & trig limits", "3.3 Trig derivatives",
+const MOCK_BASIC = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits: plug in", "2.3 Squeeze & trig limits", "3.3 Trig derivatives",
   "2.5 Continuity", "2.3 Limits: factor", "2.3 Limits: rationalize", "3.4 Chain rule", "3.6 Log differentiation", "3.5 Implicit", "4.1 Absolute extrema", "4.3 Critical points & shape"];
+const MOCK_BOOK = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits (book)", "2.3 Trig limits (book)", "2.5 Continuity constants (book)",
+  "2.6 Limits at infinity (book)", "3.3 Trig derivatives (book)", "3.4 Chain rule (book)", "3.5 Implicit (book)", "3.6 Logarithmic (book)",
+  "4.1 Closed interval (book)", "4.3 Shape & inflection (book)", "4.4 L'Hôpital (book)"];
 
 function startMock() {
-  const mins = 45;
-  mock = { qs: MOCK_PLAN.map(generate), i: 0, right: 0, end: Date.now() + mins * 60000 };
+  const book = store.level !== "basic", mins = book ? 60 : 45;
+  mock = { qs: (book ? MOCK_BOOK : MOCK_BASIC).map(generate), i: 0, right: 0, end: Date.now() + mins * 60000 };
   $("pr-mock-bar").hidden = false;
   $("pr-mock-pos").textContent = `Question 1 of ${mock.qs.length}`;
   setMode("mock");
@@ -397,6 +405,17 @@ function finishMock() {
   $("pr-feedback").innerHTML = ""; $("pr-steps-box").hidden = true; $("pr-hint-box").hidden = true;
   setMode("topic");
 }
+
+function setLevel(lv) {
+  store.level = lv; save();
+  document.querySelectorAll(".pr-lv").forEach((b) => b.classList.toggle("active", b.dataset.level === lv));
+  $("pr-mock-label").textContent = lv === "basic" ? "13 Q · 45 min" : "13 Q · 60 min";
+  renderTopics();
+}
+document.querySelectorAll(".pr-lv").forEach((b) => b.addEventListener("click", () => {
+  if (mock) return;
+  setLevel(b.dataset.level); setMode("topic"); next(topics()[0]);
+}));
 
 function setMode(m = mode) {
   mode = m;
@@ -423,7 +442,15 @@ $("pr-reset").addEventListener("click", () => {
 renderTopics();
 addEventListener("load", () => {
   const want = new URLSearchParams(location.search).get("t");
-  next(want && T[want] ? want : "2.3 Limits: factor");
+  let t = want && ALL[want] ? want : null;
+  if (t && T[t] && !TB[t] && store.level !== "basic") {
+    // a lesson linked a warm-up topic: use the book-level topic for the same section if there is one
+    const sec = t.split(" ")[0];
+    t = Object.keys(TB).find((k) => k.startsWith(sec)) || (store.level = "basic", t);
+  }
+  if (t && TB[t] && !T[t]) store.level = "book";
+  setLevel(store.level);
+  next(t || topics()[0]);
 });
 
 /* ---------- textbook exercise checklist (from the lecture slides) ---------- */
@@ -462,4 +489,4 @@ $("pr-book").querySelectorAll("input").forEach((box) => box.addEventListener("ch
 $("pr-book-count").textContent = `${Object.values(bdone).filter(Boolean).length}/${BOOK.length} sections done`;
 
 // for tests in the console
-window.__practice = { parseNum, T, TOPICS, get current() { return current; } };
+window.__practice = { parseNum, T, TB, ALL, topics, get current() { return current; } };

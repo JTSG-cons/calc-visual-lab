@@ -176,11 +176,16 @@
     <h2>Solve, check, fix, repeat</h2>
     <p class="section-lead">Every question is freshly generated, so you never run out. Type your answer as a number: <code>-1</code>, <code>1/3</code>, <code>2pi</code>, <code>sqrt(2)</code>, <code>ln(3)</code> or <code>e^2</code> all work. Wrong answers go to your mistake log automatically.</p>
 
+    <div class="pr-level">
+      <span>Level</span>
+      <button class="pr-lv active" data-level="book">Book exercises <small>Stewart level · default</small></button>
+      <button class="pr-lv" data-level="basic">Warm-up <small>last year's exam level</small></button>
+    </div>
     <div class="pr-modes">
       <button class="pr-mode active" data-m="topic">By topic</button>
       <button class="pr-mode" data-m="mixed">Mixed (exam-style)</button>
       <button class="pr-mode" data-m="mistakes">Mistake log · <span id="pr-mist-count">0</span></button>
-      <button class="pr-mode" data-m="mock">Mock exam · 13 Q · 45 min</button>
+      <button class="pr-mode" data-m="mock">Mock exam · <span id="pr-mock-label">13 Q · 60 min</span></button>
     </div>
 
     <div class="pr-layout">
