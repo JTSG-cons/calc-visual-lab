@@ -1,5 +1,6 @@
 // Home page: theme, Today dashboard, 6-day plan, menu, progress bar, KaTeX, print.
 import { initTheme } from "./theme.js";
+import { revealOnScroll, countUp } from "./animate.js";
 
 const EXAM = new Date(2026, 10, 11); // 11 Nov 2026, local time
 const read = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
@@ -36,9 +37,10 @@ function dashboard() {
   const names = { 1: "Functions", 2: "Limits", 3: "Derivatives", 4: "Applications" };
   $("acc").innerHTML = Object.entries(byCh).map(([c, [r, n]]) => {
     const pct = n ? Math.round((100 * r) / n) : 0;
-    return `<li><span>Ch ${c} · ${names[c]}</span><span class="num">${n ? `${r}/${n} · ${pct}%` : "not started"}</span><span class="bar"><i style="width:${pct}%"></i></span></li>`;
+    return `<li><span>Ch ${c} · ${names[c]}</span><span class="num">${n ? `${r}/${n} · ${pct}%` : "not started"}</span><span class="bar"><i style="width:0" data-w="${pct}"></i></span></li>`;
   }).join("");
-  $("st-answered").textContent = (pr.total && pr.total.seen) || 0;
+  requestAnimationFrame(() => requestAnimationFrame(() => $("acc").querySelectorAll("i").forEach((i) => { i.style.width = i.dataset.w + "%"; })));
+  countUp($("st-answered"), (pr.total && pr.total.seen) || 0);
 
   // reviews due (FSRS store written by practice.js)
   const fs = read("cvl-fsrs", { cards: {} }), now = Date.now();
@@ -49,7 +51,7 @@ function dashboard() {
   // lessons understood + continue
   const learned = read("cvl-learn", {});
   const nLearned = Object.values(learned).filter(Boolean).length;
-  $("st-lessons").textContent = `${nLearned}/33`;
+  countUp($("st-lessons"), nLearned, { suffix: "/33" });
   fetch("learn.html").then((r) => r.text()).then((html) => {
     const doc = new DOMParser().parseFromString(html, "text/html");
     const next = [...doc.querySelectorAll(".lesson")].find((l) => !learned[l.id]);
@@ -107,3 +109,4 @@ addEventListener("practice-updated", dashboard);
 plan();
 nav();
 math();
+revealOnScroll(".sum, .lab, .day, .method-list li, .res, .pr-card, .pr-side, .bk");

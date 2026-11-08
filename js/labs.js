@@ -323,3 +323,23 @@ document.querySelectorAll(".tab").forEach((tab) => tab.addEventListener("click",
 
 // for tests
 window.__labs = labs;
+
+/* ---------- ▶ Play: animate each board's main slider (the glider follows) ---------- */
+import { playButton, onFirstView } from "./animate.js";
+[
+  ["b-transform", "t-h", { mode: "pingpong", dur: 2500, path: (t) => 0.5 + 0.4 * t }],
+  ["b-inverse", "i-a", { mode: "pingpong", dur: 3500 }],
+  ["b-hole", "h-d", { mode: "once", dur: 4500, path: (t) => 1 - t }],
+  ["b-piece", "p-c", { mode: "pingpong", dur: 2500 }],
+  ["b-squeeze", "q-z", { mode: "once", dur: 5000 }],
+  ["b-f", "d-x", { mode: "pingpong", dur: 4000 }],
+  ["b-chain", "ch-x", { mode: "pingpong", dur: 4500 }],
+  ["b-extrema", "e-x", { mode: "pingpong", dur: 3500 }],
+  ["b-mvt", "m-b", { mode: "pingpong", dur: 4000, path: (t) => 0.3 + 0.7 * t }],
+].forEach(([board, sliderId, spec]) => {
+  const slider = $(sliderId), lab = $(board).closest(".lab");
+  const label = slider.closest("label");
+  const pb = playButton(label.parentElement, slider, spec);
+  label.after(pb.button);
+  onFirstView(lab, () => { if (!pb.playing) pb.play(); }, 0.6);
+});

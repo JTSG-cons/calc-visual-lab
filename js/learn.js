@@ -2,6 +2,17 @@
 import { Plot, COLORS as C } from "./plot.js";
 import { initTheme } from "./theme.js";
 
+import { playButton, onFirstView, revealOnScroll, reduced } from "./animate.js";
+
+// How each figure plays: "once" tells a story start→end (e.g. h → 0); "pingpong" sweeps back and forth.
+const ANIM = {
+  secant: { mode: "once", dur: 4500 }, approach: { mode: "once", dur: 4500 }, squeeze: { mode: "once", dur: 5000 },
+  unit: { mode: "once", dur: 4500 }, cancel: { mode: "once", dur: 2400 }, trans: { mode: "once", dur: 6000 },
+  sketch: { mode: "once", dur: 7000 }, newton: { mode: "once", dur: 5000 }, lhop: { mode: "once", dur: 5000 },
+  linear: { mode: "once", dur: 5000 }, expbase: { mode: "pingpong", dur: 4000, path: (t) => 0.1 + 0.6 * t },
+  extint: { mode: "once", dur: 5000 }, growth: { mode: "pingpong", dur: 3500 },
+};
+
 initTheme();
 const redraws = [];
 addEventListener("themechange", () => redraws.forEach((r) => r()));
@@ -575,6 +586,13 @@ function initFigure(el) {
     });
   }
   redraws.push(draw);
+  // ▶ Play: the figure animates its own idea; it also plays once when first scrolled into view
+  const ctl = el.querySelector(".lf-ctl");
+  if (slider && ctl) {
+    const spec = ANIM[el.dataset.fig] || { mode: "pingpong", dur: 3500 };
+    const pb = playButton(ctl, slider, spec);
+    onFirstView(el, () => { if (!pb.playing) pb.play(); });
+  }
   const ro = new ResizeObserver(() => { plots.forEach((p) => p.resize()); draw(); });
   canvases.forEach((c) => ro.observe(c));
 }
@@ -619,9 +637,23 @@ document.querySelectorAll(".ex").forEach((ex) => {
     items.forEach((li, i) => li.classList.toggle("shown", i < shown));
     btn.textContent = shown < items.length ? `Show next step (${shown + 1}/${items.length})` : "All steps shown · hide";
   };
-  btn.addEventListener("click", () => { shown = shown < items.length ? shown + 1 : 0; update(); });
+  btn.addEventListener("click", () => { stopPlay(); shown = shown < items.length ? shown + 1 : 0; update(); });
+  // "Play steps": reveal the solution line by line, like writing on a board
+  const play = document.createElement("button");
+  play.type = "button"; play.className = "ghost play-steps"; play.textContent = "▶ Play steps";
+  btn.after(play);
+  let timer = null;
+  function stopPlay() { clearInterval(timer); timer = null; play.textContent = "▶ Play steps"; }
+  play.addEventListener("click", () => {
+    if (timer) return stopPlay();
+    shown = 0; update(); play.textContent = "❚❚ Pause";
+    const tick = () => { if (shown >= items.length) return stopPlay(); shown++; update(); };
+    tick(); timer = setInterval(tick, reduced ? 200 : 1600);
+  });
   update();
 });
+
+revealOnScroll(".lesson .lf, .lesson .how, .lesson .ex, .lesson .trap, .lesson .note-box");
 
 document.querySelectorAll("a.try[data-t]").forEach((a) => {
   const t = a.dataset.t;
