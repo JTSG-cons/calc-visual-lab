@@ -206,7 +206,11 @@ math-field::part(menu-toggle) { display: none; }
 .pr-box.hint { border-left: 3px solid var(--c3); }
 .pr-box.steps { border-left: 3px solid var(--ok); }
 .pr-box.hint::before { content: "Hint. "; font-weight: 700; font-family: var(--sans); }
-.pr-box.steps::before { content: "Solution. "; font-weight: 700; font-family: var(--sans); }
+.pr-box.steps::before { content: none; }
+.sol-part { padding: 8px 0; border-bottom: 1px dashed var(--rule); }
+.sol-part:last-child { border-bottom: 0; }
+.sol-part > b:first-child { font-family: var(--sans); margin-right: 4px; }
+.sol-why { background: var(--paper); margin: 4px -8px 0; padding: 10px 8px; border-radius: 4px; }
 .pr-side { background: var(--card); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px; }
 .pr-stats { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
 .pr-stats b { font-family: var(--serif); }

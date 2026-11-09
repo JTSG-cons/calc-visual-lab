@@ -308,6 +308,42 @@ import("../vendor/mathlive/mathlive.min.mjs").then(({ MathfieldElement }) => {
   $("pr-input-note").textContent = "Type math naturally: / makes a fraction, ^ a power, sqrt a root, pi gives π. On a phone, tap the field for the math keyboard.";
 }).catch(() => { $("pr-input-note").textContent = "Type a number or formula, e.g. -1, 1/3, 2pi, sqrt(2), 3x^2cos(x^3)."; });
 
+/* ---------- method notes: the general strategy for each kind of question, and why it works ---------- */
+const METHOD = [
+  ["1.1", "The domain is every input the formula can accept. Only three things forbid an input: dividing by zero, an even root of a negative number, and a log of a number ≤ 0. Write one condition for each and combine them."],
+  ["1.3", "A composition runs right to left: compute the inside first, then feed that number to the outside function. Writing the inside result down explicitly prevents most mistakes."],
+  ["1.6", "An inverse undoes a function, so to find \\(f^{-1}(y)\\) you solve \\(f(x)=y\\) for \\(x\\). Logs and exponentials undo each other: \\(\\ln e^a=a\\), \\(e^{\\ln a}=a\\)."],
+  ["2.3 Trig", "The only trig limit you need is \\(\\lim_{u\\to0}\\frac{\\sin u}{u}=1\\) (with \\(u\\) in radians). Every trig limit is solved by algebra that makes this exact pattern appear, with the same angle on top and bottom."],
+  ["2.3 Squeeze", "If you cannot simplify, trap the function between two simpler ones with the same limit. \\(-1\\le\\sin,\\cos\\le1\\) gives the trap; multiply through by something \\(\\ge0\\) so the inequalities keep their direction."],
+  ["2.3", "Always substitute first. A number is the answer. \\(\\tfrac{c}{0}\\) with \\(c\\ne0\\) means it blows up. \\(\\tfrac00\\) means a hidden common factor: <b>factor</b>, use the <b>conjugate</b> for roots, or combine <b>fractions</b>, cancel, then substitute again. Cancelling is legal because a limit never uses the value at the point itself."],
+  ["2.5", "Continuity at a point needs three things to agree: the left limit, the right limit, and the actual value. For piecewise functions, the danger is only at the joins, so compute both one-sided limits there with the correct pieces."],
+  ["2.6", "Far out, the fastest-growing term wins. Divide top and bottom by the highest power (or by \\(e^x\\)); every smaller term tends to 0. For \\(\\infty-\\infty\\) with roots, use the conjugate first. Remember \\(\\sqrt{x^2}=|x|\\)."],
+  ["2.7", "The derivative is the limit of secant slopes \\(\\frac{f(a+h)-f(a)}{h}\\). Expand or combine until \\(h\\) is a factor of the top, cancel it, and only then let \\(h\\to0\\)."],
+  ["2.8", "The derivative is the limit of secant slopes \\(\\frac{f(a+h)-f(a)}{h}\\). Expand, combine fractions or use the conjugate until \\(h\\) is a factor of the top, cancel it, and only then let \\(h\\to0\\)."],
+  ["3.10", "Near a convenient point \\(a\\), a smooth curve is almost its tangent line: \\(f(x)\\approx f(a)+f'(a)(x-a)\\). Pick \\(a\\) close to \\(x\\) where \\(f(a)\\) and \\(f'(a)\\) are easy."],
+  ["3.1", "Rewrite roots and fractions as powers, then apply the rules term by term. With values from a table, apply the product or quotient rule <b>at the point</b>: you never need the full formulas."],
+  ["3.2", "Product: \\((uv)'=u'v+uv'\\) because both factors change. Quotient: \\(\\left(\\frac uv\\right)'=\\frac{u'v-uv'}{v^2}\\). Simplify the function first if you can; it often removes the need for the quotient rule."],
+  ["3.3", "Know the six trig derivatives (the \\(\\cos,\\cot,\\csc\\) ones carry a minus sign). Repeated derivatives cycle every 4. Use identities such as \\(\\sin^2+\\cos^2=1\\) to simplify the answer."],
+  ["3.4", "Chain rule: differentiate from the outside in. The outer derivative is evaluated at the <b>inside</b>, then multiplied by the derivative of the inside: \\((f(g(x)))'=f'(g(x))\\,g'(x)\\). Every layer adds one factor."],
+  ["3.5", "Treat \\(y\\) as an unknown function of \\(x\\) and differentiate both sides. Every \\(y\\)-term gets a factor \\(y'\\) (chain rule); products like \\(xy\\) need the product rule. Collect the \\(y'\\) terms, factor, divide. Substitute a point only at the end."],
+  ["3.6", "\\((\\ln u)'=\\frac{u'}u\\). When \\(x\\) appears in both base and exponent, or in a messy product/quotient, take \\(\\ln\\) of both sides first: logs turn powers into factors and products into sums. Then differentiate implicitly and multiply by \\(y\\)."],
+  ["3.9", "1. Draw and label. 2. Write the equation that holds at every moment (Pythagoras, volume, similar triangles). 3. Differentiate with respect to \\(t\\). 4. Only now substitute the numbers for that instant. Substituting earlier freezes a variable and loses its rate."],
+  ["4.1", "Closed interval method: the absolute max and min of a continuous function on \\([a,b]\\) exist (Extreme Value Theorem) and can only be at critical points inside or at the endpoints. List all candidates, evaluate \\(f\\) at each, compare."],
+  ["4.2", "MVT: if \\(f\\) is continuous on \\([a,b]\\) and differentiable on \\((a,b)\\), some \\(c\\) inside has \\(f'(c)=\\frac{f(b)-f(a)}{b-a}\\). Compute the average slope, solve \\(f'(c)=\\) that, keep \\(c\\) strictly inside."],
+  ["4.3", "The sign of \\(f'\\) gives increasing/decreasing; a sign change \\(+\\to-\\) is a local max, \\(-\\to+\\) a local min. The sign of \\(f''\\) gives concavity; an inflection point is where \\(f''\\) <b>changes</b> sign, not merely where it is 0."],
+  ["4.4", "L'Hôpital works only for \\(\\tfrac00\\) or \\(\\tfrac\\infty\\infty\\): then \\(\\lim\\frac fg=\\lim\\frac{f'}{g'}\\) (top and bottom separately). Rewrite other forms first: \\(0\\cdot\\infty\\) as a fraction, \\(\\infty-\\infty\\) over a common denominator, \\(1^\\infty,0^0,\\infty^0\\) by taking \\(\\ln\\)."],
+  ["4.7", "Write the quantity to optimise, use the constraint to reduce it to one variable, find its domain, then use the closed interval method (or the first derivative test). Answer exactly what was asked, with units."],
+  ["4.9", "Run each derivative rule backwards and add \\(+C\\), since constants vanish when differentiated. Use the given value (like \\(f(0)\\)) to find \\(C\\). Check by differentiating your answer."],
+  ["Concepts", "For each option, either find the theorem that guarantees it or a counterexample that breaks it. Key chain: differentiable ⇒ continuous ⇒ the limit exists, never the reverse."],
+];
+const methodFor = (topic) => (METHOD.find(([k]) => topic.startsWith(k)) || [, ""])[1];
+function solutionHTML(q) {
+  const m = methodFor(q.topic || "");
+  return (m ? `<div class="sol-part"><b>Method.</b> ${m}</div>` : "") +
+    (q.steps ? `<div class="sol-part"><b>Steps.</b> ${q.steps}</div>` : "") +
+    (q.why ? `<div class="sol-part sol-why"><b>Why it works.</b> ${q.why}</div>` : "");
+}
+
 function show(qobj) {
   current = qobj; answered = false;
   $("pr-topic-label").textContent = qobj.topic + (qobj.review ? " · review" : "");
@@ -315,7 +351,7 @@ function show(qobj) {
   $("pr-kind").textContent = qobj.ans ? `Answer with a formula in ${(qobj.vars || ["x"]).join(" and ")}.` : Array.isArray(qobj.choices) ? "Choose one." : "Answer with a number (exact forms like 2/3, sqrt(3), ln 2 are fine).";
   $("pr-feedback").innerHTML = ""; $("pr-feedback").className = "pr-feedback";
   $("pr-hint-box").hidden = true; $("pr-hint-box").innerHTML = qobj.hint || "";
-  $("pr-steps-box").hidden = true; $("pr-steps-box").innerHTML = qobj.steps || "";
+  $("pr-steps-box").hidden = true; $("pr-steps-box").innerHTML = solutionHTML(qobj);
   const isMC = Array.isArray(qobj.choices);
   $("pr-input-row").hidden = isMC;
   $("pr-choices").hidden = !isMC;
@@ -402,7 +438,7 @@ function check(choice) {
   rate(`topic:${t}`, ok, { kind: "topic", topic: t });
   if (current.review && current.review.startsWith("m:")) rate(current.review, ok);
   if (!ok && !current.review) {
-    const qdata = { q: current.q, a: current.a, ans: current.ans, tex: current.tex, vars: current.vars, choices: current.choices, correct: current.correct, hint: current.hint, steps: current.steps };
+    const qdata = { q: current.q, a: current.a, ans: current.ans, tex: current.tex, vars: current.vars, choices: current.choices, correct: current.correct, hint: current.hint, steps: current.steps, why: current.why };
     rate(`m:${Date.now()}`, false, { kind: "mistake", topic: t, qdata });
   }
 

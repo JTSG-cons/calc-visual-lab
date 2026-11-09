@@ -103,6 +103,15 @@ function math() {
 }
 
 initTheme();
+// The private Book drill (real textbook pages) exists only on this computer, so link it only when served locally.
+if (["127.0.0.1", "localhost"].includes(location.hostname)) {
+  const a = document.createElement("a");
+  a.href = "private/book.html"; a.textContent = "Book drill"; a.title = "Real Stewart exercises (private, local only)";
+  $("nav").prepend(a);
+  const btn = document.createElement("a");
+  btn.className = "btn btn-ghost"; btn.href = "private/book.html"; btn.textContent = "Book drill (real exercises)";
+  document.querySelector(".dash-actions")?.appendChild(btn);
+}
 $("print-sheet").addEventListener("click", () => print());
 dashboard();
 addEventListener("practice-updated", dashboard);
