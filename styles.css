@@ -221,6 +221,8 @@ math-field::part(menu-toggle) { display: none; }
 .pr-topic:hover { background: var(--paper-2); }
 .pr-topic small { color: var(--ink-3); white-space: nowrap; font-family: var(--mono); font-size: 0.78rem; }
 .pr-topic i { position: absolute; left: 0; bottom: -1px; height: 2px; background: var(--ink-2); }
+.pr-topic.off { color: var(--ink-3); }
+.pr-topic.off span { font-style: italic; }
 .pr-reset { margin-top: 10px; background: none; border: 0; color: var(--ink-3); font: 0.8rem var(--sans); cursor: pointer; text-decoration: underline; }
 .pr-bookwrap { margin-top: 36px; }
 .pr-book-count { font: 600 0.85rem var(--sans); color: var(--ok); margin-left: 8px; }

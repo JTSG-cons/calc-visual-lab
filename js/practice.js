@@ -207,7 +207,9 @@ const MC = [
   { q: `A continuous function on a closed interval \\([a,b]\\)…`, choices: ["always has an absolute max and min", "is always differentiable", "always has a critical point", "is always increasing"], correct: 0, steps: `Extreme Value Theorem.` },
   { q: `If \\(f'(x)>0\\) on \\((a,b)\\), then on \\((a,b)\\) \\(f\\) is…`, choices: ["decreasing", "increasing", "concave up", "constant"], correct: 1, steps: `Positive slope means the graph goes up as \\(x\\) increases (increasing/decreasing test).` },
 ];
-T["Concepts (multiple choice)"] = () => ({ ...pick(MC), hint: "Think of a counterexample for each wrong option." });
+// The midterm covers chapters 1–3 only, so chapter-4 theorems (MVT, EVT, increasing test) are left out.
+const MC13 = MC.filter((m) => !/MVT|Extreme Value|increasing\/decreasing test/.test(m.steps + m.q));
+T["Concepts (multiple choice)"] = () => ({ ...pick(MC13), hint: "Think of a counterexample for each wrong option." });
 
 TB["Concepts (multiple choice)"] = T["Concepts (multiple choice)"];
 const ALL = { ...T, ...TB };
@@ -275,7 +277,7 @@ function renderTopics() {
   const host = $("pr-topics");
   host.innerHTML = topics().map((t) => {
     const m = mastery(t), s = store.topic[t];
-    return `<button class="pr-topic" data-t="${t}"><span>${t}</span><small>${s ? `${s.right}/${s.seen} · ${m}%` : "not started"}</small><i style="width:${m}%"></i></button>`;
+    return `<button class="pr-topic${onExam(t) ? "" : " off"}" data-t="${t}"><span>${t}${onExam(t) ? "" : " · not on midterm"}</span><small>${s ? `${s.right}/${s.seen} · ${m}%` : "not started"}</small><i style="width:${m}%"></i></button>`;
   }).join("");
   host.querySelectorAll(".pr-topic").forEach((b) => b.addEventListener("click", () => {
     if (mock) return;
@@ -363,6 +365,9 @@ function show(qobj) {
   tex($("pr-card"));
 }
 
+// Midterm scope (teacher, 2026-11-09): chapters 1–3 only.
+const onExam = (t) => t.startsWith("Concepts") || "123".includes(t[0]);
+
 function generate(topic) { return { ...ALL[topic](), topic }; }
 
 function next(topic) {
@@ -386,7 +391,7 @@ function next(topic) {
     if (ALL[c.topic]) return show({ ...generate(c.topic), review: id });
     delete fstore.cards[id]; fsave(); return next();
   }
-  const t = mode === "mixed" || !topic || !ALL[topic] ? pick(topics()) : topic;
+  const t = mode === "mixed" || !topic || !ALL[topic] ? pick(topics().filter(onExam)) : topic;
   show(generate(t));
 }
 
@@ -456,10 +461,10 @@ function check(choice) {
 
 /* ---------- mock exam ---------- */
 const MOCK_BASIC = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits: plug in", "2.3 Squeeze & trig limits", "3.3 Trig derivatives",
-  "2.5 Continuity", "2.3 Limits: factor", "2.3 Limits: rationalize", "3.4 Chain rule", "3.6 Log differentiation", "3.5 Implicit", "4.1 Absolute extrema", "4.3 Critical points & shape"];
+  "2.5 Continuity", "2.3 Limits: factor", "2.3 Limits: rationalize", "3.4 Chain rule", "3.6 Log differentiation", "3.5 Implicit", "3.9 Related rates", "1.6 Inverse & logs"];
 const MOCK_BOOK = ["Concepts (multiple choice)", "Concepts (multiple choice)", "2.3 Limits (book)", "2.3 Trig limits (book)", "2.5 Continuity constants (book)",
   "2.6 Limits at infinity (book)", "3.4 Derivative formulas (book)", "3.4 Chain rule (book)", "3.5 Implicit (book)", "3.6 Logarithmic (book)",
-  "4.1 Closed interval (book)", "4.3 Shape & inflection (book)", "4.4 L'Hôpital (book)"];
+  "3.3 Trig derivatives (book)", "3.9 Related rates (book)", "2.8 Derivative by definition (book)"];
 
 function startMock() {
   const book = store.level !== "basic", mins = book ? 60 : 45;
